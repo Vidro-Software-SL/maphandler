@@ -120,7 +120,7 @@ A simple integration with just zoom buttons
 2. Request a user token to the API
 3. Loads the first map of the user
 
-[http://www.vidrosoftware.com/examples/simple/?user=USER&pwd=USER_PASOWRD&api=API_URL
+[http://www.vidrosoftware.com/examples/simple/?user=USER&pwd=USER_PASWORD&api=API_URL
 ](http://www.vidrosoftware.com/examples/simple/?user=test@bgeo.es&pwd=test.12345&api=http://bmaps.bgeo.es/api/)
 
 ### Full 
