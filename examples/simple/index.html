@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <title>Vidro Maps Simple demo</title>
+    <link rel="stylesheet" href="../tester.css"></link>
+  </head>
+  <body onload="loadMap()">
+      <div>
+      <b>Run</b>
+      <br>
+      <br>https://www.vidrosoftware.com/examples/simple/?user=user&pwd=pwd&api=API URL
+      </div>
+      <div id="iframes-container">
+        <iframe id="map-frame" name="map-frame" src="" style="width:100%; height:600px;" ></iframe>
+      </div>
+        <button id="btZoomIn">Zoom In</button>
+        <button id="btZoomOut">Zoom Out</button>
+        <button id="btZoomToExtent">Zoom to extent</button>  
+
+
+    <script src="https://unpkg.com/@vidro/map-handler@1.0.0/dist/map-handler.js"></script>
+    <script src="./simple.js"></script>
+  </body>
+</html>
