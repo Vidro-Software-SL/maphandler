@@ -52,7 +52,14 @@ pre{
 
 }
 
-
+#Error_container{
+  color: red;
+  font-weight: bold;
+}
+#Result_container{
+  color: blue;
+  font-size: 10px;
+}
 
 
 

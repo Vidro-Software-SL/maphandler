@@ -78,33 +78,130 @@ Or if you're working with NPM / ES6:
 
 ### Available events
 
-- onZoomChange
+##### onZoomChange
 
-- geomAdded
+Notifies zoom level changed
 
-- layers
+##### geomAdded
 
+Notifies geometry added to map, as string
 
+>E.G.
+
+```
+POINT(418925 4577135)
+
+POLYGON((418391.8715694032 4576832.484383419,418721.82301488414 4577299.667608328,418727.18131229794 4576947.724919814,418391.8715694032 4576832.484383419))
+
+MULTILINESTRING((419268.8979576373 4577019.482027252,419146.6929889547 4577457.250226778,418798.40365705814 4577415.776056751))
+```
+
+##### layers
+
+Notifies an array of available layers
+
+##### coordinates
+
+Notifies clicked coordinates (x,y)
+
+First coordinate is X value.
+
+>E.G:
+
+```
+{coordinates: (2) [419463.63262834214, 4577166.970846243]
+type: "coordinates"}
+```
+
+##### info
+
+Notifies info results. There're 2 availables infos `wms` and `giswater`
+
+>E.G `wms`:
+
+```
+{type: "info", infoType: "wms", data: "<GetFeatureInfoResponse>↵ <Layer name="Incidencia_…  </Feature>↵ </Layer>↵</GetFeatureInfoResponse>↵"}
+```
+
+>E.G `giswater`:
+
+```
+{type: "info", infoType: "giswater", data: {…}}
+```
+
+##### error
+
+Notifies errors
+
+>E.G.
+
+```
+{type: "error", error: "No clicked coordinates"}
+```
 
 ## Methods
 
-  > ZoomIn()
+##### ZoomIn()
   
-  > ZoomOut()
+##### ZoomOut()
   
-  > zoomToExtent()
+##### zoomToExtent()
   
-  > AddGeom(string) - `Point` | `Line` | `Polygon` 
+##### AddGeom(string) - `Point` | `Line` | `Polygon`
   
-  Launch drawing tools
+Launches drawing tools with the geometry type
+
+>E.G.
+
+```
+AddGeom('Point');
+
+AddGeom('Line');
+
+AddGeom('Polygon');
+```
+An `geomAdded` event will be received after calling the method.
+
+#####clear()
   
-  > toggleLayer(string) - Layer name
+Clears drawn geometries
+ 
+##### toggleLayer(string) - Layer name
   
-  Shows/hides a layer
+Shows/hides a layer
+
+>E.G.
+
+```
+toggleLayer('somelayer_name');
+```
   
-  > clear()
-  
-  Clears drawn geometries
+#####setActiveLayer()
+
+Sets a layer as acticve layer, used for infos
+
+>E.G.
+
+```
+setActiveLayer('somelayer_name');
+```
+
+#####infoFromCoordinates
+
+There're two available info from coordinates `wms` or `giswater`.
+
+**Important** a `click on the map` must be done before calling this method and the map must have an `Active layer` 
+
+
+>E.G.
+
+```
+infoFromCoordinates('wms');
+
+infoFromCoordinates('giswater');
+```
+
+An `info` event will be received after calling the method.
   
 ## Examples
 

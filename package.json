@@ -1,0 +1,28 @@
+{
+  "name": "@vidro/map-handler",
+  "version": "1.0.0",
+  "description": "Tool to achieve the easiest way of communication with the map",
+  "homepage": "https://github.com/Vidro-Software-SL/maphandler",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Vidro-Software-SL/maphandler.git"
+  },
+  "main": "dist/vidro-map-handler.js",
+  "scripts": {
+    "build": "webpack"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/plugin-proposal-class-properties": "^7.12.13",
+    "@babel/preset-env": "^7.12.16",
+    "babel-loader": "^8.2.2",
+    "webpack": "^5.21.2",
+    "webpack-cli": "^4.5.0"
+  },
+  "dependencies": {
+    "events": "^3.2.0"
+  }
+}
