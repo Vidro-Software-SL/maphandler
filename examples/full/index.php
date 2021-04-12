@@ -48,10 +48,10 @@
         Custom logo: <input type="text" name="logo" id="logo" size="25" value="">
       </div>
       <div>
-        Show Layers: <input type="text" name="show_layers" id="show_layers" size="25" value="Incidencia_connec,Arc">
+        Show Layers: <input type="text" name="show_layers" id="show_layers" size="25" value="">
       </div>
        <div>
-        Active layer: <input type="text" name="active_layer" id="active_layer" size="25" value="Incidencia_connec">
+        Active layer: <input type="text" name="active_layer" id="active_layer" size="25" value="">
       </div>
       <div>
         Debug

@@ -1,6 +1,12 @@
 // Config:
-
+const urlParams = new URLSearchParams(window.location.search);
+const user = urlParams.get('user');
+const pwd = urlParams.get('pwd');
+document.querySelector("#apiurl").value=urlParams.get('api');
 var apiUrl = document.querySelector("#apiurl").value;
+document.querySelector("#user").value = user;
+document.querySelector("#pwd").value = pwd;
+
 
 // UI:
 
@@ -11,7 +17,6 @@ var btLoginAgain = document.querySelector("#btLoginAgain");
 var btLoadMap = document.querySelector("#btLoadMap");
 var userData = document.querySelector("#userData");
 var btLogin = document.querySelector("#btLogin");
-
 
 var projects_select = document.getElementById("selectProject");
 var sessionToken = document.querySelector("#sessionToken");
