@@ -97,8 +97,7 @@
     <hr />
     <pre id="Result_container"></pre>
    
-    <!--<script src="https://unpkg.com/@vidro/map-handler@1.0.0/dist/map-handler.js"></script>-->
-    <script src="../../dist/map-handler.js"></script>
+    <script src="https://unpkg.com/@vidro/map-handler@1.0.1/dist/map-handler.js"></script>
     <script src="./tester.js"></script>
     <script src="./apidemo.js"></script>
   </body>
