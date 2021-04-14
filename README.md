@@ -57,7 +57,7 @@ Or if you're working with NPM / ES6:
 
 If you are inyecting into window:
 
-    var communicator = new PWPlayer.Communicator({
+    var communicator = new VidroMaps.Communicator({
       sessionToken: sessionToken
     });
 
@@ -98,7 +98,12 @@ MULTILINESTRING((419268.8979576373 4577019.482027252,419146.6929889547 4577457.2
 
 ##### layers
 
-Notifies an array of available layers
+Notifies an array of displayed layers
+
+##### activeLayer
+
+Notifies wich layer is marked as active
+
 
 ##### coordinates
 
@@ -190,15 +195,17 @@ setActiveLayer('somelayer_name');
 
 There're two available info from coordinates `wms` or `giswater`.
 
-**Important** a `click on the map` must be done before calling this method and the map must have an `Active layer` 
+**Important** a `click on the map` must be done before calling this method.
+If you don't specify a layer, will use the layer setted as  `Active layer` 
 
 
 >E.G.
 
 ```
-infoFromCoordinates('wms');
+infoFromCoordinates('wms'); //will use active layer
 
 infoFromCoordinates('giswater');
+infoFromCoordinates('giswater','Arc');
 ```
 
 An `info` event will be received after calling the method.
@@ -217,8 +224,8 @@ A simple integration with just zoom buttons
 2. Request a user token to the API
 3. Loads the first map of the user
 
-[http://www.vidrosoftware.com/examples/simple/?user=USER&pwd=USER_PASWORD&api=API_URL
-](http://www.vidrosoftware.com/examples/simple/?user=test@bgeo.es&pwd=test.12345&api=http://bmaps.bgeo.es/api/)
+[http://www.vidrosoftware.com/examples/simple/?user=USER&pwd=USER_PASWORD&api=API_URL]()
+
 
 ### Full 
 

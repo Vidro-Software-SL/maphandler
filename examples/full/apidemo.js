@@ -2,10 +2,12 @@
 const urlParams = new URLSearchParams(window.location.search);
 const user = urlParams.get('user');
 const pwd = urlParams.get('pwd');
-document.querySelector("#apiurl").value=urlParams.get('api');
+const apiQuery = urlParams.get('api');
+
+if(apiQuery) document.querySelector("#apiurl").value = apiQuery;
 var apiUrl = document.querySelector("#apiurl").value;
-document.querySelector("#user").value = user;
-document.querySelector("#pwd").value = pwd;
+if(user) document.querySelector("#user").value = user;
+if(pwd) document.querySelector("#pwd").value = pwd;
 
 
 // UI:
@@ -15,7 +17,11 @@ var errorContainer = document.querySelector("#errorContainer");
 var loginContainer = document.querySelector("#loginContainer");
 var btLoginAgain = document.querySelector("#btLoginAgain");
 var btLoadMap = document.querySelector("#btLoadMap");
+var btLoadProjectLayers = document.querySelector("#btLoadProjectLayers");
+var projectlayers = document.getElementById("projectlayers");
 var userData = document.querySelector("#userData");
+
+
 var btLogin = document.querySelector("#btLogin");
 
 var projects_select = document.getElementById("selectProject");
@@ -185,6 +191,11 @@ btLoadMap.addEventListener("click", function (evt) {
   if (active_layer) {
     uri += `&active_layer=${active_layer}`;
   }
+   var overrideHost = document.querySelector("#overrideHost").value;
+  if(overrideHost){
+     uri += `&overrideHost=${overrideHost}`;
+    data.overrideHost = overrideHost;
+  }
 
   var show_layers = document.querySelector("#show_layers").value;
   if (show_layers) {
@@ -196,7 +207,7 @@ btLoadMap.addEventListener("click", function (evt) {
   oReq.open("GET", uri, true);
   oReq.setRequestHeader("Content-type", "application/json");
   oReq.send(JSON.stringify(data));
-  console.log("Attempt to log in", `${apiUrl}map/${selectedProjectId}`, data);
+  console.log("Attempt to load map", `${apiUrl}map/${selectedProjectId}`, data);
 });
 
 function mapListener() {
@@ -220,3 +231,56 @@ function mapListener() {
   }
 }
 //************** END LOGIN EXAMPLE
+
+//************** PROJECT LAYER
+
+btLoadProjectLayers.addEventListener("click", function (evt) {
+  apiUrl = document.querySelector("#apiurl").value;
+ 
+  //Build XMLHttpRequest for project klayers
+  var selectedProjectId =
+    projects_select.options[projects_select.selectedIndex].value;
+
+  var uri = `${apiUrl}layers/${selectedProjectId}?token=${usertoken.value}`;
+ 
+
+  var oReq = new XMLHttpRequest();
+  oReq.addEventListener("load", layersListener);
+  oReq.open("GET", uri, true);
+  oReq.setRequestHeader("Content-type", "application/json");
+  oReq.send();
+  console.log("Attempt to load project layers", uri);
+});
+function layersListener() {
+  if (this.status === 200) {
+    console.log("layersListener response", this.responseText);
+    var res = JSON.parse(this.responseText);
+    var length = projectlayers.options.length;
+    console.log(res)
+    for (i = length-1; i >= 0; i--) {
+      projectlayers.options[i] = null;
+    }
+    for(var i = 0; i < res.message.length; i++) {
+        var opt = res.message[i].qgis_name;
+        var el = document.createElement("option");
+        el.textContent = opt;
+        el.value = opt;
+        projectlayers.appendChild(el);
+    }
+  } else {
+    console.error(this.status);
+    var res = JSON.parse(this.responseText);
+    console.log(res.error);
+    //show DOM error element
+    errorContainer.innerHTML = res.error;
+    errorContainer.classList.remove("hide");
+    mapContainer.classList.add("hide");
+  }
+}
+
+function fillLayersSelect(options){
+  //empty previous options
+
+}
+
+  

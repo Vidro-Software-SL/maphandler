@@ -16,7 +16,7 @@ var btZoomToExtent = document.querySelector("#btZoomToExtent");
 var btWMSInfo = document.querySelector("#btWMSInfo");
 var btGiswaterInfo = document.querySelector("#btGiswaterInfo");
 var btActiveLayer = document.querySelector("#btActiveLayer");
-
+var btGetActiveLayer = document.querySelector("#btGetActiveLayer");
 
 var Error_container = document.querySelector("#Error_container");
 var Result_container = document.querySelector("#Result_container");
@@ -43,7 +43,8 @@ communicator.on("geomAdded", function(data){
 
 communicator.on("layers", function(data){
  	console.log("layers received",data);
- 	fillLayersSelect(data)
+
+ 	fillDisplayedLayersSelect(data)
 });
 
 //error event
@@ -59,6 +60,11 @@ communicator.on("coordinates", function(data){
  	cleanContainers();
  	Result_container.innerHTML = `Clicked coordinates -> x: ${data.coordinates[0]}, y: ${data.coordinates[1]}`;
 });
+communicator.on("activeLayer", function(data){
+ 	console.info("activeLayer",data);
+ 	cleanContainers();
+ 	Result_container.innerHTML = data.activeLayer;
+});
 
 
 //info event
@@ -73,7 +79,7 @@ communicator.on("info", function(data){
  	Result_container.innerText = dataToRender;
 });
 
-function fillLayersSelect(options){
+function fillDisplayedLayersSelect(options){
 	var layers_select = document.getElementById("layers");
 	//empty previous options
 	var length = layers_select.options.length;
@@ -81,7 +87,7 @@ function fillLayersSelect(options){
 	  layers_select.options[i] = null;
 	}
 	for(var i = 0; i < options.length; i++) {
-	    var opt = options[i].qgis_name;
+	    var opt = options[i];
 	    var el = document.createElement("option");
 	    el.textContent = opt;
 	    el.value = opt;
@@ -114,7 +120,7 @@ btAddLine.addEventListener("click", function(){
 
 
 btToggleLayer.addEventListener("click", function(){
-  communicator.toggleLayer(document.getElementById('layers').value);
+  communicator.toggleLayer(document.getElementById('projectlayers').value);
 });
 
 btClear.addEventListener("click", function(){
@@ -129,17 +135,22 @@ btZoomToExtent.addEventListener("click", function(){
 
 btWMSInfo.addEventListener("click", function(){
 	cleanContainers();
-  	communicator.infoFromCoordinates('wms');
+  	communicator.infoFromCoordinates('wms',document.getElementById('projectlayers').value);
 });
 btGiswaterInfo.addEventListener("click", function(){
 	cleanContainers();
-  	communicator.infoFromCoordinates('giswater');
+  	communicator.infoFromCoordinates('giswater',document.getElementById('projectlayers').value);
 });
 
 btActiveLayer.addEventListener("click", function(){
 	cleanContainers();
- 	communicator.setActiveLayer(document.getElementById('layers').value);
+ 	communicator.setActiveLayer(document.getElementById('projectlayers').value);
 });
+btGetActiveLayer.addEventListener("click", function(){
+	cleanContainers();
+ 	communicator.getActiveLayer();
+});
+
 
 
 

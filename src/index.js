@@ -22,7 +22,9 @@ class Communicator extends EventEmitter {
       case "layers": this.emit("layers", e.data.layers); break;    
       case "info": this.emit("info", e.data); break;    
       case "error": this.emit("error", e.data); break;  
-      case "coordinates": this.emit("coordinates", e.data); break;        
+      case "coordinates": this.emit("coordinates", e.data); break;  
+      case "activeLayer": this.emit("activeLayer", e.data); break;  
+            
     }
   }
 
@@ -64,6 +66,13 @@ class Communicator extends EventEmitter {
     });   
   }
 
+  getActiveLayer = () => {
+    sendMessageToMap({
+      type: "getActiveLayer",
+      sessionToken: this.sessionToken,
+    });   
+  }
+
   clear = () => {
     sendMessageToMap({
       type: "clear",
@@ -78,10 +87,12 @@ class Communicator extends EventEmitter {
     });   
   }
 
-  infoFromCoordinates = (type) => {
+  infoFromCoordinates = (type,layer) => {
+    const _layer = (typeof layer=='undefined') ? null : layer
     sendMessageToMap({
       type: "infoFromCoordinates",
       info: type,
+      layer: _layer,
       sessionToken: this.sessionToken,
     });   
   }

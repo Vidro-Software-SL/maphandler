@@ -8,7 +8,7 @@
   <body onload="checkToken()">
     <div class="form">
       <div>
-        Api URL <input type="text" name="apiurl" id="apiurl" value="http://localhost/" size="30"> 
+        Api URL <input type="text" name="apiurl" id="apiurl" value="http://localhost" size="30"> 
       </div>
       <div>
         User token: <input type="text" name="usertoken" id="usertoken" disabled size="40" value="<?php echo getUserToken(); ?>"> - <button id="btLoginAgain">Login again</button>
@@ -50,19 +50,25 @@
       <div>
         Show Layers: <input type="text" name="show_layers" id="show_layers" size="25" value="">
       </div>
+        <div>
+       Override iframe url: <input type="text" name="overrideHost" id="overrideHost" size="25" value="">
+      </div>
+      
        <div>
         Active layer: <input type="text" name="active_layer" id="active_layer" size="25" value="">
       </div>
+
+
       <div>
         Debug
         <select id="debug">
-        <option id="1"  value=1>True</option>
-        <option id="0" selected value=0>False</option>
-   
+          <option id="1"  value=1>True</option>
+          <option id="0" selected value=0>False</option>
         </select>
       </div>
        <div>
-       <button id="btLoadMap">Load Map</button>
+       <button id="btLoadMap">Load Map</button> - 
+       <button id="btLoadProjectLayers">Load Project layers</button>
       </div>
     </div>
   
@@ -79,12 +85,14 @@
       <button id="btAddPolygon">Add polygon</button>
       <button id="btAddLine">Add line</button>
       <button id="btClear">Clear geometries</button>
-      <button id="btToggleLayer">Add / Remove Layer</button>
-        Layers:   <select id="layers"></select>
-      <button id="btActiveLayer">Set Active Layer</button>
+
       <button id="btWMSInfo">WMS Info</button>
       <button id="btGiswaterInfo">Giswater Info</button>
-
+      <br>Layers: <br>
+      Project Layers:  <select id="projectlayers"></select> - <small>click on "Load Project Layers" button</small>  <button id="btToggleLayer">Add / Remove Layer</button><br><br>
+      Displayed Layers: <select id="layers"></select>
+      <button id="btActiveLayer">Set Active Layer</button>
+      <button id="btGetActiveLayer">Get Active Layer</button>
     </div>
     <hr />
     <pre id="Result_container"></pre>
