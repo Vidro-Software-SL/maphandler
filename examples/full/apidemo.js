@@ -85,12 +85,15 @@ function storeToken(result) {
   var uri = window.location.href.split("/");
   uri.pop();
   var uristr = uri.join("/");
+  var uriForCache = uristr.split("?");
   var oReq = new XMLHttpRequest();
+  console.log(uristr);
   oReq.open(
     "GET",
-    `${uristr}/storeToken.php?token=${result.token}&data=${result.projects}`,
+    `${uriForCache[0]}/storeToken.php?token=${result.token}&data=${result.projects}`,
     true
   );
+
   oReq.setRequestHeader("Content-type", "application/json");
   oReq.send();
 }
