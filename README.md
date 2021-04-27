@@ -1,5 +1,7 @@
 # Map Handler
 
+####Version 1.0.2 - April 2021#####
+
 Tool to achieve the easiest way of communication with the map iframe.
 
  - [Installation](#Installation)
@@ -13,7 +15,7 @@ Tool to achieve the easiest way of communication with the map iframe.
   <body>
     <iframe id="map-frame" name="map-frame" src=""></iframe>
     <button id="btZoomIn">Zoom In</button>
-    <script src="https://unpkg.com/@vidro/map-handler@1.0.0/dist/map-handler.js"></script> -->
+    <script src="https://unpkg.com/@vidro/map-handler@1.0.2/dist/map-handler.js"></script> -->
     <script>
       var loadMapReq = new XMLHttpRequest();
       loadMapReq.addEventListener("load", function(){
@@ -33,11 +35,11 @@ Tool to achieve the easiest way of communication with the map iframe.
 </html>
 ```
 
-## Installation
+##Installation
 
 ### 0. Pre-requisites
 
-You should have one iframes already created on the DOM with the attributes `name="map-frame"`.
+You should have one iframe already created on the DOM with the attributes `name="map-frame"`.
 
 ### 1. Include the library:
 
@@ -118,7 +120,7 @@ First coordinate is X value.
 type: "coordinates"}
 ```
 
-##### info
+#####info
 
 Notifies info results. There're 2 availables infos `wms` and `giswater`
 
@@ -133,8 +135,21 @@ Notifies info results. There're 2 availables infos `wms` and `giswater`
 ```
 {type: "info", infoType: "giswater", data: {…}}
 ```
+#####geolocation
 
-##### error
+Notifies user position, coordinates (x,y)
+
+First coordinate is X value.
+
+>E.G
+
+```
+
+{type: "geolocation", coordinates: Array(2)}
+coordinates: (2) [419297.8249458591, 4576821.519666988]
+```
+
+#####error
 
 Notifies errors
 
@@ -152,9 +167,13 @@ Notifies errors
   
 ##### zoomToExtent()
   
-##### AddGeom(string) - `Point` | `Line` | `Polygon`
+##### AddGeom(string)
   
 Launches drawing tools with the geometry type
+
+>Params
+ 
+- geom `<string>` - geometry type `Point` | `Line` | `Polygon`
 
 >E.G.
 
@@ -174,6 +193,10 @@ Clears drawn geometries
 ##### toggleLayer(string) - Layer name
   
 Shows/hides a layer
+
+>Params
+
+- layerName `<string>` - layer name
 
 >E.G.
 
@@ -198,6 +221,15 @@ There're two available info from coordinates `wms` or `giswater`.
 **Important** a `click on the map` must be done before calling this method.
 If you don't specify a layer, will use the layer setted as  `Active layer` 
 
+>Params
+
+- type `<string>` - info type 
+
+	- `wms` - wms info
+	
+	- `giswater` - giswater info
+	
+- layer `<string>` _optional_ layer name to do info. If null, will use current active layer.
 
 >E.G.
 
@@ -209,6 +241,72 @@ infoFromCoordinates('giswater','Arc');
 ```
 
 An `info` event will be received after calling the method.
+
+#####Geolocalize
+
+Geolocalizes user. Will dispatch `geolocation` event .
+
+>Params
+
+- toggle `<Boolean>` - starts or cancels geolocation
+
+>E.G.
+
+```
+//start
+Geolocalize(true)
+
+//cancel
+Geolocalize(false)
+```
+
+**Important** Add ` allow="geolocation"` to html iframe tag.
+
+#####Higlight
+
+Highlights a geometry
+
+Params
+
+- options `<object>` highlight options
+
+	- geom `<string>` - geometry string
+
+	- zoom `<object>` 
+
+		- zoom.type `<string>` - `level | element` 
+
+			_level_ will zoom to zoomLevel
+
+			_element_ geometry center
+
+		- zoom.zoomLevel `<integer>` 1 to 28
+
+>E.G.
+
+
+```
+//Highlight a line and zoom to level 6
+
+let options = {
+	'geom': 'MULTILINESTRING((418596.62555076234 4577083.383681167,419026.2319996517 4577216.795306675))',
+	'type':'level', 
+	'zoomLevel':6
+}
+
+Highlight(options);
+
+//Highlight a line to geometry center
+
+let options = {
+	'geom': 'MULTILINESTRING((418596.62555076234 4577083.383681167,419026.2319996517 4577216.795306675))',
+	'type':'element'
+}
+
+Highlight(options);
+```
+
+
   
 ## Examples
 

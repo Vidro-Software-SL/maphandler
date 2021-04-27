@@ -11,7 +11,6 @@ if(pwd) document.querySelector("#pwd").value = pwd;
 
 
 // UI:
-
 var usertoken = document.querySelector("#usertoken");
 var errorContainer = document.querySelector("#errorContainer");
 var loginContainer = document.querySelector("#loginContainer");
@@ -194,17 +193,30 @@ btLoadMap.addEventListener("click", function (evt) {
   if (active_layer) {
     uri += `&active_layer=${active_layer}`;
   }
-   var overrideHost = document.querySelector("#overrideHost").value;
+  var overrideHost = document.querySelector("#overrideHost").value;
   if(overrideHost){
-     uri += `&overrideHost=${overrideHost}`;
+    uri += `&overrideHost=${overrideHost}`;
     data.overrideHost = overrideHost;
   }
-
+  if(overrideApi){
+    uri += `&overrideApi=${overrideApi.value}`;
+    data.overrideApi = overrideApi.value;
+  }
   var show_layers = document.querySelector("#show_layers").value;
   if (show_layers) {
     uri += `&show_layers=${show_layers}`;
   }
 
+  var extent = document.querySelector("#extent").value;
+  if (extent) {
+    uri += `&extent=${extent}`;
+  }
+
+  var srid = document.querySelector("#srid").value;
+  if (srid) {
+    uri += `&srid=${srid}`;
+  }
+  console.log(uri)
   var oReq = new XMLHttpRequest();
   oReq.addEventListener("load", mapListener);
   oReq.open("GET", uri, true);
@@ -226,14 +238,14 @@ function mapListener() {
   } else {
     console.error(this.status);
     var res = JSON.parse(this.responseText);
-    console.log(res.error);
+    console.error(res.error);
     //show DOM error element
     errorContainer.innerHTML = res.error;
     errorContainer.classList.remove("hide");
     mapContainer.classList.add("hide");
   }
 }
-//************** END LOGIN EXAMPLE
+//************** END MAP EXAMPLE
 
 //************** PROJECT LAYER
 
@@ -286,4 +298,9 @@ function fillLayersSelect(options){
 
 }
 
-  
+var overrideApi = document.querySelector("#overrideApi");
+//override Api url, for development
+overrideApi.addEventListener("change", function (evt) {
+  apiUrl = overrideApi.value;
+  document.querySelector("#apiurl").value = apiUrl;
+});

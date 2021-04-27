@@ -24,6 +24,7 @@ class Communicator extends EventEmitter {
       case "error": this.emit("error", e.data); break;  
       case "coordinates": this.emit("coordinates", e.data); break;  
       case "activeLayer": this.emit("activeLayer", e.data); break;  
+      case "geolocation": this.emit("geolocation", e.data); break;  
             
     }
   }
@@ -80,6 +81,15 @@ class Communicator extends EventEmitter {
     });   
   }
 
+  Highlight = (options) => {
+    sendMessageToMap({
+      type: "highlight",
+      geom: options.geom,
+      zoom: options.zoom,
+      sessionToken: this.sessionToken,
+    });   
+  }
+
   zoomToExtent = () => {
     sendMessageToMap({
       type: "zoomToExtent",
@@ -96,6 +106,15 @@ class Communicator extends EventEmitter {
       sessionToken: this.sessionToken,
     });   
   }
+
+  Geolocalize = (toggle) => {
+    sendMessageToMap({
+      type: "Geolocalize",
+      toggle: toggle,
+      sessionToken: this.sessionToken,
+    });   
+  }
+
 
 
 }

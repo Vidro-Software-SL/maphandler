@@ -17,10 +17,16 @@ var btWMSInfo = document.querySelector("#btWMSInfo");
 var btGiswaterInfo = document.querySelector("#btGiswaterInfo");
 var btActiveLayer = document.querySelector("#btActiveLayer");
 var btGetActiveLayer = document.querySelector("#btGetActiveLayer");
+var btGeolocalize = document.querySelector("#btGeolocalize");
+var btStopGeolocalize = document.querySelector("#btStopGeolocalize");
+var btHighlight = document.querySelector("#btHighlight");
+var zoomToHighlightCheck = document.querySelector("#zoomToHighlightCheck");
 
-var Error_container = document.querySelector("#Error_container");
+
 var Result_container = document.querySelector("#Result_container");
 
+//local var for store active layer
+var currentActiveLayer = null;
 function cleanContainers(){
 	Error_container.innerHTML = '';
 	Result_container.innerHTML = '';
@@ -30,6 +36,10 @@ function cleanContainers(){
 
 communicator.on("onZoomChange", function(data){
  	console.log("onZoomChange",data);
+ 	if(document.getElementById('zoomLevel')){
+	 	//Add current zoom Level to highlight input zoomlevel
+	 	document.getElementById('zoomLevel').value = data;
+	 }
  	cleanContainers();
  	Result_container.innerHTML = `Zoom level changed: ${data}`;
 });
@@ -39,11 +49,12 @@ communicator.on("geomAdded", function(data){
  	cleanContainers();
  	//show geometry on DOM
  	Result_container.innerHTML = data;
+ 	//Add current geom to highlight input geom
+ 	document.getElementById('geom').value = data;
 });
 
 communicator.on("layers", function(data){
  	console.log("layers received",data);
-
  	fillDisplayedLayersSelect(data)
 });
 
@@ -60,12 +71,18 @@ communicator.on("coordinates", function(data){
  	cleanContainers();
  	Result_container.innerHTML = `Clicked coordinates -> x: ${data.coordinates[0]}, y: ${data.coordinates[1]}`;
 });
+
 communicator.on("activeLayer", function(data){
  	console.info("activeLayer",data);
  	cleanContainers();
  	Result_container.innerHTML = data.activeLayer;
 });
 
+communicator.on("geolocation", function(data){
+ 	console.info("geolocation",data);
+ 	cleanContainers();
+ 	//Result_container.innerHTML = data.activeLayer;
+});
 
 //info event
 communicator.on("info", function(data){
@@ -97,7 +114,6 @@ function fillDisplayedLayersSelect(options){
 
 
 // Actions
-
 btZoomIn.addEventListener("click", function(){
   communicator.ZoomIn();
 });
@@ -105,53 +121,98 @@ btZoomIn.addEventListener("click", function(){
 btZoomOut.addEventListener("click", function(){
   communicator.ZoomOut();
 });
-
-btAddPoint.addEventListener("click", function(){
-  communicator.AddGeom('Point');
-});
-
-btAddPolygon.addEventListener("click", function(){
-  communicator.AddGeom('Polygon');
-});
-btAddLine.addEventListener("click", function(){
-  communicator.AddGeom('Line');
-});
-
-
-
-btToggleLayer.addEventListener("click", function(){
-  communicator.toggleLayer(document.getElementById('projectlayers').value);
-});
-
-btClear.addEventListener("click", function(){
-	cleanContainers();
-  	communicator.clear();
-});
-
-btZoomToExtent.addEventListener("click", function(){
-	cleanContainers();
-  	communicator.zoomToExtent();
-});
-
-btWMSInfo.addEventListener("click", function(){
-	cleanContainers();
-  	communicator.infoFromCoordinates('wms',document.getElementById('projectlayers').value);
-});
-btGiswaterInfo.addEventListener("click", function(){
-	cleanContainers();
-  	communicator.infoFromCoordinates('giswater',document.getElementById('projectlayers').value);
-});
-
-btActiveLayer.addEventListener("click", function(){
-	cleanContainers();
- 	communicator.setActiveLayer(document.getElementById('projectlayers').value);
-});
-btGetActiveLayer.addEventListener("click", function(){
-	cleanContainers();
- 	communicator.getActiveLayer();
-});
-
-
-
-
+if(btAddPoint){
+	btAddPoint.addEventListener("click", function(){
+	  communicator.AddGeom('Point');
+	});
+}
+if(btAddPolygon){
+	btAddPolygon.addEventListener("click", function(){
+	  communicator.AddGeom('Polygon');
+	});
+}
+if(btAddLine){
+	btAddLine.addEventListener("click", function(){
+	  communicator.AddGeom('Line');
+	});
+}
+if(btGeolocalize){
+	btGeolocalize.addEventListener("click", function(){
+	  communicator.Geolocalize(true);
+	});
+}
+if(btStopGeolocalize){
+	btStopGeolocalize.addEventListener("click", function(){
+	  communicator.Geolocalize(false);
+	});
+}
+if(btToggleLayer){
+	btToggleLayer.addEventListener("click", function(){
+	  communicator.toggleLayer(document.getElementById('projectlayers').value);
+	});
+}
+if(btClear){
+	btClear.addEventListener("click", function(){
+		cleanContainers();
+	  	communicator.clear();
+	});
+}
+if(btZoomToExtent){
+	btZoomToExtent.addEventListener("click", function(){
+		cleanContainers();
+	  	communicator.zoomToExtent();
+	});
+}
+if(btWMSInfo){
+	btWMSInfo.addEventListener("click", function(){
+		cleanContainers();
+	  	communicator.infoFromCoordinates('wms',document.getElementById('layers').value);
+	});
+}
+if(btGiswaterInfo){
+	btGiswaterInfo.addEventListener("click", function(){
+		cleanContainers();
+	  	communicator.infoFromCoordinates('giswater',document.getElementById('layers').value);
+	});
+}
+if(btActiveLayer){
+	btActiveLayer.addEventListener("click", function(){
+		cleanContainers();
+	 	communicator.setActiveLayer(document.getElementById('layers').value);
+	 	currentActiveLayer = document.getElementById('layers').value;
+	 	document.getElementById('currentActiveLayer').innerHTML = `<b>Active layer</b>: ${currentActiveLayer}`;
+	});
+}
+if(btGetActiveLayer){
+	btGetActiveLayer.addEventListener("click", function(){
+		cleanContainers();
+	 	communicator.getActiveLayer();
+	});
+}
+if(btHighlight){
+	btHighlight.addEventListener("click", function(){
+		cleanContainers();
+		var options = {
+			geom: document.getElementById('geom').value
+		}
+		if(zoomToHighlightCheck.checked){
+			options.zoom = {
+				type: 'geom'
+			};
+		}else{
+			options.zoom = {
+				type: 'level',
+				zoomLevel : document.getElementById('zoomLevel').value
+			}	
+		}
+		communicator.Highlight(options);
+	  	
+	});
+}
+if(zoomToHighlightCheck){
+	//disable/enable zoom level to highlight
+	zoomToHighlightCheck.addEventListener("click", function(){
+		document.getElementById('zoomLevel').disabled = zoomToHighlightCheck.checked;	
+	});
+}
 
