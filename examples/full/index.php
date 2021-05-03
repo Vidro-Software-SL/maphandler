@@ -62,7 +62,7 @@
       <hr>
       <h5>Development parameters</h5>
       <div>
-       Override iframe url: <input type="text" name="overrideHost" id="overrideHost" size="35" value="">
+       Override iframe url: <input type="text" name="overrideHost" id="overrideHost" size="35" value="http://localhost:3000">
       </div>
       <div>
        Override API url: <input type="text" name="overrideApi" id="overrideApi" size="55" value="">
@@ -118,8 +118,13 @@
      Geom: <input type="text" name="geom" id="geom" size="25" value="">
      <br>
      Highlight to zoom level: <input type="text" name="zoomLevel" id="zoomLevel" size="5" value=""> or Zoom to geometry: <input type="checkbox" name="zoomToHighlightCheck" id="zoomToHighlightCheck" size="5" value=""> 
-    <script src="https://unpkg.com/@vidro/map-handler@1.0.2/dist/map-handler.js"></script>
-    <!--<script src="../../dist/map-handler.js"></script>-->
+    <h2>Giswater</h2>
+    <button id="btToggleGiswaterTiled" disabled="true">Show/hide tiled Giswater tiled background</button>
+<input type="checkbox" name="toggleGiswaterTiledCheck" id="toggleGiswaterTiledCheck" size="5"   value=""> 
+
+     
+     <!--<script src="https://unpkg.com/@vidro/map-handler@1.0.2/dist/map-handler.js"></script>-->
+   <script src="../../dist/map-handler.js"></script>
     <script src="./tester.js"></script>
     <script src="./apidemo.js"></script>
   </body>

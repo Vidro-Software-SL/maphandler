@@ -21,6 +21,8 @@ var btGeolocalize = document.querySelector("#btGeolocalize");
 var btStopGeolocalize = document.querySelector("#btStopGeolocalize");
 var btHighlight = document.querySelector("#btHighlight");
 var zoomToHighlightCheck = document.querySelector("#zoomToHighlightCheck");
+var btToggleGiswaterTiled = document.querySelector("#btToggleGiswaterTiled");
+var toggleGiswaterTiledCheck = document.querySelector("#toggleGiswaterTiledCheck");
 
 
 var Result_container = document.querySelector("#Result_container");
@@ -96,6 +98,23 @@ communicator.on("info", function(data){
  	Result_container.innerText = dataToRender;
 });
 
+//giswater tiled background
+communicator.on("giswaterTiledBackgroundDisplayed", function(data){
+ 	console.log("giswaterTiledBackgroundDisplayed",data);
+ 	if(toggleGiswaterTiledCheck){
+ 		toggleGiswaterTiledCheck.checked = data.visible;
+ 	}
+
+});
+communicator.on("giswaterTiledBackgroundAvailable", function(data){
+ 	console.log("giswaterTiledBackgroundAvailable",data);
+ 	if(btToggleGiswaterTiled && data.available){
+ 		btToggleGiswaterTiled.disabled = false;
+ 		toggleGiswaterTiledCheck.checked = true;
+ 	}
+
+});
+
 function fillDisplayedLayersSelect(options){
 	var layers_select = document.getElementById("layers");
 	//empty previous options
@@ -115,7 +134,7 @@ function fillDisplayedLayersSelect(options){
 
 // Actions
 btZoomIn.addEventListener("click", function(){
-  communicator.ZoomIn();
+  return communicator.ZoomIn();
 });
 
 btZoomOut.addEventListener("click", function(){
@@ -215,4 +234,12 @@ if(zoomToHighlightCheck){
 		document.getElementById('zoomLevel').disabled = zoomToHighlightCheck.checked;	
 	});
 }
+//Giswater tiled background
+if(btToggleGiswaterTiled && toggleGiswaterTiledCheck){
+	btToggleGiswaterTiled.addEventListener("click", function(){
+		cleanContainers();
+	 	communicator.toggleGiswaterTiled(toggleGiswaterTiledCheck.checked);
+	});
+}
+
 
