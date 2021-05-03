@@ -148,6 +148,19 @@ First coordinate is X value.
 {type: "geolocation", coordinates: Array(2)}
 coordinates: (2) [419297.8249458591, 4576821.519666988]
 ```
+#####Giswater tiled background
+
+Giswater's tiled background has two events, one for notify if is available or not, and a another one for notify if is rendered or not
+
+
+`giswaterTiledBackgroundAvailable` and `giswaterTiledBackgroundDisplayed`
+
+```
+{type: "giswaterTiledBackgroundAvailable", available: true/false}
+
+{type: "giswaterTiledBackgroundDisplayed", visible: true/false}
+```
+
 
 #####error
 
@@ -306,6 +319,22 @@ let options = {
 Highlight(options);
 ```
 
+#####toggleGiswaterTiled
+
+Only for Giswater's maps. Toggles tiled background (in case tiled background is configured)
+
+Params
+
+- toggle `<boolean>` shows/hides tiled background
+
+
+>E.G.
+
+
+```
+toggleGiswaterTiled(true);
+
+```
 
   
 ## Examples
