@@ -41,16 +41,16 @@
         </select>
       </div>
       <div>
-        Zoom: <input type="text" name="zoom" id="zoom" size="5" value="">
+        Zoom: <input type="text" name="zoom" id="zoom" size="5" value=""> <small>Override default zoom level</small>
+      </div> 
+      <div>
+        Custom logo: <input type="text" name="logo" id="logo" size="25" value=""> <small>Customize logo</small>
+      </div> 
+      <div>
+        Show Layers: <input type="text" name="show_layers" id="show_layers" size="25" value="" placeholder="Arc,LOT"> <small>Show layers on map load</small>
       </div>
       <div>
-        Custom logo: <input type="text" name="logo" id="logo" size="25" value="">
-      </div>
-      <div>
-        Show Layers: <input type="text" name="show_layers" id="show_layers" size="25" value="">
-      </div>
-      <div>
-        Active layer: <input type="text" name="active_layer" id="active_layer" size="25" value="">
+        Active layer: <input type="text" name="active_layer" id="active_layer" size="25" value=""> <small>Set a layer as active layer on map load</small>
       </div>
       <div>
         Use Giswater tiled:  <input type="checkbox" name="use_giswater_tiled" id="use_giswater_tiled" size="5"   value=""> <small>If tiled background available, load it with map render</small>
@@ -58,25 +58,22 @@
 
 
       <div>
-       Override Capabitilites extent: <input type="text" name="extent" id="extent" size="55" value="" placeholder="397663,4615771,406392,4623596">
+       Override Capabitilites extent: <input type="text" name="extent" id="extent" size="55" value="" placeholder="397663,4615771,406392,4623596"> <small>Override project extent</small>
       </div>
       <div>
-       Override Capabitilites SRID: <input type="text" name="srid" id="srid" size="10" value="" placeholder="EPSG:2831">
+       Override Capabitilites SRID: <input type="text" name="srid" id="srid" size="10" value="" placeholder="EPSG:2831"> <small>Override project srid</small>
       </div>
       <hr>
       <h5>Development parameters</h5>
       <div>
-       Override iframe url: <input type="text" name="overrideHost" id="overrideHost" size="35" value="http://localhost:3000">
-      </div>
-      <div>
-       Override API url: <input type="text" name="overrideApi" id="overrideApi" size="55" value="">
+       Override iframe url: <input type="text" name="overrideHost" id="overrideHost" size="35" value="" placeholder="http://localhost:3000"> <small>Override map component url</small>
       </div>
       <div>
         Debug
         <select id="debug">
           <option id="1"  value=1>True</option>
           <option id="0" selected value=0>False</option>
-        </select>
+        </select> <small>Show/hide component logs</small>
       </div>
       <hr>
       <div>
@@ -130,7 +127,7 @@
 
      
      <script src="https://unpkg.com/@vidro/map-handler@1.0.3/dist/map-handler.js"></script>
-
+   <!--<script src="../../dist/map-handler.js"></script>-->
     <script src="./tester.js"></script>
     <script src="./apidemo.js"></script>
   </body>
