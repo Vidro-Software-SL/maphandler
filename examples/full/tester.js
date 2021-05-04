@@ -23,7 +23,7 @@ var btHighlight = document.querySelector("#btHighlight");
 var zoomToHighlightCheck = document.querySelector("#zoomToHighlightCheck");
 var btToggleGiswaterTiled = document.querySelector("#btToggleGiswaterTiled");
 var toggleGiswaterTiledCheck = document.querySelector("#toggleGiswaterTiledCheck");
-
+var btReloadDisplayedLayers = document.querySelector("#btReloadDisplayedLayers");
 
 var Result_container = document.querySelector("#Result_container");
 
@@ -83,7 +83,6 @@ communicator.on("activeLayer", function(data){
 communicator.on("geolocation", function(data){
  	console.info("geolocation",data);
  	cleanContainers();
- 	//Result_container.innerHTML = data.activeLayer;
 });
 
 //info event
@@ -110,7 +109,10 @@ communicator.on("giswaterTiledBackgroundAvailable", function(data){
  	console.log("giswaterTiledBackgroundAvailable",data);
  	if(btToggleGiswaterTiled && data.available){
  		btToggleGiswaterTiled.disabled = false;
- 		toggleGiswaterTiledCheck.checked = true;
+ 		var use_giswater_tiled = document.querySelector("#use_giswater_tiled");
+  		if (use_giswater_tiled) {
+ 			toggleGiswaterTiledCheck.checked = use_giswater_tiled.checked;
+ 		}
  	}
 
 });
@@ -208,6 +210,12 @@ if(btGetActiveLayer){
 	 	communicator.getActiveLayer();
 	});
 }
+if(btReloadDisplayedLayers){
+	btReloadDisplayedLayers.addEventListener("click", function(){
+	 	communicator.reloadDisplayedLayers();
+	});
+}
+
 if(btHighlight){
 	btHighlight.addEventListener("click", function(){
 		cleanContainers();

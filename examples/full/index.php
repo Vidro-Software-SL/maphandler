@@ -52,6 +52,10 @@
       <div>
         Active layer: <input type="text" name="active_layer" id="active_layer" size="25" value="">
       </div>
+      <div>
+        Use Giswater tiled:  <input type="checkbox" name="use_giswater_tiled" id="use_giswater_tiled" size="5"   value=""> <small>If tiled background available, load it with map render</small>
+      </div>
+
 
       <div>
        Override Capabitilites extent: <input type="text" name="extent" id="extent" size="55" value="" placeholder="397663,4615771,406392,4623596">
@@ -108,6 +112,8 @@
       <button id="btActiveLayer">Set Active Layer</button>
       <button id="btGetActiveLayer">Get Active Layer</button>
       <span id="currentActiveLayer"></span>
+      <button id="btReloadDisplayedLayers">Reload displayed layers</button>
+      
     </div>
     <h2>Geolocation</h2>
     <button id="btGeolocalize">Geolocalize User</button>

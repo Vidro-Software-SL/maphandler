@@ -125,6 +125,12 @@ class Communicator extends EventEmitter {
     });   
   }
 
+  reloadDisplayedLayers = ()=>{
+    return sendMessageToMap({
+      type: "reloadDisplayedLayers",
+      sessionToken: this.sessionToken,
+    });  
+  }
 
 
 }

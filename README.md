@@ -1,6 +1,6 @@
-# Map Handler
+# Map Handler #
 
-####Version 1.0.2 - April 2021#####
+#### Version 1.0.2 - April 2021 #####
 
 Tool to achieve the easiest way of communication with the map iframe.
 
@@ -8,7 +8,7 @@ Tool to achieve the easiest way of communication with the map iframe.
  - [Events](#Events)
  - [Methods](#Methods)
 
-## TL;DR
+## TL;DR ##
 
 ```
 <html>
@@ -35,13 +35,13 @@ Tool to achieve the easiest way of communication with the map iframe.
 </html>
 ```
 
-##Installation
+## Installation ##
 
-### 0. Pre-requisites
+### 0. Pre-requisites ###
 
 You should have one iframe already created on the DOM with the attributes `name="map-frame"`.
 
-### 1. Include the library:
+### 1. Include the library: ###
 
 You can do this inyecting directly to window:
 
@@ -55,7 +55,7 @@ Or if you're working with NPM / ES6:
     import { Communicator } from "@vidro/map-handler";
 
 
-### 2. Instance the communicator with the sessionToken in options object:
+### 2. Instance the communicator with the sessionToken in options object: ###
 
 If you are inyecting into window:
 
@@ -70,21 +70,21 @@ Or if you're working with NPM / ES6:
     });
     
 
-## Events
+## Events ##
 
-### How to listen
+### How to listen ###
 
     communicator.on("onZoomChange", function(data){
       console.log("onZoomChange event",data);
     });
 
-### Available events
+### Available events ###
 
-##### onZoomChange
+##### onZoomChange #####
 
 Notifies zoom level changed
 
-##### geomAdded
+##### geomAdded #####
 
 Notifies geometry added to map, as string
 
@@ -98,16 +98,16 @@ POLYGON((418391.8715694032 4576832.484383419,418721.82301488414 4577299.66760832
 MULTILINESTRING((419268.8979576373 4577019.482027252,419146.6929889547 4577457.250226778,418798.40365705814 4577415.776056751))
 ```
 
-##### layers
+##### layers #####
 
 Notifies an array of displayed layers
 
-##### activeLayer
+##### activeLayer #####
 
 Notifies wich layer is marked as active
 
 
-##### coordinates
+##### coordinates #####
 
 Notifies clicked coordinates (x,y)
 
@@ -120,7 +120,7 @@ First coordinate is X value.
 type: "coordinates"}
 ```
 
-#####info
+##### info #####
 
 Notifies info results. There're 2 availables infos `wms` and `giswater`
 
@@ -135,7 +135,7 @@ Notifies info results. There're 2 availables infos `wms` and `giswater`
 ```
 {type: "info", infoType: "giswater", data: {…}}
 ```
-#####geolocation
+##### geolocation #####
 
 Notifies user position, coordinates (x,y)
 
@@ -148,7 +148,7 @@ First coordinate is X value.
 {type: "geolocation", coordinates: Array(2)}
 coordinates: (2) [419297.8249458591, 4576821.519666988]
 ```
-#####Giswater tiled background
+##### Giswater tiled background #####
 
 Giswater's tiled background has two events, one for notify if is available or not, and a another one for notify if is rendered or not
 
@@ -162,7 +162,7 @@ Giswater's tiled background has two events, one for notify if is available or no
 ```
 
 
-#####error
+##### error #####
 
 Notifies errors
 
@@ -172,15 +172,15 @@ Notifies errors
 {type: "error", error: "No clicked coordinates"}
 ```
 
-## Methods
+## Methods ##
 
-##### ZoomIn()
+##### ZoomIn() #####
   
-##### ZoomOut()
+##### ZoomOut() #####
   
-##### zoomToExtent()
+##### zoomToExtent() #####
   
-##### AddGeom(string)
+##### AddGeom(string) #####
   
 Launches drawing tools with the geometry type
 
@@ -199,11 +199,11 @@ AddGeom('Polygon');
 ```
 An `geomAdded` event will be received after calling the method.
 
-#####clear()
+##### clear() #####
   
 Clears drawn geometries
  
-##### toggleLayer(string) - Layer name
+##### toggleLayer #####
   
 Shows/hides a layer
 
@@ -217,7 +217,7 @@ Shows/hides a layer
 toggleLayer('somelayer_name');
 ```
   
-#####setActiveLayer()
+##### setActiveLayer() #####
 
 Sets a layer as acticve layer, used for infos
 
@@ -227,7 +227,18 @@ Sets a layer as acticve layer, used for infos
 setActiveLayer('somelayer_name');
 ```
 
-#####infoFromCoordinates
+##### reloadDisplayedLayers #####
+
+Reloads displayed layers
+
+
+>E.G.
+
+```
+reloadDisplayedLayers();
+```
+
+##### infoFromCoordinates #####
 
 There're two available info from coordinates `wms` or `giswater`.
 
@@ -255,7 +266,7 @@ infoFromCoordinates('giswater','Arc');
 
 An `info` event will be received after calling the method.
 
-#####Geolocalize
+##### Geolocalize #####
 
 Geolocalizes user. Will dispatch `geolocation` event .
 
@@ -275,7 +286,7 @@ Geolocalize(false)
 
 **Important** Add ` allow="geolocation"` to html iframe tag.
 
-#####Higlight
+##### Higlight #####
 
 Highlights a geometry
 
@@ -319,7 +330,7 @@ let options = {
 Highlight(options);
 ```
 
-#####toggleGiswaterTiled
+##### toggleGiswaterTiled #####
 
 Only for Giswater's maps. Toggles tiled background (in case tiled background is configured)
 
@@ -337,15 +348,15 @@ toggleGiswaterTiled(true);
 ```
 
   
-## Examples
+## Examples ##
 
-### Simple 
+### Simple ###
 
 `examples/simple/` 
 
 A simple integration with just zoom buttons
 
-##### How it works
+##### How it works #####
 
 1. Gets user, password and API url from the url
 2. Request a user token to the API
@@ -354,13 +365,13 @@ A simple integration with just zoom buttons
 [http://www.vidrosoftware.com/examples/simple/?user=USER&pwd=USER_PASWORD&api=API_URL]()
 
 
-### Full 
+### Full ###
 
 `examples/full/` 
 
 Full integration
 
-##### How it works
+##### How it works #####
 
 1. User, password and API url are defined on the html form
 2. Stores token and last map loaded in a fake cache

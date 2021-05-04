@@ -216,6 +216,12 @@ btLoadMap.addEventListener("click", function (evt) {
   if (srid) {
     uri += `&srid=${srid}`;
   }
+  var use_giswater_tiled = document.querySelector("#use_giswater_tiled");
+  if (use_giswater_tiled && use_giswater_tiled.checked) {
+    uri += `&use_giswater_tiled=${use_giswater_tiled.checked}`;
+    data.use_giswater_tiled = use_giswater_tiled.checked;
+  }
+
   console.log(uri)
   var oReq = new XMLHttpRequest();
   oReq.addEventListener("load", mapListener);
