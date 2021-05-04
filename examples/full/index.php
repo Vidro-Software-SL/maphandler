@@ -129,8 +129,8 @@
 <input type="checkbox" name="toggleGiswaterTiledCheck" id="toggleGiswaterTiledCheck" size="5"   value=""> 
 
      
-     <!--<script src="https://unpkg.com/@vidro/map-handler@1.0.2/dist/map-handler.js"></script>-->
-   <script src="../../dist/map-handler.js"></script>
+     <script src="https://unpkg.com/@vidro/map-handler@1.0.3/dist/map-handler.js"></script>
+
     <script src="./tester.js"></script>
     <script src="./apidemo.js"></script>
   </body>

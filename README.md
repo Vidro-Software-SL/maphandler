@@ -1,6 +1,6 @@
 # Map Handler #
 
-#### Version 1.0.2 - April 2021 #####
+#### Version 1.0.3 - May 2021 #####
 
 Tool to achieve the easiest way of communication with the map iframe.
 
@@ -15,7 +15,7 @@ Tool to achieve the easiest way of communication with the map iframe.
   <body>
     <iframe id="map-frame" name="map-frame" src=""></iframe>
     <button id="btZoomIn">Zoom In</button>
-    <script src="https://unpkg.com/@vidro/map-handler@1.0.2/dist/map-handler.js"></script> -->
+    <script src="https://unpkg.com/@vidro/map-handler@1.0.3/dist/map-handler.js"></script> -->
     <script>
       var loadMapReq = new XMLHttpRequest();
       loadMapReq.addEventListener("load", function(){
