@@ -15,7 +15,7 @@ Tool to achieve the easiest way of communication with the map iframe.
   <body>
     <iframe id="map-frame" name="map-frame" src=""></iframe>
     <button id="btZoomIn">Zoom In</button>
-    <script src="https://unpkg.com/@vidro/map-handler@1.0.3/dist/map-handler.js"></script> -->
+    <script src="https://unpkg.com/@vidro/map-handler@1.0.4/dist/map-handler.js"></script> -->
     <script>
       var loadMapReq = new XMLHttpRequest();
       loadMapReq.addEventListener("load", function(){
