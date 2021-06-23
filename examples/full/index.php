@@ -66,7 +66,7 @@
       <hr>
       <h5>Development parameters</h5>
       <div>
-       Override iframe url: <input type="text" name="overrideHost" id="overrideHost" size="35" value="http://localhost:3000" placeholder="http://localhost:3000"> <small>Override map component url</small>
+       Override iframe url: <input type="text" name="overrideHost" id="overrideHost" size="35" value="" placeholder="http://localhost:3000"> <small>Override map component url</small>
       </div>
       <div>
         Debug
