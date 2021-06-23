@@ -137,8 +137,8 @@
       Selected GeoJSON Layer: <select id="geojsonlayers"></select> -   <button id="btGeoJSONInfo" disabled="true">GeoJSON Info</button> <button id="btRemoveGeoJSONLayer" disabled="true">Remove GeoJSON Layer</button><br><br>
  
      
-     <!--<script src="https://unpkg.com/@vidro/map-handler@1.0.3/dist/map-handler.js"></script>-->
-   <script src="../../dist/map-handler.js"></script>
+     <script src="https://unpkg.com/@vidro/map-handler@1.0.4/dist/map-handler.js"></script>
+   
     <script src="./tester.js"></script>
     <script src="./apidemo.js"></script>
   </body>
