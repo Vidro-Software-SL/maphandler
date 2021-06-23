@@ -19,15 +19,18 @@ class Communicator extends EventEmitter {
     switch(e.data.type){
       case "onZoomChange": this.emit("onZoomChange", e.data.zoom); break;
       case "geomAdded": this.emit("geomAdded", e.data.geom_astext); break;
-      case "layers": this.emit("layers", e.data.layers); break;    
+      case "layers": this.emit("layers", e.data.layers); break;  
+      case "geoJSONlayers": this.emit("geoJSONlayers", e.data.layers); break;     
       case "info": this.emit("info", e.data); break;    
       case "error": this.emit("error", e.data); break;  
       case "coordinates": this.emit("coordinates", e.data); break;  
       case "activeLayer": this.emit("activeLayer", e.data); break;  
       case "geolocation": this.emit("geolocation", e.data); break; 
-      case "giswaterTiledBackgroundDisplayed": this.emit("giswaterTiledBackgroundDisplayed", e.data); break;  
+      case "WMSInfoAvailable": this.emit("WMSInfoAvailable", e.data); break;  
+      case "giswaterTiledBackgroundDisplayed": this.emit("giswaterTiledBackgroundDisplayed", e.data); break; 
       case "giswaterTiledBackgroundAvailable": this.emit("giswaterTiledBackgroundAvailable", e.data); break;  
-            
+      case "GiswaterLayerAvailableFilters": this.emit("GiswaterLayerAvailableFilters", e.data); break;  
+              
     }
   }
 
@@ -99,12 +102,13 @@ class Communicator extends EventEmitter {
     });   
   }
 
-  infoFromCoordinates = (type,layer) => {
+  infoFromCoordinates = (type,layer,hitTolerance) => {
     const _layer = (typeof layer=='undefined') ? null : layer
     sendMessageToMap({
       type: "infoFromCoordinates",
       info: type,
       layer: _layer,
+      hitTolerance: (typeof hitTolerance!='undefined') ? parseInt(hitTolerance) : 5,
       sessionToken: this.sessionToken,
     });   
   }
@@ -132,7 +136,81 @@ class Communicator extends EventEmitter {
     });  
   }
 
+  addGeoJSON = (geoJSON,options, name)=>{
+    if(geoJSON){
+      return sendMessageToMap({
+        type: "addGeoJSON",
+        geoJSON: geoJSON,
+        options: (typeof options!='undefined') ? options : {fillcolor:null,strokecolor:null},
+        name: name ? name: Math.random().toString(36).substring(7),
+        sessionToken: this.sessionToken,
+      });  
+    }else{
+      this.emit("error",{error:"No geoJSON data"});
+      return;
+    }
+  }
 
+ clearGeoJSON = ()=>{
+    return sendMessageToMap({
+      type: "clearGeoJSON",
+      sessionToken: this.sessionToken,
+    });  
+  }
+
+ removeGeoJSONLayer = (name)=>{
+    if(name){
+      return sendMessageToMap({
+        type: "removeGeoJSONLayer",
+        name: name,
+        sessionToken: this.sessionToken,
+      });  
+    }else{
+      this.emit("error",{error:"No geoJSON data"});
+      return;
+    }
+  }
+  
+  setGiswaterFilters = (filters)=>{
+    var filtersJson = filters;
+    if(filters){
+      if(typeof filters!="object"){
+        filters = filters.trim()
+        filters = filters.replace(/^\s+|\s+$/g, '');
+        filters = filters.replace(/\\/g, '');
+        try{
+          filtersJson = JSON.parse(filters); 
+        }catch(e){
+          this.emit("error",{error:"Filters is not a valid JSON"});
+          return;
+        }
+      }
+ 
+      return sendMessageToMap({
+        type: "setGiswaterFilters",
+        filters: filtersJson,
+        sessionToken: this.sessionToken,
+      }); 
+    }else{
+      this.emit("error",{error:"No filters"});
+      return;
+    }
+  }
+
+  getGiswaterLayerAvailableFilters = (layer_name)=>{
+    if(layer_name){
+     return sendMessageToMap({
+        type: "getGiswaterLayerAvailableFilters",
+        name: layer_name,
+        sessionToken: this.sessionToken,
+      }); 
+    }else{
+      this.emit("error",{error:"No layer_name"});
+      return;
+    }
+  }
+
+  
 }
 
 export {

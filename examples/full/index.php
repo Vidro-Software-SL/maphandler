@@ -66,7 +66,7 @@
       <hr>
       <h5>Development parameters</h5>
       <div>
-       Override iframe url: <input type="text" name="overrideHost" id="overrideHost" size="35" value="" placeholder="http://localhost:3000"> <small>Override map component url</small>
+       Override iframe url: <input type="text" name="overrideHost" id="overrideHost" size="35" value="http://localhost:3000" placeholder="http://localhost:3000"> <small>Override map component url</small>
       </div>
       <div>
         Debug
@@ -101,7 +101,7 @@
       <button id="btAddLine">Add line</button>
       <button id="btClear">Clear geometries</button>
       <h2>Info</h2>
-      <button id="btWMSInfo">WMS Info</button>
+      <button id="btWMSInfo" disabled="true">WMS Info</button>
       <button id="btGiswaterInfo">Giswater Info</button>
       <h2>Layers</h2>
       Project Layers:  <select id="projectlayers"></select> - <small>click on "Load Project Layers button</small>  <button id="btToggleLayer">Add / Remove Layer</button><br><br>
@@ -110,7 +110,10 @@
       <button id="btGetActiveLayer">Get Active Layer</button>
       <span id="currentActiveLayer"></span>
       <button id="btReloadDisplayedLayers">Reload displayed layers</button>
-      
+      <h4>Tiled layer</h4>
+      <button id="btToggleGiswaterTiled" disabled="true">Show/hide tiled Giswater tiled background</button>
+      <input type="checkbox" name="toggleGiswaterTiledCheck" id="toggleGiswaterTiledCheck" size="5" value=""><br><br>
+      <small>only for giswater projects with tiled enabled</small>
     </div>
     <h2>Geolocation</h2>
     <button id="btGeolocalize">Geolocalize User</button>
@@ -121,13 +124,21 @@
      Geom: <input type="text" name="geom" id="geom" size="25" value="">
      <br>
      Highlight to zoom level: <input type="text" name="zoomLevel" id="zoomLevel" size="5" value=""> or Zoom to geometry: <input type="checkbox" name="zoomToHighlightCheck" id="zoomToHighlightCheck" size="5" value=""> 
-    <h2>Giswater</h2>
-    <button id="btToggleGiswaterTiled" disabled="true">Show/hide tiled Giswater tiled background</button>
-<input type="checkbox" name="toggleGiswaterTiledCheck" id="toggleGiswaterTiledCheck" size="5"   value=""> 
-
+    <h2>Giswater Filters</h2>
+    <button id="btsetGiswaterFilters">Set giswater filters</button> - <button id="btgetGiswaterFilters">Get giswater layer available filters</button><br><br>
+    <textarea name="giswaterFilters" id="giswaterFilters" rows="10" cols="20">{"expl_id":[1,2,3]}</textarea> 
+    <h2>GeoJSON</h2>
+      <input type="file" id="geojsonfile" name="geojsonfile" accept="application/json"><small> Select geoJSON file</small><br><br>
+      <b>Options</b><br><br>
+       Stroke color: <input type="text" name="strokecolor" id="strokecolor" size="10" value="#994d4d" placeholder="#000000"> <small>Override stroke color, desfault #ff0000</small><br>
+       Fill color: <input type="text" name="fillcolor" id="fillcolor" size="10" value="#4d995c" placeholder="#000000"> <small>Override fill color, desfault #ff0000</small><br><br>
+        <button id="btAddGeoJSON">Add GeoJSON Layer</button> <button id="btClearGeoJSON">Clear GeoJSON Layers</button><br><br>
+      <input type="text" name="hitTolerance" id="hitTolerance" size="5" value="" placeholder="5"> <small>Override hit tolerance</small><br><br>
+      Selected GeoJSON Layer: <select id="geojsonlayers"></select> -   <button id="btGeoJSONInfo" disabled="true">GeoJSON Info</button> <button id="btRemoveGeoJSONLayer" disabled="true">Remove GeoJSON Layer</button><br><br>
+ 
      
-     <script src="https://unpkg.com/@vidro/map-handler@1.0.3/dist/map-handler.js"></script>
-   <!--<script src="../../dist/map-handler.js"></script>-->
+     <!--<script src="https://unpkg.com/@vidro/map-handler@1.0.3/dist/map-handler.js"></script>-->
+   <script src="../../dist/map-handler.js"></script>
     <script src="./tester.js"></script>
     <script src="./apidemo.js"></script>
   </body>

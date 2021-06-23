@@ -24,9 +24,18 @@ var zoomToHighlightCheck = document.querySelector("#zoomToHighlightCheck");
 var btToggleGiswaterTiled = document.querySelector("#btToggleGiswaterTiled");
 var toggleGiswaterTiledCheck = document.querySelector("#toggleGiswaterTiledCheck");
 var btReloadDisplayedLayers = document.querySelector("#btReloadDisplayedLayers");
-
+var btAddGeoJSON = document.querySelector("#btAddGeoJSON");
+var btClearGeoJSON = document.querySelector("#btClearGeoJSON");
+var geoJSONFileContent = document.getElementById("geojsonfile");
 var Result_container = document.querySelector("#Result_container");
+var hitTolerance = document.querySelector("#hitTolerance");
+var btGeoJSONInfo = document.querySelector("#btGeoJSONInfo");
+var btRemoveGeoJSONLayer = document.querySelector("#btRemoveGeoJSONLayer");
+var btsetGiswaterFilters = document.querySelector("#btsetGiswaterFilters");
+var btgetGiswaterFilters = document.querySelector("#btgetGiswaterFilters");
 
+var geoJSONName = null; //geoJSON file name
+var geoJSONContent = null; // geojson file content
 //local var for store active layer
 var currentActiveLayer = null;
 function cleanContainers(){
@@ -57,7 +66,12 @@ communicator.on("geomAdded", function(data){
 
 communicator.on("layers", function(data){
  	console.log("layers received",data);
- 	fillDisplayedLayersSelect(data)
+ 	fillDisplayedLayersSelect(data);
+});
+
+communicator.on("geoJSONlayers", function(data){
+ 	console.log("geoJSONlayers received",data);
+ 	fillGeoJSONLayersSelect(data);
 });
 
 //error event
@@ -84,6 +98,13 @@ communicator.on("geolocation", function(data){
  	console.info("geolocation",data);
  	cleanContainers();
 });
+
+communicator.on("GiswaterLayerAvailableFilters", function(data){
+ 	console.info("GiswaterLayerAvailableFilters",data);
+ 	cleanContainers();
+ 	Result_container.innerHTML = data.filters;
+});
+
 
 //info event
 communicator.on("info", function(data){
@@ -114,25 +135,30 @@ communicator.on("giswaterTiledBackgroundAvailable", function(data){
  			toggleGiswaterTiledCheck.checked = use_giswater_tiled.checked;
  		}
  	}
-
 });
+communicator.on("WMSInfoAvailable", function(){
+ 	console.log("WMSInfoAvailable");
+ 	if(btWMSInfo) btWMSInfo.disabled = false;
+});
+
 
 function fillDisplayedLayersSelect(options){
 	var layers_select = document.getElementById("layers");
-	//empty previous options
-	var length = layers_select.options.length;
-	for (i = length-1; i >= 0; i--) {
-	  layers_select.options[i] = null;
-	}
-	for(var i = 0; i < options.length; i++) {
-	    var opt = options[i];
-	    var el = document.createElement("option");
-	    el.textContent = opt;
-	    el.value = opt;
-	    layers_select.appendChild(el);
+	if(layers_select){
+		//empty previous options
+		var length = layers_select.options.length;
+		for (i = length-1; i >= 0; i--) {
+		  layers_select.options[i] = null;
+		}
+		for(var i = 0; i < options.length; i++) {
+		    var opt = options[i];
+		    var el = document.createElement("option");
+		    el.textContent = opt;
+		    el.value = opt;
+		    layers_select.appendChild(el);
+		}
 	}
 }
-
 
 // Actions
 btZoomIn.addEventListener("click", function(){
@@ -250,4 +276,142 @@ if(btToggleGiswaterTiled && toggleGiswaterTiledCheck){
 	});
 }
 
+//**********************************************************
+//**************            GeoJSON         ****************
+//**********************************************************
 
+if(geoJSONFileContent){
+	geoJSONFileContent.addEventListener("change", handleFiles, false);
+	function handleFiles() {
+		const fileList = this.files; 
+	  	// use the 1st file from the list
+		f = fileList[0];
+		geoJSONName = f.name;
+	    var reader = new FileReader();
+	    // Closure to capture the file information.
+	    reader.onload = (function(theFile) {
+	        return function(e) {
+				geoJSONContent = e.target.result;
+	        };
+	      })(f);
+
+	      // Read in the image file as a data URL.
+	      reader.readAsText(f);
+	  
+	}
+}
+if(btAddGeoJSON){
+	btAddGeoJSON.addEventListener("click", function(){
+		var geoToSend = null;
+		var geojsondata = document.querySelector("#geojsondata");
+		if(geojsondata){
+			console.log("using geoJSON input");
+			var cleanjson = geojsondata.value.replace(/(\r\n|\n|\r)/gm, "");
+			geoToSend = cleanjson;
+		}
+		if(geoJSONContent){
+			console.log("using geoJSON file");
+			geoToSend = geoJSONContent;
+			
+		}
+		var fillcolor = document.querySelector("#fillcolor");
+		var strokecolor = document.querySelector("#strokecolor");
+		
+		//Check JSON 
+		try{
+			let options = {
+				fillcolor: null,
+				strokecolor: null
+			}
+			if(fillcolor){
+				options.fillcolor = fillcolor.value;
+			}
+			if(strokecolor){
+				options.strokecolor = strokecolor.value;
+			}
+			communicator.addGeoJSON(JSON.parse(geoToSend),options,geoJSONName);
+		}catch(e){
+			console.error("invalid geoJSON",e);
+		}
+	});
+}
+
+if(btClearGeoJSON){
+	btClearGeoJSON.addEventListener("click", function(){
+		communicator.clearGeoJSON();	
+	});
+}
+
+if(btGeoJSONInfo){
+	btGeoJSONInfo.addEventListener("click", function(){
+		cleanContainers();
+		let tolerance = 10;
+		if(hitTolerance){
+			//(typeof hitTolerance!='undefined') ? hitTolerance : 5,
+			tolerance = (hitTolerance.value=='' || hitTolerance.value==null) ?  5 : parseInt(hitTolerance.value);
+
+		}
+	  	communicator.infoFromCoordinates('geojson',document.getElementById('geojsonlayers').value,tolerance);
+	});
+}
+
+if(btRemoveGeoJSONLayer){
+	btRemoveGeoJSONLayer.addEventListener("click", function(){
+		cleanContainers();
+	  	communicator.removeGeoJSONLayer(document.getElementById('geojsonlayers').value);
+	});
+}
+
+function fillGeoJSONLayersSelect(options){
+	var layers_select = document.getElementById("geojsonlayers");
+	if(layers_select){
+		//empty previous options
+		var length = layers_select.options.length;
+		for (i = length-1; i >= 0; i--) {
+		  layers_select.options[i] = null;
+		}
+		for(var i = 0; i < options.length; i++) {
+		    var opt = options[i];
+		    var el = document.createElement("option");
+		    el.textContent = opt;
+		    el.value = opt;
+		    layers_select.appendChild(el);
+		}
+	}
+	if(btGeoJSONInfo && options.length>0){
+		btGeoJSONInfo.disabled = false;
+	}
+	if(btRemoveGeoJSONLayer && options.length>0){
+		btRemoveGeoJSONLayer.disabled = false;
+	}	
+}
+
+//**********************************************************
+//**************         END GeoJSON        ****************
+//**********************************************************
+
+//**********************************************************
+//**************      GISWATER FILTERS      ****************
+//**********************************************************
+
+
+if(btsetGiswaterFilters){
+	btsetGiswaterFilters.addEventListener("click", function(){
+		var filters = document.getElementById('giswaterFilters').value;
+
+		cleanContainers();
+	  communicator.setGiswaterFilters(filters);
+	});
+}
+if(btgetGiswaterFilters){
+	btgetGiswaterFilters.addEventListener("click", function(){
+		var layerName = document.getElementById('layers').value;
+		cleanContainers();
+	  communicator.getGiswaterLayerAvailableFilters(layerName);
+	});
+}
+
+
+//**********************************************************
+//**************     END GISWATER FILTERS   ****************
+//**********************************************************

@@ -178,7 +178,7 @@ btLoadMap.addEventListener("click", function (evt) {
   //form values
   var zoom = document.querySelector("#zoom").value;
   var data = { zoom: zoom, token: usertoken.value };
-  var uri = `${apiUrl}map/${selectedProjectId}?token=${usertoken.value}`;
+  var uri = `${apiUrl}map/${selectedProjectId}?`;
   if (zoom) {
     uri += `&zoom=${zoom}`;
   }
@@ -198,10 +198,7 @@ btLoadMap.addEventListener("click", function (evt) {
     uri += `&overrideHost=${overrideHost}`;
     data.overrideHost = overrideHost;
   }
-  if(overrideApi){
-    uri += `&overrideApi=${overrideApi.value}`;
-    data.overrideApi = overrideApi.value;
-  }
+
   var show_layers = document.querySelector("#show_layers").value;
   if (show_layers) {
     uri += `&show_layers=${show_layers}`;
@@ -226,6 +223,7 @@ btLoadMap.addEventListener("click", function (evt) {
   var oReq = new XMLHttpRequest();
   oReq.addEventListener("load", mapListener);
   oReq.open("GET", uri, true);
+  oReq.setRequestHeader('Authorization',`Bearer ${usertoken.value}`);
   oReq.setRequestHeader("Content-type", "application/json");
   oReq.send(JSON.stringify(data));
   console.log("Attempt to load map", `${apiUrl}map/${selectedProjectId}`, data);
@@ -268,6 +266,7 @@ btLoadProjectLayers.addEventListener("click", function (evt) {
   var oReq = new XMLHttpRequest();
   oReq.addEventListener("load", layersListener);
   oReq.open("GET", uri, true);
+  oReq.setRequestHeader('Authorization',`Bearer ${usertoken.value}`);
   oReq.setRequestHeader("Content-type", "application/json");
   oReq.send();
   console.log("Attempt to load project layers", uri);
@@ -303,10 +302,3 @@ function fillLayersSelect(options){
   //empty previous options
 
 }
-
-var overrideApi = document.querySelector("#overrideApi");
-//override Api url, for development
-overrideApi.addEventListener("change", function (evt) {
-  apiUrl = overrideApi.value;
-  document.querySelector("#apiurl").value = apiUrl;
-});

@@ -1,6 +1,6 @@
 # Map Handler #
 
-#### Version 1.0.3 - May 2021 #####
+#### Version 1.0.5 - June 2021 #####
 
 Tool to achieve the easiest way of communication with the map iframe.
 
@@ -27,9 +27,10 @@ Tool to achieve the easiest way of communication with the map iframe.
         });
      
       }
-      loadMapReq.open("GET", "http://APIURL/map/PROJECT_ID?token=USER_TOKEN",true);
+      loadMapReq.open("GET", "http://APIURL/map/PROJECT_ID",true);
       loadMapReq.setRequestHeader('Content-type', 'application/json');
-      loadMapReq.send(JSON.stringify({ 'token': 'USER_TOKEN' }));
+      loadMapReq.setRequestHeader('Authorization',`Bearer ${USER_TOKEN}`);
+      loadMapReq.send();
     </script>
   </body>
 </html>
@@ -102,6 +103,10 @@ MULTILINESTRING((419268.8979576373 4577019.482027252,419146.6929889547 4577457.2
 
 Notifies an array of displayed layers
 
+##### geoJSONlayers #####
+
+Notifies an array of displayed GeoJSON layers
+
 ##### activeLayer #####
 
 Notifies wich layer is marked as active
@@ -161,6 +166,14 @@ Giswater's tiled background has two events, one for notify if is available or no
 {type: "giswaterTiledBackgroundDisplayed", visible: true/false}
 ```
 
+##### Giswater layer Available filters #####
+
+List of available filters for a Giswater layer
+
+```
+{type: "GiswaterLayerAvailableFilters", filters: array}
+
+```
 
 ##### error #####
 
@@ -254,6 +267,7 @@ If you don't specify a layer, will use the layer setted as  `Active layer`
 	- `giswater` - giswater info
 	
 - layer `<string>` _optional_ layer name to do info. If null, will use current active layer.
+- hitTolerance `<integer>` _optional_ for geoJSON Info, pixels inside the radius around the given will be checked for features. Default `5`.
 
 >E.G.
 
@@ -347,7 +361,92 @@ toggleGiswaterTiled(true);
 
 ```
 
-  
+##### addGeoJSON #####
+
+Adds geoJSON layer
+
+Params
+
+- geoJSON `<geoJSON>` geoJSON data
+
+- options `<json>` layer options
+	- fillcolor `<string>` fill color. If null will use red color (#ff0000)
+	- strokecolor `<string>` strokecolor color. If null will use red color (#ff0000)
+
+- name `<string>` geoJson layer name, if null will use a random string
+
+>E.G.
+
+
+```
+addGeoJSON(geoJSON,options, name);
+
+
+addGeoJSON('GeoJSONContent',{},null);
+
+const options = {
+	fillcolor:'#e3ff00',
+	strokecolor: '#e3ff00'
+}
+
+addGeoJSON('GeoJSONContent', options,'name');
+
+```
+##### removeGeoJSONLayer #####
+
+Removes a GeoJSON Layer
+
+```
+removeGeoJSONLayer(layerName);
+
+removeGeoJSONLayer('somename');
+```
+
+##### clearGeoJSON #####
+
+Clears geoJSON layers
+
+
+>E.G.
+
+
+```
+clearGeoJSON();
+```
+
+##### setGiswaterFilters #####
+
+Set Giswater's filters for displayed layers
+
+Filters must be a JSON with valid fields. Available layer filters can be obtained with method `getGiswaterLayerAvailableFilters`
+
+```
+setGiswaterFilters(JSON);
+```
+
+>E.G.
+
+
+```
+setGiswaterFilters({"expl_id":[1,2,3]});
+```
+
+##### getGiswaterLayerAvailableFilters #####
+
+Get available WMTS filters for a Giswater layer
+
+
+```
+getGiswaterLayerAvailableFilters(layername);
+```
+
+>E.G.
+
+
+```
+getGiswaterLayerAvailableFilters("Arc");
+```
+
 ## Examples ##
 
 ### Simple ###
