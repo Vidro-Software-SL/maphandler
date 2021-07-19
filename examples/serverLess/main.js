@@ -7,6 +7,8 @@ const apiUrl = "<YOUR API URL>";
 const user = "<YOUR USER>";
 const pwd = "<YOUR USER PASSWORD>";
 const customLogo = "<YOUR LOGO URL>";
+
+const layerToLoad = "Arc"; //Layer to be loaded
 const zoomLevel = 17;
 
 //DOM Elements
