@@ -1,13 +1,13 @@
 {
   "name": "@vidro/map-handler",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Tool to achieve the easiest way of communication with the map",
   "homepage": "https://github.com/Vidro-Software-SL/maphandler",
   "repository": {
     "type": "git",
     "url": "https://github.com/Vidro-Software-SL/maphandler.git"
   },
-  "main": "dist/vidro-map-handler.js",
+  "main": "dist/map-handler.js",
   "scripts": {
     "build": "webpack"
   },
