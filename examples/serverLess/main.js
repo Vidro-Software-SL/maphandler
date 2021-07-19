@@ -3,13 +3,10 @@ import { Communicator } from "@vidro/map-handler"; //Vidro Software map js libra
 import parser from "xml2json-light"; //open source XML to JSON, used for parse WMS Info
 let clickedPoint = null; //store clicked coordinates for further use
 
-const apiUrl = "https://bmaps.bgeo.es/api/";
-const user = "test@bgeo.es";
-const pwd = "test.12345";
-const customLogo =
-  "https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_default_2x_r2.png";
-
-const layerToLoad = "Arc"; //Layer to be loaded
+const apiUrl = "<YOUR API URL>";
+const user = "<YOUR USER>";
+const pwd = "<YOUR USER PASSWORD>";
+const customLogo = "<YOUR LOGO URL>";
 const zoomLevel = 17;
 
 //DOM Elements
