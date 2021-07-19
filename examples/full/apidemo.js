@@ -256,11 +256,11 @@ function mapListener() {
 btLoadProjectLayers.addEventListener("click", function (evt) {
   apiUrl = document.querySelector("#apiurl").value;
  
-  //Build XMLHttpRequest for project klayers
+  //Build XMLHttpRequest for project layers
   var selectedProjectId =
     projects_select.options[projects_select.selectedIndex].value;
 
-  var uri = `${apiUrl}layers/${selectedProjectId}?token=${usertoken.value}`;
+  var uri = `${apiUrl}layers/${selectedProjectId}`;
  
 
   var oReq = new XMLHttpRequest();
