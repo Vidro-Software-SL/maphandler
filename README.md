@@ -1,6 +1,6 @@
 # Map Handler
 
-#### Version 1.0.5 - July 2021
+#### Version 1.0.6 - July 2021
 
 Tool to achieve the easiest way of communication with the map iframe.
 
@@ -96,6 +96,30 @@ POLYGON((418391.8715694032 4576832.484383419,418721.82301488414 4577299.66760832
 
 MULTILINESTRING((419268.8979576373 4577019.482027252,419146.6929889547 4577457.250226778,418798.40365705814 4577415.776056751))
 ```
+##### loaded
+
+Notifies when map or layers are loaded.
+
+There're two types of events:
+
+- `map` is dispatched when map (with background) is loaded.
+- `layer` is dispatched when a layer is loaded
+
+
+
+> `map` E.G:
+
+```
+{what:'map'}
+```
+
+> `layer` E.G:
+
+```
+{what:'layer'
+name:'Arc'}
+```
+
 
 ##### layers
 

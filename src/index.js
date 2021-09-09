@@ -30,7 +30,7 @@ class Communicator extends EventEmitter {
       case "giswaterTiledBackgroundDisplayed": this.emit("giswaterTiledBackgroundDisplayed", e.data); break; 
       case "giswaterTiledBackgroundAvailable": this.emit("giswaterTiledBackgroundAvailable", e.data); break;  
       case "GiswaterLayerAvailableFilters": this.emit("GiswaterLayerAvailableFilters", e.data); break;  
-              
+      case "loaded": this.emit("loaded", e.data); break;           
     }
   }
 
