@@ -1,6 +1,6 @@
 # Map Handler
 
-#### Version 1.0.6 - July 2021
+#### Version 1.0.6 - September 2021
 
 Tool to achieve the easiest way of communication with the map iframe.
 
@@ -69,6 +69,24 @@ Or if you're working with NPM / ES6:
         sessionToken: "sessionToken"
     });
 
+### Logs
+
+If you want to see `console.logs`, you can activate logs with `setDebug` method. Once map is loaded, invoke this method. Will create or remove a cookie. After calling `setDebug` reload the map.
+
+Logs are deactivated by default.
+
+`setDebug(debug)`
+
+>E.G.
+
+``` 
+//activate
+setDebug(1);
+
+//deactivate
+setDebug(0);
+```
+
 ## Events
 
 ### How to listen
@@ -105,8 +123,6 @@ There're two types of events:
 - `map` is dispatched when map (with background) is loaded.
 - `layer` is dispatched when a layer is loaded
 
-
-
 > `map` E.G:
 
 ```
@@ -119,7 +135,6 @@ There're two types of events:
 {what:'layer'
 name:'Arc'}
 ```
-
 
 ##### layers
 
@@ -214,6 +229,22 @@ Notifies errors
 ##### ZoomOut()
 
 ##### zoomToExtent()
+
+##### zoomToCoordinates(coordinates,zoomLevel)
+
+Zooms to given coordinates
+
+> Params
+
+- coordinates `<array>` - lat, long
+- zoomLevel `<integer>` - zoom level 
+
+> E.G.
+
+```
+zoomToCoordinates([419006.12985785044, 4576698.8136144625],18);
+
+```
 
 ##### AddGeom(string)
 

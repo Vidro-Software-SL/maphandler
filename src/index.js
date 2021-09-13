@@ -102,6 +102,17 @@ class Communicator extends EventEmitter {
     });   
   }
 
+  zoomToCoordinates= (lat,lon,zoomLevel) => {
+    if(!isNaN(parseInt(zoomLevel))){
+      sendMessageToMap({
+        type: "zoomToCoordinates",
+        sessionToken: this.sessionToken,
+        coordinates:[lat,lon],
+        zoomLevel: zoomLevel
+      });   
+    }
+  }
+
   infoFromCoordinates = (type,layer,hitTolerance) => {
     const _layer = (typeof layer=='undefined') ? null : layer
     sendMessageToMap({
@@ -210,7 +221,16 @@ class Communicator extends EventEmitter {
     }
   }
 
-  
+  setDebug = (what) =>{
+    if(!isNaN(parseInt(what))){
+      return sendMessageToMap({
+        type: "setDebug",
+        what: what,
+        sessionToken: this.sessionToken,
+      });
+    }
+  }
+    
 }
 
 export {
