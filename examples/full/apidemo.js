@@ -106,10 +106,12 @@ function checkToken() {
     //build XMLHttpRequest for checking token
     var oReq = new XMLHttpRequest();
     oReq.addEventListener("load", tokenListener);
-    oReq.open("GET", `${apiUrl}token/${usertoken.value}`, true);
+    oReq.open("GET", `${apiUrl}token/`, true);
     oReq.setRequestHeader("Content-type", "application/json");
+    oReq.setRequestHeader('Authorization',`Bearer ${usertoken.value}`);
+  
     oReq.send();
-    console.log("Chek token", `${apiUrl}token/${usertoken.value}`);
+    console.log("Check token", `${apiUrl}token/`);
   } else {
     //show login form in case usertoken input is empty
     loginContainer.classList.remove("hide");
@@ -170,7 +172,6 @@ function selectProject(id) {
 
 btLoadMap.addEventListener("click", function (evt) {
   apiUrl = document.querySelector("#apiurl").value;
-  var debug = parseInt(document.getElementById("debug").value);
   //Build XMLHttpRequest for map
   var selectedProjectId =
     projects_select.options[projects_select.selectedIndex].value;
@@ -182,9 +183,7 @@ btLoadMap.addEventListener("click", function (evt) {
   if (zoom) {
     uri += `&zoom=${zoom}`;
   }
-  if (debug) {
-    uri += `&debug=${debug}`;
-  }
+
   var logo = document.querySelector("#logo").value;
   if (logo) {
     uri += `&logo=${logo}`;
@@ -235,7 +234,9 @@ function mapListener() {
     var res = JSON.parse(this.responseText);
     errorContainer.classList.add("hide");
     mapContainer.classList.remove("hide");
-    iframe.src = `${res.message.iframe}?sessionToken=${res.message.sessionToken}`;
+    var src = `${res.message.iframe}?sessionToken=${res.message.sessionToken}`;
+    iframe.src = src;
+    console.log("iframe src", src);
     sessionToken.innerHTML = res.message.sessionToken;
     localStorage.setItem("iframe", iframe.src);
     localStorage.setItem("sessionToken", res.message.sessionToken);
@@ -255,7 +256,7 @@ function mapListener() {
 
 btLoadProjectLayers.addEventListener("click", function (evt) {
   apiUrl = document.querySelector("#apiurl").value;
- 
+
   //Build XMLHttpRequest for project layers
   var selectedProjectId =
     projects_select.options[projects_select.selectedIndex].value;
