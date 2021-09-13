@@ -70,9 +70,10 @@
       </div>
       <div>
         Debug
+        <button id="btDebug">Debug</button>  
         <select id="debug">
-          <option id="1"  value=1>True</option>
-          <option id="0" selected value=0>False</option>
+          <option id="1" selected value=1>Show logs</option>
+          <option id="0" value=0>Hide logs</option>
         </select> <small>Show/hide component logs</small>
       </div>
       <hr>
@@ -95,6 +96,9 @@
       <button id="btZoomIn">Zoom In</button>
       <button id="btZoomOut">Zoom Out</button>
       <button id="btZoomToExtent">Zoom to extent</button>  
+      <br><br>
+      <button id="btZoomToCoordinates">Zoom to coordinates</button>  
+      ZoomToCoordinates level: <input type="text" name="zoomLevelToCoordinates" id="zoomLevelToCoordinates" size="5" value="4">
       <h2>Add geometry</h2>
       <button id="btAddPoint">Add point</button>
       <button id="btAddPolygon">Add polygon</button>
@@ -137,8 +141,8 @@
       Selected GeoJSON Layer: <select id="geojsonlayers"></select> -   <button id="btGeoJSONInfo" disabled="true">GeoJSON Info</button> <button id="btRemoveGeoJSONLayer" disabled="true">Remove GeoJSON Layer</button><br><br>
  
      
-     <script src="https://unpkg.com/@vidro/map-handler@1.0.4/dist/map-handler.js"></script>
-   
+    <script src="https://unpkg.com/@vidro/map-handler@1.0.6/dist/map-handler.js"></script>
+    <!--<script src="../../dist/map-handler.js"></script>-->
     <script src="./tester.js"></script>
     <script src="./apidemo.js"></script>
   </body>

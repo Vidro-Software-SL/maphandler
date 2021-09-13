@@ -2,7 +2,7 @@
 
 var sessionToken = document.querySelector("#sessionToken").textContent;
 var communicator = new VidroMaps.Communicator({sessionToken});
-
+var clickedCoordinates = null;
 // UI buttons:
 
 var btZoomIn = document.querySelector("#btZoomIn");
@@ -13,6 +13,7 @@ var btAddLine = document.querySelector("#btAddLine");
 var btClear = document.querySelector("#btClear");
 var btToggleLayer = document.querySelector("#btToggleLayer");
 var btZoomToExtent = document.querySelector("#btZoomToExtent");
+var btZoomToCoordinates = document.querySelector("#btZoomToCoordinates");
 var btWMSInfo = document.querySelector("#btWMSInfo");
 var btGiswaterInfo = document.querySelector("#btGiswaterInfo");
 var btActiveLayer = document.querySelector("#btActiveLayer");
@@ -33,6 +34,7 @@ var btGeoJSONInfo = document.querySelector("#btGeoJSONInfo");
 var btRemoveGeoJSONLayer = document.querySelector("#btRemoveGeoJSONLayer");
 var btsetGiswaterFilters = document.querySelector("#btsetGiswaterFilters");
 var btgetGiswaterFilters = document.querySelector("#btgetGiswaterFilters");
+var btDebug = document.querySelector("#btDebug");
 
 var geoJSONName = null; //geoJSON file name
 var geoJSONContent = null; // geojson file content
@@ -55,6 +57,7 @@ communicator.on("onZoomChange", function(data){
  	Result_container.innerHTML = `Zoom level changed: ${data}`;
 });
 
+
 communicator.on("geomAdded", function(data){
  	console.log("geomAdded",data);
  	cleanContainers();
@@ -62,6 +65,10 @@ communicator.on("geomAdded", function(data){
  	Result_container.innerHTML = data;
  	//Add current geom to highlight input geom
  	document.getElementById('geom').value = data;
+});
+
+communicator.on("loaded", function(data){
+ 	console.log("loaded",data);
 });
 
 communicator.on("layers", function(data){
@@ -85,6 +92,7 @@ communicator.on("error", function(data){
 communicator.on("coordinates", function(data){
  	console.info("coordinates",data);
  	cleanContainers();
+ 	clickedCoordinates = [data.coordinates[0],data.coordinates[1]]
  	Result_container.innerHTML = `Clicked coordinates -> x: ${data.coordinates[0]}, y: ${data.coordinates[1]}`;
 });
 
@@ -160,6 +168,12 @@ function fillDisplayedLayersSelect(options){
 	}
 }
 
+if(btDebug){
+	btDebug.addEventListener("click", function(){
+		var debug = parseInt(document.getElementById("debug").value);
+    communicator.setDebug(debug); 
+	});	
+}
 // Actions
 btZoomIn.addEventListener("click", function(){
   return communicator.ZoomIn();
@@ -168,6 +182,21 @@ btZoomIn.addEventListener("click", function(){
 btZoomOut.addEventListener("click", function(){
   communicator.ZoomOut();
 });
+if(btZoomToCoordinates){
+	btZoomToCoordinates.addEventListener("click", function(){
+		let level = 4;
+		if(document.getElementById('zoomLevelToCoordinates')){
+		 	//zoom Level
+		 	level = document.getElementById('zoomLevelToCoordinates').value 
+		 }
+		if(clickedCoordinates){
+			  communicator.zoomToCoordinates(clickedCoordinates[0],clickedCoordinates[1],level);
+			}else{
+				Error_container.innerHTML ="No coordinates provided";
+			}
+	});
+}
+
 if(btAddPoint){
 	btAddPoint.addEventListener("click", function(){
 	  communicator.AddGeom('Point');
