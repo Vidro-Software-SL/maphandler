@@ -34,6 +34,7 @@ var btGeoJSONInfo = document.querySelector("#btGeoJSONInfo");
 var btRemoveGeoJSONLayer = document.querySelector("#btRemoveGeoJSONLayer");
 var btsetGiswaterFilters = document.querySelector("#btsetGiswaterFilters");
 var btgetGiswaterFilters = document.querySelector("#btgetGiswaterFilters");
+var btLoadWMSLayers = document.querySelector("#btLoadWMSLayers");
 var btDebug = document.querySelector("#btDebug");
 
 var geoJSONName = null; //geoJSON file name
@@ -148,7 +149,31 @@ communicator.on("WMSInfoAvailable", function(){
  	console.log("WMSInfoAvailable");
  	if(btWMSInfo) btWMSInfo.disabled = false;
 });
+communicator.on("availableWMSLayers", function(data){
+ 	console.log("availableWMSLayers",data);
+ 	fillLayersSelect(data);
+});
 
+function fillLayersSelect(options) {
+	console.log('fillLayersSelect',options)
+	var projectlayers = document.getElementById("projectlayers");
+	if(projectlayers){
+
+
+    var length = projectlayers.options.length;
+
+    for (i = length-1; i >= 0; i--) {
+      projectlayers.options[i] = null;
+    }
+    for(var i = 0; i < options.length; i++) {
+        var opt = options[i];
+        var el = document.createElement("option");
+        el.textContent = opt;
+        el.value = opt;
+        projectlayers.appendChild(el);
+    }
+  }
+}
 
 function fillDisplayedLayersSelect(options){
 	var layers_select = document.getElementById("layers");
@@ -268,6 +293,14 @@ if(btGetActiveLayer){
 if(btReloadDisplayedLayers){
 	btReloadDisplayedLayers.addEventListener("click", function(){
 	 	communicator.reloadDisplayedLayers();
+	});
+}
+if(btLoadWMSLayers){
+	btLoadWMSLayers.addEventListener("click", function (evt) {
+
+		console.log('btLoadWMSLayers')
+		communicator.loadWMSAvailableLayers();
+
 	});
 }
 
