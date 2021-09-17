@@ -148,6 +148,10 @@ Notifies an array of displayed GeoJSON layers
 
 Notifies wich layer is marked as active
 
+##### availableWMSLayers
+
+List of available layers from WMS server
+
 ##### coordinates
 
 Notifies clicked coordinates (x,y)
@@ -303,6 +307,18 @@ Reloads displayed layers
 ```
 reloadDisplayedLayers();
 ```
+
+##### loadWMSAvailableLayers
+
+Gets a list of available layers from WMS server
+
+> E.G.
+
+```
+loadWMSAvailableLayers();
+```
+
+An `availableWMSLayers ` event will be received after calling the method.
 
 ##### infoFromCoordinates
 
@@ -507,7 +523,7 @@ A simple integration with just zoom buttons
 2. Request a user token to the API
 3. Loads the first map of the user
 
-[http://www.vidrosoftware.com/examples/simple/?user=USER&pwd=USER_PASWORD&api=API_URL]()
+[https://www.vidrosoftware.com/examples/simple/?user=USER&pwd=USER_PASWORD&api=API_URL]()
 
 ### Full
 
@@ -521,7 +537,19 @@ Full integration
 2. Stores token and last map loaded in a fake cache
 3. There's a form for choosing map and customize map parameters
 
-[http://www.vidrosoftware.com/examples/full/]()
+[https://www.vidrosoftware.com/examples/full/]()
+
+### Vidromaps
+
+`examples/vidromaps/`
+
+Vidromaps integration
+
+##### How it works
+
+1. Paste iframe code
+
+[https://www.vidrosoftware.com/examples/vidromaps/]()
 
 ### Serverless
 
@@ -535,3 +563,17 @@ Server less sample integration
 2. Request a user token to the API
 3. Loads the first map of the user with one layer rendered
 4. On map click, performs an wms info, displays one attribute, highlights the clicked point and centers map on that point
+
+### Known issues
+
+- **Custom logo is not displayed**
+
+Could be CORS issue. Check the headers sent by your server. 
+
+With Apache can be solved with and `.htaccess` file with this content:
+
+```
+Header set Access-Control-Allow-Origin "*"
+Header add Cross-Origin-Resource-Policy: "cross-origin"
+Header add Cross-Origin-Embedder-Policy: "require-corp"
+```
