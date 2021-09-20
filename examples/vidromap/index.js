@@ -11,19 +11,10 @@ var btLoadIframe = document.querySelector("#btLoadIframe");
 
 //************** MAP EXAMPLE
 
-//iframe.src = `${host.value}?sessionToken=${sessionToken.value}`;
-
-
 if(btLoadIframe){
 	btLoadIframe.addEventListener("click", function (evt) {
 		if(code.value!=""){
-		console.log('btLoadIframe',code.value,typeof code.value);
-		iframesContainer.innerHTML = code.value;
-	}
+			iframesContainer.innerHTML = code.value;
+		}
 	});
 }
-
-
-
-
-
