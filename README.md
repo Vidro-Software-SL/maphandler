@@ -40,7 +40,7 @@ Tool to achieve the easiest way of communication with the map iframe.
 
 ### 0. Pre-requisites
 
-You should have one iframe already created on the DOM with the attributes `name="map-frame"`.
+You should have one iframe already created on the DOM with the attributes `name="map-frame" id="map-frame"`. 
 
 ### 1. Include the library:
 
@@ -94,6 +94,7 @@ setDebug(0);
     communicator.on("onZoomChange", function(data){
       console.log("onZoomChange event",data);
     });
+   
 
 ### Available events
 
@@ -509,6 +510,21 @@ getGiswaterLayerAvailableFilters(layername);
 getGiswaterLayerAvailableFilters("Arc");
 ```
 
+### Multiple iframes
+
+Is possible to use multiple iframe on a single page, follow this steps.
+
+- Set to your `iframe` tags the id & value 
+- Add to each `iframe.src` `&domId=IFRAME_ID`
+- Instantiate each iframe:
+
+```
+var communicator = new VidroMaps.Communicator({
+      sessionToken: sessionToken,
+      id:'IFRAME_ID'
+});
+```
+
 ## Examples
 
 ### Simple
@@ -563,6 +579,19 @@ Server less sample integration
 2. Request a user token to the API
 3. Loads the first map of the user with one layer rendered
 4. On map click, performs an wms info, displays one attribute, highlights the clicked point and centers map on that point
+
+### Mutiple iframes
+
+`examples/multipleiframes/`
+
+Multiple iframes integration
+
+##### How it works
+
+1. Replace `YOUR_SESSION_TOKEN` with your session token code on both inputs `code1` and `code2`.
+
+[https://www.vidrosoftware.com/examples/multipleiframes/]()
+
 
 ### Known issues
 

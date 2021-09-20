@@ -1,56 +1,66 @@
 import { EventEmitter } from "events"
-import { sendMessageToMap } from "./shared/iframe-communicator";
-
+import { iframeCommunicator } from "./shared/iframe-communicator";
 class Communicator extends EventEmitter {
 
-  constructor({ sessionToken }){
+  constructor(data){
     super();
-
+    this.domId = 'map-frame';
     if(typeof window === 'undefined'){
       return;
     };
-
+    if(typeof data.id==="string"){
+      this.domId = data.id;
+    } 
+    this.com = new iframeCommunicator(data)
     window.addEventListener("message", e => this.onMessageReceived(e));
-    this.sessionToken = sessionToken;
-
+    this.sessionToken = data.sessionToken;
   }
 
   onMessageReceived = e => {
     switch(e.data.type){
-      case "onZoomChange": this.emit("onZoomChange", e.data.zoom); break;
-      case "geomAdded": this.emit("geomAdded", e.data.geom_astext); break;
-      case "layers": this.emit("layers", e.data.layers); break;  
-      case "geoJSONlayers": this.emit("geoJSONlayers", e.data.layers); break;     
-      case "info": this.emit("info", e.data); break;    
-      case "error": this.emit("error", e.data); break;  
-      case "coordinates": this.emit("coordinates", e.data); break;  
-      case "activeLayer": this.emit("activeLayer", e.data); break;  
-      case "geolocation": this.emit("geolocation", e.data); break; 
-      case "WMSInfoAvailable": this.emit("WMSInfoAvailable", e.data); break;  
-      case "giswaterTiledBackgroundDisplayed": this.emit("giswaterTiledBackgroundDisplayed", e.data); break; 
-      case "giswaterTiledBackgroundAvailable": this.emit("giswaterTiledBackgroundAvailable", e.data); break;  
-      case "GiswaterLayerAvailableFilters": this.emit("GiswaterLayerAvailableFilters", e.data); break;  
-      case "loaded": this.emit("loaded", e.data); break;  
-      case "availableWMSLayers": this.emit("availableWMSLayers", e.data.layers); break;          
+      case "onZoomChange": this.emitEvent("onZoomChange", e.data.zoom,e.data.domId); break;
+      case "geomAdded": this.emitEvent("geomAdded", e.data.geom_astext,e.data.domId); break;
+      case "layers": this.emitEvent("layers", e.data.layers,e.data.domId); break;  
+      case "geoJSONlayers": this.emitEvent("geoJSONlayers", e.data.layers,e.data.domId); break;     
+      case "info": this.emitEvent("info", e.data,e.data.domId); break;    
+      case "error": this.emitEvent("error", e.data,e.data.domId); break;  
+      case "coordinates": this.emitEvent("coordinates", e.data,e.data.domId); break;  
+      case "activeLayer": this.emitEvent("activeLayer", e.data,e.data.domId); break;  
+      case "geolocation": this.emitEvent("geolocation", e.data,e.data.domId); break; 
+      case "WMSInfoAvailable": this.emitEvent("WMSInfoAvailable", e.data,e.data.domId); break;  
+      case "giswaterTiledBackgroundDisplayed": this.emitEvent("giswaterTiledBackgroundDisplayed", e.data,e.data.domId); break; 
+      case "giswaterTiledBackgroundAvailable": this.emitEvent("giswaterTiledBackgroundAvailable", e.data,e.data.domId); break;  
+      case "GiswaterLayerAvailableFilters": this.emitEvent("GiswaterLayerAvailableFilters", e.data,e.data.domId); break;  
+      case "loaded": this.emitEvent("loaded", e.data,e.data.domId); break;  
+      case "availableWMSLayers":    this.emitEvent("availableWMSLayers", e.data.layers,e.data.domId); break;       
+    }
+    
+  }
+
+  emitEvent = (type,data,domId)=>{
+    if(domId===this.domId){
+      delete data.domId;
+      this.emit(type, data); 
     }
   }
 
   ZoomIn = () => {
-    sendMessageToMap({
+    this.com.sendMessageToMap({
       type: "zoomIn",
       sessionToken: this.sessionToken,
-    });   
+    }); 
+
   }
   
   ZoomOut = () => {
-    sendMessageToMap({
+    this.com.sendMessageToMap({
       type: "zoomOut",
       sessionToken: this.sessionToken,
     });   
   }
 
   AddGeom = (geomtype) => {
-    sendMessageToMap({
+    this.com.sendMessageToMap({
       type: "AddGeom",
       geom: geomtype,
       sessionToken: this.sessionToken,
@@ -58,7 +68,7 @@ class Communicator extends EventEmitter {
   }
 
   toggleLayer = (layer) => {
-    sendMessageToMap({
+    this.com.sendMessageToMap({
       type: "toggleLayer",
       layer: layer,
       sessionToken: this.sessionToken,
@@ -66,7 +76,7 @@ class Communicator extends EventEmitter {
   }
 
   setActiveLayer = (layer) => {
-    sendMessageToMap({
+    this.com.sendMessageToMap({
       type: "setActiveLayer",
       layer: layer,
       sessionToken: this.sessionToken,
@@ -74,28 +84,28 @@ class Communicator extends EventEmitter {
   }
 
   getActiveLayer = () => {
-    sendMessageToMap({
+    this.com.sendMessageToMap({
       type: "getActiveLayer",
       sessionToken: this.sessionToken,
     });   
   }
 
   loadWMSAvailableLayers = () => {
-    sendMessageToMap({
+    this.com.sendMessageToMap({
       type: "loadWMSAvailableLayers",
       sessionToken: this.sessionToken,
     });   
   }
 
   clear = () => {
-    sendMessageToMap({
+    this.com.sendMessageToMap({
       type: "clear",
       sessionToken: this.sessionToken,
     });   
   }
 
   Highlight = (options) => {
-    sendMessageToMap({
+    this.com.sendMessageToMap({
       type: "highlight",
       geom: options.geom,
       zoom: options.zoom,
@@ -104,7 +114,7 @@ class Communicator extends EventEmitter {
   }
 
   zoomToExtent = () => {
-    sendMessageToMap({
+    this.com.sendMessageToMap({
       type: "zoomToExtent",
       sessionToken: this.sessionToken,
     });   
@@ -112,7 +122,7 @@ class Communicator extends EventEmitter {
 
   zoomToCoordinates= (lat,lon,zoomLevel) => {
     if(!isNaN(parseInt(zoomLevel))){
-      sendMessageToMap({
+      this.com.sendMessageToMap({
         type: "zoomToCoordinates",
         sessionToken: this.sessionToken,
         coordinates:[lat,lon],
@@ -123,7 +133,7 @@ class Communicator extends EventEmitter {
 
   infoFromCoordinates = (type,layer,hitTolerance) => {
     const _layer = (typeof layer=='undefined') ? null : layer
-    sendMessageToMap({
+    this.com.sendMessageToMap({
       type: "infoFromCoordinates",
       info: type,
       layer: _layer,
@@ -133,7 +143,7 @@ class Communicator extends EventEmitter {
   }
 
   Geolocalize = (toggle) => {
-    sendMessageToMap({
+    this.com.sendMessageToMap({
       type: "Geolocalize",
       toggle: toggle,
       sessionToken: this.sessionToken,
@@ -141,7 +151,7 @@ class Communicator extends EventEmitter {
   }
 
   toggleGiswaterTiled = (toggle) => {
-    sendMessageToMap({
+    this.com.sendMessageToMap({
       type: "toggleGiswaterTiled",
       toggle: toggle,
       sessionToken: this.sessionToken,
@@ -149,7 +159,7 @@ class Communicator extends EventEmitter {
   }
 
   reloadDisplayedLayers = ()=>{
-    return sendMessageToMap({
+    return this.com.sendMessageToMap({
       type: "reloadDisplayedLayers",
       sessionToken: this.sessionToken,
     });  
@@ -157,7 +167,7 @@ class Communicator extends EventEmitter {
 
   addGeoJSON = (geoJSON,options, name)=>{
     if(geoJSON){
-      return sendMessageToMap({
+      return this.com.sendMessageToMap({
         type: "addGeoJSON",
         geoJSON: geoJSON,
         options: (typeof options!='undefined') ? options : {fillcolor:null,strokecolor:null},
@@ -171,7 +181,7 @@ class Communicator extends EventEmitter {
   }
 
  clearGeoJSON = ()=>{
-    return sendMessageToMap({
+    return this.com.sendMessageToMap({
       type: "clearGeoJSON",
       sessionToken: this.sessionToken,
     });  
@@ -179,7 +189,7 @@ class Communicator extends EventEmitter {
 
  removeGeoJSONLayer = (name)=>{
     if(name){
-      return sendMessageToMap({
+      return this.com.sendMessageToMap({
         type: "removeGeoJSONLayer",
         name: name,
         sessionToken: this.sessionToken,
@@ -205,7 +215,7 @@ class Communicator extends EventEmitter {
         }
       }
  
-      return sendMessageToMap({
+      return this.com.sendMessageToMap({
         type: "setGiswaterFilters",
         filters: filtersJson,
         sessionToken: this.sessionToken,
@@ -218,7 +228,7 @@ class Communicator extends EventEmitter {
 
   getGiswaterLayerAvailableFilters = (layer_name)=>{
     if(layer_name){
-     return sendMessageToMap({
+     return this.com.sendMessageToMap({
         type: "getGiswaterLayerAvailableFilters",
         name: layer_name,
         sessionToken: this.sessionToken,
@@ -231,14 +241,16 @@ class Communicator extends EventEmitter {
 
   setDebug = (what) =>{
     if(!isNaN(parseInt(what))){
-      return sendMessageToMap({
+      return this.com.sendMessageToMap({
         type: "setDebug",
         what: what,
         sessionToken: this.sessionToken,
       });
+    }else{
+      console.error("Level is not a integer");
     }
   }
-    
+
 }
 
 export {
