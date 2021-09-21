@@ -240,14 +240,15 @@ class Communicator extends EventEmitter {
   }
 
   setDebug = (what) =>{
+    console.log("setDebug culo",what)
     if(!isNaN(parseInt(what))){
-      return this.com.sendMessageToMap({
+      this.com.sendMessageToMap({
         type: "setDebug",
         what: what,
         sessionToken: this.sessionToken,
       });
     }else{
-      console.error("Level is not a integer");
+      console.error("Debug is not a integer");
     }
   }
 
