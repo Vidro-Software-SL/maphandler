@@ -1,6 +1,6 @@
 # Map Handler
 
-#### Version 1.0.6 - September 2021
+#### Version 1.0.7 - September 2021
 
 Tool to achieve the easiest way of communication with the map iframe.
 
