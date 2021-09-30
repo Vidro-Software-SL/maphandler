@@ -241,13 +241,14 @@ Zooms to given coordinates
 
 > Params
 
-- coordinates `<array>` - lat, long
+- lat (x) `<integer>` 
+- long (y) `<integer>`
 - zoomLevel `<integer>` - zoom level 
 
 > E.G.
 
 ```
-zoomToCoordinates([419006.12985785044, 4576698.8136144625],18);
+zoomToCoordinates(419006.12985785044, 4576698.8136144625,18);
 
 ```
 
