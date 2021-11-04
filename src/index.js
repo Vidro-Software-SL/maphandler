@@ -240,7 +240,6 @@ class Communicator extends EventEmitter {
   }
 
   setDebug = (what) =>{
-    console.log("setDebug culo",what)
     if(!isNaN(parseInt(what))){
       this.com.sendMessageToMap({
         type: "setDebug",
