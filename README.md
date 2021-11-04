@@ -398,8 +398,10 @@ Params
 
 let options = {
 	'geom': 'MULTILINESTRING((418596.62555076234 4577083.383681167,419026.2319996517 4577216.795306675))',
-	'type':'level',
-	'zoomLevel':6
+	'zoom':{
+		'type':'level',
+		'zoomLevel':6
+	}
 }
 
 Highlight(options);
@@ -408,7 +410,9 @@ Highlight(options);
 
 let options = {
 	'geom': 'MULTILINESTRING((418596.62555076234 4577083.383681167,419026.2319996517 4577216.795306675))',
-	'type':'element'
+	'zoom':{
+		'type':'element'
+	}
 }
 
 Highlight(options);
