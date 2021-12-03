@@ -149,6 +149,10 @@ Notifies an array of displayed GeoJSON layers
 
 Notifies wich layer is marked as active
 
+##### WMSInfoAvailable
+
+Notifies when WMS is available for this map
+
 ##### availableWMSLayers
 
 List of available layers from WMS server
