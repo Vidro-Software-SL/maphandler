@@ -1,12 +1,14 @@
 # Map Handler
 
-#### Version 1.0.7 - September 2021
+#### Version 1.0.8 - January 2022
 
 Tool to achieve the easiest way of communication with the map iframe.
 
 - [Installation](#Installation)
 - [Events](#Events)
 - [Methods](#Methods)
+
+Some of the multiple use case flows are documented in [flows.md](flows.md)
 
 ## TL;DR
 
@@ -287,11 +289,31 @@ Shows/hides a layer
 > Params
 
 - layerName `<string>` - layer name
+- properties `<object>` - _optional_ layer properties 
+	- gutter `<integer>` - The size in pixels of the gutter around image tiles to ignore, only applies for multitile layer
+	- singletile `<boolean>` - SingleTile Layer
+	- transparent `<boolean>` - Transparent Layer
+
+By default, layer properties will be:
+
+`gutter: 0`
+
+`singletile: false` - will render a multitile layer
+
+`transparent: true` 
 
 > E.G.
 
+With no properties
+
 ```
 toggleLayer('somelayer_name');
+```
+
+With properties
+
+```
+toggleLayer('somelayer_name', {gutter: 10, transparent: false, singletile: false);
 ```
 
 ##### setActiveLayer()
@@ -519,6 +541,43 @@ getGiswaterLayerAvailableFilters(layername);
 getGiswaterLayerAvailableFilters("Arc");
 ```
 
+##### setCustomColors
+
+Sets colors and stroke width for added & highlight geometries.
+
+Properties:
+
+- `geom_stroke_color` - stroke color in RGB format
+- `geom_fill_color` - fill color in RGB format
+- `geom_stroke_width` - stroke width in pixels, default 1.
+- `geom_shape` - shape por point, `circle`(default) or `square`
+- `radius` - point radius or square side in pixels. Default 4.
+
+```
+setCustomColors({geom_stroke_color, geom_fill_color, geom_stroke_width,geom_shape});
+```
+
+> E.G.
+
+```
+setCustomColors({
+		geom_stroke_color: 'rgb(19, 39, 99,0.5)',
+		geom_fill_color: 'rgb(19, 39, 99,0.5)',
+    	geom_stroke_width: 1,
+    	geom_shape: 'circle',
+    	radius: 2
+    	});
+```
+
+On Bmaps projects, default values are taken from Backoffice:
+
+```
+geom_stroke_color -> Bmaps: geom_select_stroke_color
+geom_fill_color -> Bmaps: geom_select_fill_color
+```
+
+
+
 ### Multiple iframes
 
 Is possible to use multiple iframe on a single page, follow this steps.
@@ -601,7 +660,6 @@ Multiple iframes integration
 
 [https://www.vidrosoftware.com/examples/multipleiframes/]()
 
-
 ### Known issues
 
 - **Custom logo is not displayed**
@@ -615,3 +673,15 @@ Header set Access-Control-Allow-Origin "*"
 Header add Cross-Origin-Resource-Policy: "cross-origin"
 Header add Cross-Origin-Embedder-Policy: "require-corp"
 ```
+
+- **QGIS Broken symbology**
+
+QGIS multi tile layers could show broken symbology:
+
+![](doc/multiTileNoGutter.png)
+
+This can be solved using `singletile: true` or adding `gutter: value in pixels` if is a multitiule layer, on toggleLayer method.
+
+Is if is a Giswwater project, you can set this options (`Render mode` and `Gutter`) on Bmaps backoffice.
+
+![](doc/multiTile.png)

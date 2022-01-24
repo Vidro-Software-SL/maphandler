@@ -19,7 +19,7 @@ var btLoadMap = document.querySelector("#btLoadMap");
 var btLoadProjectLayers = document.querySelector("#btLoadProjectLayers");
 var projectlayers = document.getElementById("projectlayers");
 var userData = document.querySelector("#userData");
-
+var btAddGeoJSONFromGiswater = document.querySelector("#btAddGeoJSONFromGiswater");
 
 var btLogin = document.querySelector("#btLogin");
 
@@ -272,6 +272,7 @@ btLoadProjectLayers.addEventListener("click", function (evt) {
   oReq.send();
   console.log("Attempt to load project layers", uri);
 });
+
 function layersListener() {
   if (this.status === 200) {
     console.log("layersListener response", this.responseText);
@@ -302,4 +303,45 @@ function layersListener() {
 function fillLayersSelect(options){
   //empty previous options
 
+}
+
+
+if(btAddGeoJSONFromGiswater){
+  btAddGeoJSONFromGiswater.addEventListener("click", function(){
+    let lay = document.getElementById('currentActiveLayerForGeoJSON').innerHTML.trim();
+    console.log(`Requesting Giswater GeoJSON for layer ${lay}`)
+    if(lay && lay!==''){
+      apiUrl = document.querySelector("#apiurl").value;
+      //Build XMLHttpRequest 
+      var selectedProjectId =
+      projects_select.options[projects_select.selectedIndex].value;
+      var uri = `${apiUrl}giswater/geojson/${selectedProjectId}/${lay}`;
+      var oReq = new XMLHttpRequest();
+      oReq.addEventListener("load", GeoJSONListener);
+      oReq.open("GET", uri, true);
+      oReq.setRequestHeader('Authorization',`Bearer ${usertoken.value}`);
+      oReq.setRequestHeader("Content-type", "application/json");
+      oReq.send();
+    }
+  });
+}
+
+function GeoJSONListener(){
+  if (this.status === 200) {
+    try{
+      var res = JSON.parse(this.responseText);
+      console.log("GeoJSONListener response", res.message);
+      if(document.getElementById('geojsondata')){
+        document.getElementById('geojsondata').value = JSON.stringify(res.message);
+        var btAddGeoJSON = document.querySelector("#btAddGeoJSON");
+        if(btAddGeoJSON){
+          btAddGeoJSON.click();
+        }
+      }
+    }catch(e){
+        console.error("Invalid API response")
+    }  
+  } else {
+    console.error(this.status);
+  }
 }

@@ -67,10 +67,44 @@ class Communicator extends EventEmitter {
     });   
   }
 
-  toggleLayer = (layer) => {
+  toggleLayer = (layer,properties) => {
+    if(typeof properties==='undefined'){
+      properties = {
+        gutter: null,
+        transparent: null,
+        singletile: null
+      };
+    }
+
+    if(properties.singletile!==null){
+      if(typeof properties.singletile!=='boolean'){
+        properties.singletile = null;
+        this.emit("error",{error:"singleTile must be a Boolean"});
+      }
+    } 
+    if(properties.gutter!=='' && properties.gutter!==null){
+      if(isNaN(parseInt(properties.gutter))){
+        properties.gutter = null;
+        this.emit("error",{error:"Gutter must be a number"});
+      }
+      if(properties.singletile){
+        properties.gutter = null;
+        this.emit("error",{error:"Gutter can only be user with multitile layers; set singletile to false"});
+      }
+    } 
+
+    if(properties.transparent!==null){
+       if(typeof properties.transparent!=='boolean'){
+        properties.transparent = null;
+        this.emit("error",{error:"transparent must be a Boolean"});
+      }
+    } 
     this.com.sendMessageToMap({
       type: "toggleLayer",
       layer: layer,
+      gutter: !isNaN(parseInt(properties.gutter)) ? parseInt(properties.gutter) : null,
+      transparent: properties.transparent,
+      singletile: properties.singletile,
       sessionToken: this.sessionToken,
     });   
   }
@@ -249,6 +283,46 @@ class Communicator extends EventEmitter {
     }else{
       console.error("Debug is not a integer");
     }
+  }
+
+  setCustomColors = (properties)=>{
+    //validate data
+    if(typeof properties!=='object'){
+      console.error("properties is not an object");
+      return;
+    }
+    if(properties.hasOwnProperty('geom_stroke_width')){
+      if(isNaN(parseInt(properties.geom_stroke_width))){
+        console.error("geom_stroke_width is not an number");
+        return;
+      }else{
+        properties.geom_stroke_width = parseInt(properties.geom_stroke_width);
+      }
+    }else{
+      properties.geom_stroke_width = 1;
+    }
+    if(properties.hasOwnProperty('geom_radius')){
+      if(isNaN(parseInt(properties.geom_radius))){
+        console.error("geom_stroke_width is not an number");
+        return;
+      }else{
+        properties.geom_radius = parseInt(properties.geom_radius);
+      }
+    }else{
+      properties.geom_radius = 4;
+    }
+
+    if(properties.hasOwnProperty('geom_shape')){
+      if(properties.geom_shape!=="circle" && properties.geom_shape!=="square"){
+        properties.geom_shape = 'circle';
+        console.error("geom_shape must be either 'circle' or 'square'");
+      }
+    }
+    this.com.sendMessageToMap({
+        type: "setCustomColors",
+        properties: properties,
+        sessionToken: this.sessionToken,
+    });
   }
 
 }

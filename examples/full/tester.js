@@ -36,6 +36,21 @@ var btsetGiswaterFilters = document.querySelector("#btsetGiswaterFilters");
 var btgetGiswaterFilters = document.querySelector("#btgetGiswaterFilters");
 var btLoadWMSLayers = document.querySelector("#btLoadWMSLayers");
 var btDebug = document.querySelector("#btDebug");
+var btAddGeoJSONFromGiswater = document.querySelector("#btAddGeoJSONFromGiswater");
+//override layer properties
+var overrideLayerProperties = document.querySelector("#overrideLayerProperties");
+var gutter = document.querySelector("#gutter");
+var toggleTransparentLayer = document.querySelector("#toggleTransparentLayer");
+var toggleSingleTile = document.querySelector("#toggleSingleTile");
+var containerOverride = document.querySelector("#containerOverride");
+//custom colores
+var geom_stroke_color = document.querySelector("#geom_stroke_color");
+var geom_stroke_width = document.querySelector("#geom_stroke_width");
+var geom_fill_color = document.querySelector("#geom_fill_color");
+var geom_shape = document.querySelector("#geom_shape");
+var geom_radius = document.querySelector("#geom_radius");
+		
+var btSetColors = document.querySelector("#btSetColors");
 
 var geoJSONName = null; //geoJSON file name
 var geoJSONContent = null; // geojson file content
@@ -247,11 +262,72 @@ if(btStopGeolocalize){
 	  communicator.Geolocalize(false);
 	});
 }
+//**********************************************************
+//**************            LAYERS          ****************
+//**********************************************************
 if(btToggleLayer){
 	btToggleLayer.addEventListener("click", function(){
+
+		if(overrideLayerProperties){
+			if(overrideLayerProperties.checked){
+				var properties = {};
+				if(toggleTransparentLayer){
+					properties.transparent = toggleTransparentLayer.checked;
+			
+				}
+				if(toggleSingleTile){
+					properties.singletile = toggleSingleTile.checked;
+				}
+				if(gutter) properties.gutter = gutter.value;
+				communicator.toggleLayer(document.getElementById('projectlayers').value,properties);
+				return;
+			}
+			
+		}
+
 	  communicator.toggleLayer(document.getElementById('projectlayers').value);
 	});
 }
+
+
+if(btGetActiveLayer){
+	btGetActiveLayer.addEventListener("click", function(){
+		cleanContainers();
+	 	communicator.getActiveLayer();
+	});
+}
+if(btReloadDisplayedLayers){
+	btReloadDisplayedLayers.addEventListener("click", function(){
+	 	communicator.reloadDisplayedLayers();
+	});
+}
+if(btLoadWMSLayers){
+	btLoadWMSLayers.addEventListener("click", function (evt) {
+		console.log('btLoadWMSLayers')
+		communicator.loadWMSAvailableLayers();
+	});
+}
+
+//Override layer properties
+if(overrideLayerProperties){
+	overrideLayerProperties.addEventListener("click", function(){
+		if(overrideLayerProperties.checked){
+			if(containerOverride) containerOverride.style.display = 'block';
+		}else{
+			if(containerOverride) containerOverride.style.display = 'none';
+		}
+	});
+}
+/*
+overrideLayerProperties
+gutter
+toggleTransparentLayer
+toggleSingleTile
+containerOverride*/
+
+//**********************************************************
+//**************            END LAYERS      ****************
+//**********************************************************
 if(btClear){
 	btClear.addEventListener("click", function(){
 		cleanContainers();
@@ -282,25 +358,10 @@ if(btActiveLayer){
 	 	communicator.setActiveLayer(document.getElementById('layers').value);
 	 	currentActiveLayer = document.getElementById('layers').value;
 	 	document.getElementById('currentActiveLayer').innerHTML = `<b>Active layer</b>: ${currentActiveLayer}`;
-	});
-}
-if(btGetActiveLayer){
-	btGetActiveLayer.addEventListener("click", function(){
-		cleanContainers();
-	 	communicator.getActiveLayer();
-	});
-}
-if(btReloadDisplayedLayers){
-	btReloadDisplayedLayers.addEventListener("click", function(){
-	 	communicator.reloadDisplayedLayers();
-	});
-}
-if(btLoadWMSLayers){
-	btLoadWMSLayers.addEventListener("click", function (evt) {
-
-		console.log('btLoadWMSLayers')
-		communicator.loadWMSAvailableLayers();
-
+	 	if(btAddGeoJSONFromGiswater){
+	 		btAddGeoJSONFromGiswater.disabled = false;
+	 	}
+	 	document.getElementById('currentActiveLayerForGeoJSON').innerHTML = ` ${currentActiveLayer}`;
 	});
 }
 
@@ -420,9 +481,10 @@ if(btGeoJSONInfo){
 if(btRemoveGeoJSONLayer){
 	btRemoveGeoJSONLayer.addEventListener("click", function(){
 		cleanContainers();
-	  	communicator.removeGeoJSONLayer(document.getElementById('geojsonlayers').value);
+	  communicator.removeGeoJSONLayer(document.getElementById('geojsonlayers').value);
 	});
 }
+
 
 function fillGeoJSONLayersSelect(options){
 	var layers_select = document.getElementById("geojsonlayers");
@@ -476,4 +538,44 @@ if(btgetGiswaterFilters){
 
 //**********************************************************
 //**************     END GISWATER FILTERS   ****************
+//**********************************************************
+
+//**********************************************************
+//**************        CUSTOM COLORS       ****************
+//**********************************************************
+
+if(btSetColors){
+
+	btSetColors.addEventListener("click", function(){
+		var properties = {
+			geom_stroke_color: 'rgb(19, 39, 99,0.5)',
+			geom_fill_color: 'rgb(19, 39, 99,0.5)',
+    	geom_stroke_width: 1,
+    	geom_shape: 'circle',
+    	geom_radius: 4,
+		}
+		if(geom_stroke_color){
+			properties.geom_stroke_color = geom_stroke_color.value;
+		}
+		if(geom_stroke_width){
+			properties.geom_stroke_width = geom_stroke_width.value;
+		}
+		if(geom_fill_color){
+			properties.geom_fill_color = geom_fill_color.value;
+		}
+		if(geom_shape){
+			properties.geom_shape = geom_shape.value;
+		}
+		if(geom_radius){
+			properties.geom_radius = geom_radius.value;
+		}
+		communicator.setCustomColors(properties);
+	});
+}
+
+
+
+
+//**********************************************************
+//**************        CUSTOM COLORS       ****************
 //**********************************************************

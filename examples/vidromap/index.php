@@ -14,7 +14,9 @@
 
       <div id="sessionToken"></div>
       <div>
-        Paste your code here:<br> <textarea name="code" id="code" rows="10" cols="100" placeholder=""></textarea> 
+        Paste your code here:<br> <textarea name="code" id="code" rows="10" cols="100" placeholder=""></iframe>
+       
+       </textarea> 
       </div>
         <div>
         Debug
@@ -38,6 +40,17 @@
       <hr />
       <pre id="Result_container"></pre>
       <hr/>
+      <h2>Custom colors</h2>
+       Geom fill color: <input type="text" name="geom_fill_color" id="geom_fill_color" size="12" value="rgba(252,0,0,0.37)"><br><br>
+       Geom stroke color: <input type="text" name="geom_stroke_color" id="geom_stroke_color" size="12" value="rgba(252,0,0,0.37)"><br><br>
+       Geom stroke width: <input type="text" name="geom_stroke_width" id="geom_stroke_width" size="4" value="1"><br><br>
+       Geom shape for points - circle/square: <select id="geom_shape">
+          <option id="circle" selected value="circle">Circle</option>
+          <option id="square" value="square">Square</option>
+        </select><br><br>
+        Point radius: <input type="text" name="geom_radius" id="geom_radius" size="4" value="4"><br><br>
+      <button id="btSetColors">Set colors</button> <br><br>
+
       <h2>Zoom</h2>
       <button id="btZoomIn">Zoom In</button>
       <button id="btZoomOut">Zoom Out</button>
@@ -69,14 +82,16 @@
      <br>
      Highlight to zoom level: <input type="text" name="zoomLevel" id="zoomLevel" size="5" value=""> or Zoom to geometry: <input type="checkbox" name="zoomToHighlightCheck" id="zoomToHighlightCheck" size="5" value=""> 
       <h2>GeoJSON</h2>
-      
       <input type="file" id="geojsonfile" name="geojsonfile" accept="application/json"><small> Select geoJSON file</small><br><br>
       <small>Or paste geoJSON content</small><br><br>
       <textarea name="geojsondata" id="geojsondata" rows="10" cols="80" placeholder=""></textarea> <br><br>
+
+
    <button id="btAddGeoJSON">Add GeoJSON </button><br><br>
+
     </div>
     
-    <script src="https://unpkg.com/@vidro/map-handler@1.0.7/dist/map-handler.js"></script>
+    <script src="https://unpkg.com/@vidro/map-handler@1.0.8/dist/map-handler.js"></script>
     <script src="../full/tester.js"></script>
     <script src="./index.js"></script>
   </body>

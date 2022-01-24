@@ -13,8 +13,8 @@ var btLoadIframe = document.querySelector("#btLoadIframe");
 
 if(btLoadIframe){
 	btLoadIframe.addEventListener("click", function (evt) {
-		if(code.value!=""){
-			iframesContainer.innerHTML = code.value;
+		if(codeContent.value!=""){
+			iframesContainer.innerHTML = codeContent.value;
 		}
 	});
 }
