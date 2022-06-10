@@ -51,6 +51,7 @@ var geom_shape = document.querySelector("#geom_shape");
 var geom_radius = document.querySelector("#geom_radius");
 		
 var btSetColors = document.querySelector("#btSetColors");
+var btGetElementsFromLayer = document.querySelector("#btGetElementsFromLayer");
 
 var geoJSONName = null; //geoJSON file name
 var geoJSONContent = null; // geojson file content
@@ -140,6 +141,15 @@ communicator.on("info", function(data){
  	}
  	cleanContainers();
  	Result_container.innerText = dataToRender;
+});
+
+//Layer elements list
+communicator.on("layerElements", function(data){
+ 	console.log("layerElements received",data);
+ 	var dataToRender = data.data;
+ 	//depending on requested format, data.data can be an string (xml) or a JSON
+ 	cleanContainers();
+ 	Result_container.innerText = (typeof dataToRender==="object")? JSON.stringify(dataToRender): dataToRender;
 });
 
 //giswater tiled background
@@ -573,9 +583,24 @@ if(btSetColors){
 	});
 }
 
-
-
-
 //**********************************************************
 //**************        CUSTOM COLORS       ****************
 //**********************************************************
+
+//**********************************************************
+//**************          WMS TABLE         ****************
+//**********************************************************
+if(btGetElementsFromLayer){
+
+	btGetElementsFromLayer.addEventListener("click", function(){
+		let limit = document.getElementById('limit') ? document.getElementById('limit').value : 100;
+		let format = document.getElementById('format') ? document.getElementById('format').value : 'xml';
+		communicator.getElementsFromLayer(document.getElementById('layers').value,limit,format);
+	});
+}
+//**********************************************************
+//**************        END WMS TABLE       ****************
+//**********************************************************
+
+
+

@@ -33,6 +33,7 @@ class Communicator extends EventEmitter {
       case "GiswaterLayerAvailableFilters": this.emitEvent("GiswaterLayerAvailableFilters", e.data,e.data.domId); break;  
       case "loaded": this.emitEvent("loaded", e.data,e.data.domId); break;  
       case "availableWMSLayers":    this.emitEvent("availableWMSLayers", e.data.layers,e.data.domId); break;       
+      case "layerElements": this.emitEvent("layerElements", e.data,e.data.domId); break;  
     }
     
   }
@@ -172,6 +173,26 @@ class Communicator extends EventEmitter {
       info: type,
       layer: _layer,
       hitTolerance: (typeof hitTolerance!='undefined') ? parseInt(hitTolerance) : 5,
+      sessionToken: this.sessionToken,
+    });   
+  }
+
+  getElementsFromLayer= (layer,limit,format) => {
+    const _format = (typeof format=='undefined') ? 'xml' : format.toLowerCase();
+    if(_format!=="xml" && _format!=='json'){
+      console.error("Format must be 'xml' or 'json");
+      return;
+    }
+    if(isNaN(limit)){
+       console.error("Limit must be a number");
+      return;
+    }
+    const _layer = (typeof layer=='undefined') ? null : layer
+    this.com.sendMessageToMap({
+      type: "getElementsFromLayer",
+      layer: _layer,
+      limit: (typeof limit!='undefined') ? parseInt(limit) : 100,
+      format: format,
       sessionToken: this.sessionToken,
     });   
   }

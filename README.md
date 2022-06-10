@@ -1,6 +1,6 @@
 # Map Handler
 
-#### Version 1.0.8 - January 2022
+#### Version 1.0.9 - June 2022
 
 Tool to achieve the easiest way of communication with the map iframe.
 
@@ -188,6 +188,14 @@ Notifies info results. There're 2 availables infos `wms` and `giswater`
 {type: "info", infoType: "giswater", data: {…}}
 ```
 
+##### layerElements
+
+Receives a list of elements from a `getElementsFromLayer request
+
+```
+{type: "layerElements", data: {xml or json}}
+```
+
 ##### geolocation
 
 Notifies user position, coordinates (x,y)
@@ -347,6 +355,25 @@ loadWMSAvailableLayers();
 ```
 
 An `availableWMSLayers ` event will be received after calling the method.
+
+
+
+##### getElementsFromLayer
+
+Gets a list of elements from a layer, based on a WMS request
+
+```
+getElementsFromLayer(layer,limit,format) 
+```
+
+> Params
+
+- layer `<string>` - layer name
+- limit `<integer>` - limit output number of elements (default 100)
+- format `<string>` - output format
+	- `xml` - default
+  	- `json` 
+
 
 ##### infoFromCoordinates
 

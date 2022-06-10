@@ -18,6 +18,14 @@
        
        </textarea> 
       </div>
+      <div>
+          <button id="btGetElementsFromLayer">List Elements from layer</button>
+          <select id="format">
+          <option id="xml" selected value="xml">XML</option>
+          <option id="json" value="json">JSON</option>
+        </select> <small>Output format</small> Limit:
+        <input type="limit" name="limit" id="limit" size="4" value="2"><br><br>
+        </div>
         <div>
         Debug
         <button id="btDebug">Debug</button>  
@@ -87,11 +95,12 @@
       <textarea name="geojsondata" id="geojsondata" rows="10" cols="80" placeholder=""></textarea> <br><br>
 
 
-   <button id="btAddGeoJSON">Add GeoJSON </button><br><br>
+    <button id="btAddGeoJSON">Add GeoJSON </button><br><br>
+
 
     </div>
     
-    <script src="https://unpkg.com/@vidro/map-handler@1.0.8/dist/map-handler.js"></script>
+   <script src="https://unpkg.com/@vidro/map-handler@1.0.10/dist/map-handler.js"></script>
     <script src="../full/tester.js"></script>
     <script src="./index.js"></script>
   </body>
