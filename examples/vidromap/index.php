@@ -14,8 +14,7 @@
 
       <div id="sessionToken"></div>
       <div>
-        Paste your code here:<br> <textarea name="code" id="code" rows="10" cols="100" placeholder=""></iframe>
-       
+        Paste your code here:<br> <textarea name="code" id="code" rows="10" cols="100" placeholder="">
        </textarea> 
       </div>
       <div>
@@ -73,6 +72,11 @@
       <button id="btClear">Clear geometries</button>
       <h2>Info</h2>
       <button id="btWMSInfo" disabled="true">WMS Info</button>
+      <select id="formatWMS">
+        <option id="xml" selected value="xml">XML</option>
+        <option id="json" value="json">JSON</option>
+      </select> <small>Output format</small>
+       <br>
       <h2>Layers</h2>
       Project Layers:  <select id="projectlayers"></select> - <small>click on "Load Project Layers button</small>  <button id="btToggleLayer">Add / Remove Layer</button><br><br>
       Displayed Layers: <select id="layers"></select> - 
@@ -100,7 +104,7 @@
 
     </div>
     
-   <script src="https://unpkg.com/@vidro/map-handler@1.0.10/dist/map-handler.js"></script>
+   <script src="https://unpkg.com/@vidro/map-handler@1.0.11/dist/map-handler.js"></script>
     <script src="../full/tester.js"></script>
     <script src="./index.js"></script>
   </body>

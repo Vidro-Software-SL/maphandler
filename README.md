@@ -1,6 +1,6 @@
 # Map Handler
 
-#### Version 1.0.10 - June 2022
+#### Version 1.0.11 - June 2022
 
 Tool to achieve the easiest way of communication with the map iframe.
 
@@ -392,6 +392,9 @@ If you don't specify a layer, will use the layer setted as `Active layer`
 
 - layer `<string>` _optional_ layer name to do info. If null, will use current active layer.
 - hitTolerance `<integer>` _optional_ for geoJSON Info, pixels inside the radius around the given will be checked for features. Default `5`.
+- format `<string>` _optional_ - output format for WMS requests
+	- `xml` - default
+  	- `json` 
 
 > E.G.
 
@@ -400,6 +403,7 @@ infoFromCoordinates('wms'); //will use active layer
 
 infoFromCoordinates('giswater');
 infoFromCoordinates('giswater','Arc');
+infoFromCoordinates('wms','Arc',null,'json); //will use active layer and json output
 ```
 
 An `info` event will be received after calling the method.

@@ -353,7 +353,7 @@ if(btZoomToExtent){
 if(btWMSInfo){
 	btWMSInfo.addEventListener("click", function(){
 		cleanContainers();
-	  	communicator.infoFromCoordinates('wms',document.getElementById('layers').value);
+	  	communicator.infoFromCoordinates('wms',document.getElementById('layers').value,5,document.getElementById('formatWMS').value);
 	});
 }
 if(btGiswaterInfo){

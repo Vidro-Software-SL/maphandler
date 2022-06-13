@@ -166,13 +166,24 @@ class Communicator extends EventEmitter {
     }
   }
 
-  infoFromCoordinates = (type,layer,hitTolerance) => {
+  infoFromCoordinates = (type,layer,hitTolerance,format) => {
     const _layer = (typeof layer=='undefined') ? null : layer
+    const _hitTolerance = (typeof hitTolerance=='undefined' || !hitTolerance) ? 5 : parseInt(hitTolerance)
+    const _format = (typeof format=='undefined') ? 'xml' : format.toLowerCase();
+    if(_format!=="xml" && _format!=='json'){
+      console.error("Format must be 'xml' or 'json");
+      return;
+    }
+    if(isNaN(_hitTolerance)){
+      console.error("hitTolerance must be a number");
+      return;
+    }
     this.com.sendMessageToMap({
       type: "infoFromCoordinates",
       info: type,
       layer: _layer,
-      hitTolerance: (typeof hitTolerance!='undefined') ? parseInt(hitTolerance) : 5,
+      format: _format,
+      hitTolerance: _hitTolerance,
       sessionToken: this.sessionToken,
     });   
   }
