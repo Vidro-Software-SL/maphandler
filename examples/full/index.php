@@ -64,7 +64,7 @@
       <hr>
       <h5>Development parameters</h5>
       <div>
-       Override iframe url: <input type="text" name="overrideHost" id="overrideHost" size="35" value="" placeholder="http://localhost:3000"> <small>Override map component url</small>
+       Override iframe url: <input type="text" name="overrideHost" id="overrideHost" size="35" value="http://localhost:3000" placeholder="http://localhost:3000"> <small>Override map component url</small>
       </div>
       <div>
         Debug
@@ -91,12 +91,15 @@
       <pre id="Result_container"></pre>
       <hr/>
        <h2>Layers</h2>
+
       Project Layers:  <select id="projectlayers"></select> - <small>click on "Load Project Layers button</small>  <button id="btToggleLayer">Add / Remove Layer</button><br><br>
       Displayed Layers: <select id="layers"></select> - 
       <button id="btActiveLayer">Set Active Layer</button>
       <button id="btGetActiveLayer">Get Active Layer</button>
       <span id="currentActiveLayer"></span>
       <button id="btReloadDisplayedLayers">Reload displayed layers</button>
+      <br><br>
+      Get TOC:  <button id="btGetToc">Get TOC</button>
       <br><br>
        Override layer properties (gutter, single/multi tile, transparent)
 <input type="checkbox" name="overrideLayerProperties" id="overrideLayerProperties" value="">
@@ -107,6 +110,7 @@
     <input type="checkbox" name="toggleTransparentLayer" id="toggleTransparentLayer" checked value=""><br><br>
           SingleTile layer: 
     <input type="checkbox" name="toggleSingleTile" id="toggleSingleTile" checked value=""><br>
+   <br>
     ____________________________________________________
     </div>
 
@@ -157,7 +161,7 @@
       Selected GeoJSON Layer: <select id="geojsonlayers"></select> -   <button id="btGeoJSONInfo" disabled="true">GeoJSON Info</button> <button id="btRemoveGeoJSONLayer" disabled="true">Remove GeoJSON Layer</button><br><br>
  
      
-    <script src="https://unpkg.com/@vidro/map-handler@1.0.8/dist/map-handler.js"></script>
+    <script src="https://unpkg.com/@vidro/map-handler@1.0.12/dist/map-handler.js"></script>
     <script src="./tester.js"></script>
     <script src="./apidemo.js"></script>
   </body>

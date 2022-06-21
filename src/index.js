@@ -33,7 +33,8 @@ class Communicator extends EventEmitter {
       case "GiswaterLayerAvailableFilters": this.emitEvent("GiswaterLayerAvailableFilters", e.data,e.data.domId); break;  
       case "loaded": this.emitEvent("loaded", e.data,e.data.domId); break;  
       case "availableWMSLayers":    this.emitEvent("availableWMSLayers", e.data.layers,e.data.domId); break;       
-      case "layerElements": this.emitEvent("layerElements", e.data,e.data.domId); break;  
+      case "layerElements": this.emitEvent("layerElements", e.data,e.data.domId); break; 
+      case "getToc": this.emitEvent("getToc", e.data,e.data.domId); break;  
     }
     
   }
@@ -303,6 +304,13 @@ class Communicator extends EventEmitter {
       this.emit("error",{error:"No layer_name"});
       return;
     }
+  }
+
+  getToc = ()=>{
+    return this.com.sendMessageToMap({
+      type: "getToc",
+      sessionToken: this.sessionToken,
+    });  
   }
 
   setDebug = (what) =>{

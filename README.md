@@ -1,6 +1,6 @@
 # Map Handler
 
-#### Version 1.0.11 - June 2022
+#### Version 1.0.12 - June 2022
 
 Tool to achieve the easiest way of communication with the map iframe.
 
@@ -158,6 +158,10 @@ Notifies when WMS is available for this map
 ##### availableWMSLayers
 
 List of available layers from WMS server
+
+##### getToc
+
+Formatted Layers TOC (table of contents)
 
 ##### coordinates
 
@@ -356,7 +360,17 @@ loadWMSAvailableLayers();
 
 An `availableWMSLayers ` event will be received after calling the method.
 
+##### getToc
 
+Gets a formatted Layers TOC (Table of contents)
+
+> E.G.
+
+```
+getToc();
+```
+
+An `getToc ` event will be received after calling the method.
 
 ##### getElementsFromLayer
 

@@ -52,6 +52,8 @@ var geom_radius = document.querySelector("#geom_radius");
 		
 var btSetColors = document.querySelector("#btSetColors");
 var btGetElementsFromLayer = document.querySelector("#btGetElementsFromLayer");
+var btGetToc = document.querySelector("#btGetToc");
+
 
 var geoJSONName = null; //geoJSON file name
 var geoJSONContent = null; // geojson file content
@@ -92,6 +94,12 @@ communicator.on("layers", function(data){
  	console.log("layers received",data);
  	fillDisplayedLayersSelect(data);
 });
+
+communicator.on("getToc", function(data){
+ 	console.log("getToc received",data);
+});
+
+
 
 communicator.on("geoJSONlayers", function(data){
  	console.log("geoJSONlayers received",data);
@@ -328,6 +336,14 @@ if(overrideLayerProperties){
 		}
 	});
 }
+
+if(btGetToc){
+	btGetToc.addEventListener("click", function (evt) {
+		console.log('btGetToc')
+		communicator.getToc();
+	});
+}
+
 /*
 overrideLayerProperties
 gutter
