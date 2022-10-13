@@ -417,7 +417,7 @@ infoFromCoordinates('wms'); //will use active layer
 
 infoFromCoordinates('giswater');
 infoFromCoordinates('giswater','Arc');
-infoFromCoordinates('wms','Arc',null,'json); //will use active layer and json output
+infoFromCoordinates('wms','Arc',null,'json'); //will use active layer and json output
 ```
 
 An `info` event will be received after calling the method.
@@ -596,7 +596,7 @@ Properties:
 - `geom_fill_color` - fill color in RGB format
 - `geom_stroke_width` - stroke width in pixels, default 1.
 - `geom_shape` - shape por point, `circle`(default) or `square`
-- `radius` - point radius or square side in pixels. Default 4.
+- `geom_radius` - point radius or square side in pixels. Default 4.
 
 ```
 setCustomColors({geom_stroke_color, geom_fill_color, geom_stroke_width,geom_shape});
@@ -610,7 +610,7 @@ setCustomColors({
 		geom_fill_color: 'rgb(19, 39, 99,0.5)',
     	geom_stroke_width: 1,
     	geom_shape: 'circle',
-    	radius: 2
+    	geom_radius: 2
     	});
 ```
 
