@@ -1,6 +1,6 @@
 # Map Handler
 
-#### Version 1.0.12 - June 2022
+#### Version 1.0.14 - Dec 2022
 
 Tool to achieve the easiest way of communication with the map iframe.
 
@@ -223,7 +223,7 @@ Giswater's tiled background has two events, one for notify if is available or no
 ```
 {type: "giswaterTiledBackgroundAvailable", available: true/false}
 
-{type: "giswaterTiledBackgroundDisplayed", visible: true/false}
+{type: "giswaterTiledBackgroundDisplayed", visible: true/false, tiled: "tiled id"}
 ```
 
 ##### Giswater layer Available filters
@@ -496,6 +496,7 @@ Only for Giswater's maps. Toggles tiled background (in case tiled background is 
 Params
 
 - toggle `<boolean>` shows/hides tiled background
+- tiled `<string>` tiled background name
 
 > E.G.
 
@@ -620,8 +621,17 @@ On Bmaps projects, default values are taken from Backoffice:
 geom_stroke_color -> Bmaps: geom_select_stroke_color
 geom_fill_color -> Bmaps: geom_select_fill_color
 ```
+##### changeBackground
 
+Change background
 
+Properties:
+
+- `newBackgroud` - background name (OSM, google, CartoDBLight,CartoDBDark)
+
+```
+changeBackground('google');
+```
 
 ### Multiple iframes
 

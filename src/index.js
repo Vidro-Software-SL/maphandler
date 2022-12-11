@@ -34,7 +34,8 @@ class Communicator extends EventEmitter {
       case "loaded": this.emitEvent("loaded", e.data,e.data.domId); break;  
       case "availableWMSLayers":    this.emitEvent("availableWMSLayers", e.data.layers,e.data.domId); break;       
       case "layerElements": this.emitEvent("layerElements", e.data,e.data.domId); break; 
-      case "getToc": this.emitEvent("getToc", e.data,e.data.domId); break;  
+      case "getToc": this.emitEvent("getToc", e.data,e.data.domId); break; 
+      //case "getLegend": this.emitEvent("getLegend", e.data,e.data.domId); break; 
     }
     
   }
@@ -217,10 +218,11 @@ class Communicator extends EventEmitter {
     });   
   }
 
-  toggleGiswaterTiled = (toggle) => {
+  toggleGiswaterTiled = (toggle,tiled) => {
     this.com.sendMessageToMap({
       type: "toggleGiswaterTiled",
       toggle: toggle,
+      tiled: tiled,
       sessionToken: this.sessionToken,
     });   
   }
@@ -363,6 +365,14 @@ class Communicator extends EventEmitter {
         properties: properties,
         sessionToken: this.sessionToken,
     });
+  }
+
+  changeBackground = (newBackground)=>{
+    return this.com.sendMessageToMap({
+      type: "changeBackground",
+      sessionToken: this.sessionToken,
+      newBackground: newBackground
+    });  
   }
 
 }
