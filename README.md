@@ -403,6 +403,7 @@ If you don't specify a layer, will use the layer setted as `Active layer`
   - `wms` - wms info
 
   - `giswater` - giswater info
+  - `geojson`- geojson info
 
 - layer `<string>` _optional_ layer name to do info. If null, will use current active layer.
 - hitTolerance `<integer>` _optional_ for geoJSON Info, pixels inside the radius around the given will be checked for features. Default `5`.
