@@ -32,7 +32,8 @@ class Communicator extends EventEmitter {
       case "giswaterTiledBackgroundAvailable": this.emitEvent("giswaterTiledBackgroundAvailable", e.data,e.data.domId); break;  
       case "GiswaterLayerAvailableFilters": this.emitEvent("GiswaterLayerAvailableFilters", e.data,e.data.domId); break;  
       case "loaded": this.emitEvent("loaded", e.data,e.data.domId); break;  
-      case "availableWMSLayers":    this.emitEvent("availableWMSLayers", e.data.layers,e.data.domId); break;       
+      case "unloaded": this.emitEvent("unloaded", e.data,e.data.domId); break;  
+      case "availableWMSLayers": this.emitEvent("availableWMSLayers", e.data.layers,e.data.domId); break;       
       case "layerElements": this.emitEvent("layerElements", e.data,e.data.domId); break; 
       case "getToc": this.emitEvent("getToc", e.data,e.data.domId); break; 
       //case "getLegend": this.emitEvent("getLegend", e.data,e.data.domId); break; 

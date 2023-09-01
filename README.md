@@ -1,6 +1,6 @@
 # Map Handler
 
-#### Version 1.0.14 - Dec 2022
+#### Version 1.0.15 - Sep 2023
 
 Tool to achieve the easiest way of communication with the map iframe.
 
@@ -42,7 +42,7 @@ Some of the multiple use case flows are documented in [flows.md](flows.md)
 
 ### 0. Pre-requisites
 
-You should have one iframe already created on the DOM with the attributes `name="map-frame" id="map-frame"`. 
+You should have one iframe already created on the DOM with the attributes `name="map-frame" id="map-frame"`.
 
 ### 1. Include the library:
 
@@ -79,9 +79,9 @@ Logs are deactivated by default.
 
 `setDebug(debug)`
 
->E.G.
+> E.G.
 
-``` 
+```
 //activate
 setDebug(1);
 
@@ -96,7 +96,6 @@ setDebug(0);
     communicator.on("onZoomChange", function(data){
       console.log("onZoomChange event",data);
     });
-   
 
 ### Available events
 
@@ -117,6 +116,7 @@ POLYGON((418391.8715694032 4576832.484383419,418721.82301488414 4577299.66760832
 
 MULTILINESTRING((419268.8979576373 4577019.482027252,419146.6929889547 4577457.250226778,418798.40365705814 4577415.776056751))
 ```
+
 ##### loaded
 
 Notifies when map or layers are loaded.
@@ -131,6 +131,21 @@ There're two types of events:
 ```
 {what:'map'}
 ```
+
+> `layer` E.G:
+
+```
+{what:'layer'
+name:'Arc'}
+```
+
+##### unloaded
+
+Notifies when layers are unloaded.
+
+There's one type of events:
+
+- `layer` is dispatched when a layer is loaded
 
 > `layer` E.G:
 
@@ -259,9 +274,9 @@ Zooms to given coordinates
 
 > Params
 
-- lat (x) `<integer>` 
+- lat (x) `<integer>`
 - long (y) `<integer>`
-- zoomLevel `<integer>` - zoom level 
+- zoomLevel `<integer>` - zoom level
 
 > E.G.
 
@@ -301,10 +316,10 @@ Shows/hides a layer
 > Params
 
 - layerName `<string>` - layer name
-- properties `<object>` - _optional_ layer properties 
-	- gutter `<integer>` - The size in pixels of the gutter around image tiles to ignore, only applies for multitile layer
-	- singletile `<boolean>` - SingleTile Layer
-	- transparent `<boolean>` - Transparent Layer
+- properties `<object>` - _optional_ layer properties
+  - gutter `<integer>` - The size in pixels of the gutter around image tiles to ignore, only applies for multitile layer
+  - singletile `<boolean>` - SingleTile Layer
+  - transparent `<boolean>` - Transparent Layer
 
 By default, layer properties will be:
 
@@ -312,7 +327,7 @@ By default, layer properties will be:
 
 `singletile: false` - will render a multitile layer
 
-`transparent: true` 
+`transparent: true`
 
 > E.G.
 
@@ -377,7 +392,7 @@ An `getToc ` event will be received after calling the method.
 Gets a list of elements from a layer, based on a WMS request
 
 ```
-getElementsFromLayer(layer,limit,format) 
+getElementsFromLayer(layer,limit,format)
 ```
 
 > Params
@@ -385,9 +400,8 @@ getElementsFromLayer(layer,limit,format)
 - layer `<string>` - layer name
 - limit `<integer>` - limit output number of elements (default 100)
 - format `<string>` - output format
-	- `xml` - default
-  	- `json` 
-
+  - `xml` - default
+    - `json`
 
 ##### infoFromCoordinates
 
@@ -408,8 +422,8 @@ If you don't specify a layer, will use the layer setted as `Active layer`
 - layer `<string>` _optional_ layer name to do info. If null, will use current active layer.
 - hitTolerance `<integer>` _optional_ for geoJSON Info, pixels inside the radius around the given will be checked for features. Default `5`.
 - format `<string>` _optional_ - output format for WMS requests
-	- `xml` - default
-  	- `json` 
+  - `xml` - default
+    - `json`
 
 > E.G.
 
@@ -622,6 +636,7 @@ On Bmaps projects, default values are taken from Backoffice:
 geom_stroke_color -> Bmaps: geom_select_stroke_color
 geom_fill_color -> Bmaps: geom_select_fill_color
 ```
+
 ##### changeBackground
 
 Change background
@@ -638,7 +653,7 @@ changeBackground('google');
 
 Is possible to use multiple iframe on a single page, follow this steps.
 
-- Set to your `iframe` tags the id & value 
+- Set to your `iframe` tags the id & value
 - Add to each `iframe.src` `&domId=IFRAME_ID`
 - Instantiate each iframe:
 
@@ -720,7 +735,7 @@ Multiple iframes integration
 
 - **Custom logo is not displayed**
 
-Could be CORS issue. Check the headers sent by your server. 
+Could be CORS issue. Check the headers sent by your server.
 
 With Apache can be solved with and `.htaccess` file with this content:
 
