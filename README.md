@@ -1,6 +1,6 @@
 # Map Handler
 
-#### Version 1.0.15 - Sep 2023
+#### Version 1.1.18 - Sep 2023
 
 Tool to achieve the easiest way of communication with the map iframe.
 
@@ -504,9 +504,11 @@ let options = {
 Highlight(options);
 ```
 
-##### toggleGiswaterTiled
+##### toggleTiled
 
-Only for Giswater's maps. Toggles tiled background (in case tiled background is configured)
+Deprecated `toggleGiswaterTiled`
+
+Toggles tiled background (in case tiled background is configured)
 
 Params
 
@@ -516,7 +518,7 @@ Params
 > E.G.
 
 ```
-toggleGiswaterTiled(true);
+toggleTiled(true);
 
 ```
 
@@ -647,6 +649,28 @@ Properties:
 
 ```
 changeBackground('google');
+```
+
+##### initMeasure
+
+Starts measure tools
+
+Properties:
+
+- `type` - measure type `line` or `area`
+- `textStart` - helper text to display when tool starts
+- `textContinue` - helper text to display when tool continues
+
+```
+initMeasure('line','Click for start measuring','Clic for continye measuring`);
+```
+
+##### cancelMeasure
+
+Stop measure tools
+
+```
+cancelMeasure();
 ```
 
 ### Multiple iframes
