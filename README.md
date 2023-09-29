@@ -1,6 +1,6 @@
 # Map Handler
 
-#### Version 1.1.18 - Sep 2023
+#### Version 1.1.197 - Sep 2023
 
 Tool to achieve the easiest way of communication with the map iframe.
 
@@ -125,6 +125,7 @@ There're two types of events:
 
 - `map` is dispatched when map (with background) is loaded.
 - `layer` is dispatched when a layer is loaded
+- `tiled` is dispatched when a tiled is loaded
 
 > `map` E.G:
 
@@ -145,7 +146,8 @@ Notifies when layers are unloaded.
 
 There's one type of events:
 
-- `layer` is dispatched when a layer is loaded
+- `layer` is dispatched when a layer is unloaded
+- `tiled` is dispatched when a tiled is unloaded
 
 > `layer` E.G:
 
@@ -260,6 +262,10 @@ Notifies errors
 {type: "error", error: "No clicked coordinates"}
 ```
 
+##### status
+
+Notifies map status, as tiled loaded, background visible, etc..
+
 ## Methods
 
 ##### ZoomIn()
@@ -284,6 +290,22 @@ Zooms to given coordinates
 zoomToCoordinates(419006.12985785044, 4576698.8136144625,18);
 
 ```
+##### CenterMap(lat,long)
+
+center map to given coordinates
+
+> Params
+
+- lat (x) `<integer>`
+- long (y) `<integer>`
+
+> E.G.
+
+```
+CenterMap(419006.12985785044, 4576698.8136144625,18);
+
+```
+
 
 ##### AddGeom(string)
 
@@ -522,6 +544,24 @@ toggleTiled(true);
 
 ```
 
+##### toggleSecondaryBackground
+
+
+Toggles secondary background (in case secondary background is configured)
+
+Params
+
+- toggle `<boolean>` shows/hides secondary background
+
+
+> E.G.
+
+```
+toggleSecondaryBackground(true);
+
+```
+
+
 ##### addGeoJSON
 
 Adds geoJSON layer
@@ -574,20 +614,22 @@ Clears geoJSON layers
 clearGeoJSON();
 ```
 
-##### setGiswaterFilters
+##### setFilters
+Deprecated `setGiswaterFilters`
 
-Set Giswater's filters for displayed layers
 
-Filters must be a JSON with valid fields. Available layer filters can be obtained with method `getGiswaterLayerAvailableFilters`
+Set filters for displayed layers
+
+Filters must be a JSON with valid fields. On Giswater/QGIS projects, available layer filters can be obtained with method `getGiswaterLayerAvailableFilters`
 
 ```
-setGiswaterFilters(JSON);
+setFilters(JSON);
 ```
 
 > E.G.
 
 ```
-setGiswaterFilters({"expl_id":[1,2,3]});
+setFilters({"expl_id":[1,2,3]});
 ```
 
 ##### getGiswaterLayerAvailableFilters

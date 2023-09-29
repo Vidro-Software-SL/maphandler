@@ -79,6 +79,9 @@ class Communicator extends EventEmitter {
       case "getToc":
         this.emitEvent("getToc", e.data, e.data.domId);
         break;
+      case "status":
+        this.emitEvent("status", e.data, e.data.domId);
+        break;
       //case "getLegend": this.emitEvent("getLegend", e.data,e.data.domId); break;
     }
   };
@@ -287,6 +290,27 @@ class Communicator extends EventEmitter {
     });
   };
 
+  getTiled = () => {
+    this.com.sendMessageToMap({
+      type: "getTiled",
+      sessionToken: this.sessionToken,
+    });
+  };
+
+  toggleSecondaryBackground = (toggle) => {
+    this.com.sendMessageToMap({
+      type: "toggleSecondaryBackground",
+      toggle: toggle,
+    });
+  };
+
+  getSecondaryBackground = () => {
+    this.com.sendMessageToMap({
+      type: "getSecondaryBackground",
+      sessionToken: this.sessionToken,
+    });
+  };
+
   reloadDisplayedLayers = () => {
     return this.com.sendMessageToMap({
       type: "reloadDisplayedLayers",
@@ -358,6 +382,32 @@ class Communicator extends EventEmitter {
     }
   };
 
+  setFilters = (filters) => {
+    var filtersJson = filters;
+    if (filters) {
+      if (typeof filters != "object") {
+        filters = filters.trim();
+        filters = filters.replace(/^\s+|\s+$/g, "");
+        filters = filters.replace(/\\/g, "");
+        try {
+          filtersJson = JSON.parse(filters);
+        } catch (e) {
+          this.emit("error", { error: "Filters is not a valid JSON" });
+          return;
+        }
+      }
+
+      return this.com.sendMessageToMap({
+        type: "setFilters",
+        filters: filtersJson,
+        sessionToken: this.sessionToken,
+      });
+    } else {
+      this.emit("error", { error: "No filters" });
+      return;
+    }
+  };
+
   getGiswaterLayerAvailableFilters = (layer_name) => {
     if (layer_name) {
       return this.com.sendMessageToMap({
@@ -369,6 +419,13 @@ class Communicator extends EventEmitter {
       this.emit("error", { error: "No layer_name" });
       return;
     }
+  };
+
+  CenterMap = (lat, lon) => {
+    this.com.sendMessageToMap({
+      type: "centerMap",
+      coordinates: [lat, lon],
+    });
   };
 
   getToc = () => {
@@ -438,6 +495,13 @@ class Communicator extends EventEmitter {
       type: "changeBackground",
       sessionToken: this.sessionToken,
       newBackground: newBackground,
+    });
+  };
+
+  getBackground = () => {
+    this.com.sendMessageToMap({
+      type: "getBackground",
+      sessionToken: this.sessionToken,
     });
   };
 
