@@ -1,6 +1,6 @@
 # Map Handler
 
-#### Version 1.1.197 - Sep 2023
+#### Version 1.2.109 - February 2024
 
 Tool to achieve the easiest way of communication with the map iframe.
 
@@ -306,7 +306,6 @@ CenterMap(419006.12985785044, 4576698.8136144625,18);
 
 ```
 
-
 ##### AddGeom(string)
 
 Launches drawing tools with the geometry type
@@ -481,23 +480,31 @@ Geolocalize(false)
 
 ##### Higlight
 
-Highlights a geometry
+Highlights/draws a geometry
 
 Params
 
-- options `<object>` highlight options
+- `geom` (`string`): The geometry string in WKT to highlight.
+- `zoom` (`object`): Zoom options.
+  - `type` (`string`): The type of zoom (`level` or `element`).
+    - `level`: Zoom to a specific zoom level.
+    - `element`: Zoom to the center of the geometry.
+  - `zoomLevel` (`number`, optional): The zoom level (1 to 28). Required if `type` is set to `level`.
+- `center` (`object`): Center options.
+- `data` (`object`): Additional data associated with the highlight.
+  - `feautureId` (`string`): The ID of the feature.
+  - `name` (`string`): The name of the feature.
+- style (`object`): geometry styling options
+	- `fill` (`string`): The fill color for the highlighted geometry.
+	- `stroke` (`string`): The stroke color for the highlighted geometry.
+- `animate` (`boolean`): Indicates whether to animate the highlight.
+	- `duration`: time of the animation in milliseconds
+	- `repeat`: true/false for repeteating animation
 
-  - geom `<string>` - geometry string
+Example of animation
 
-  - zoom `<object>`
+![](doc/animation.png)
 
-    - zoom.type `<string>` - `level | element`
-
-      _level_ will zoom to zoomLevel
-
-      _element_ geometry center
-
-    - zoom.zoomLevel `<integer>` 1 to 28
 
 > E.G.
 
@@ -524,6 +531,61 @@ let options = {
 }
 
 Highlight(options);
+```
+
+##### DrawGeometry
+
+Draws a geometry
+
+Params
+
+- geom `<string>` - geometry string
+- style `<object>`
+	- stroke_color `<string>`
+	- fill_color `<string>`
+	- geom_radius `<integer>`
+	- stroke_width `<integer>`
+	- font_color `<string>`
+	- font `<string>`
+	- placement `<string>`
+	- fontFillColor `<string>`
+   	- fontStrokeColor `<string>`
+	- display `<string>`
+	- fontStrokeWidth `<integer>`
+	- offsetY `<integer>`
+	- baseline `<string>`
+	- align `<string>`
+- name `<string>` feauture name
+- id `<string>` feauture id
+
+> E.G.
+
+```
+//Draw a geometry with yellow stroke
+
+const geom = 'MULTILINESTRING((418596.62555076234 4577083.383681167,419026.2319996517 4577216.795306675))'
+
+const style = {
+		stroke_color: "rgb(233, 244, 75)"
+	}
+}
+
+DrawGeometry(geom,style,'sampleName','mockId');
+
+```
+##### RemoveGeometry 
+
+Removes a geometry
+
+Params
+
+- id `<string>` - rendered geometry unique
+- layer `<string>` - layer name, optional
+
+> E.G.
+
+```
+RemoveGeometry('25', 'somlayer')
 ```
 
 ##### toggleTiled

@@ -196,7 +196,58 @@ class Communicator extends EventEmitter {
       type: "highlight",
       geom: options.geom,
       zoom: options.zoom,
+      metadata: options?.data,
+      center: options?.center !== undefined ? options.center : false,
+      animate: options?.animate,
+      style: options?.style,
       sessionToken: this.sessionToken,
+    });
+  };
+
+  DrawGeometry = (geom, styles, name, id) => {
+    const sty = {
+      stroke_color: styles.stroke_color ? styles.stroke_color : null,
+      fill_color: styles.fill_color ? styles.fill_color : null,
+      point_fill_color: styles.point_fill_color
+        ? styles.point_fill_color
+        : null,
+      geom_radius: styles.geom_radius ? styles.geom_radius : null,
+      stroke_width: styles.stroke_width ? styles.stroke_width : null,
+      //text
+      font_color: styles.font_color ? styles.font_color : null,
+      font: styles.font ? styles.font : null,
+      font_size: styles.font_size ? styles.font_size : null,
+      placement: styles.placement ? styles.placement : null,
+      fontFillColor: styles.fontFillColor ? styles.fontFillColor : null,
+      fontStrokeColor: styles.fontStrokeColor ? styles.fontStrokeColor : null,
+      fontStrokeWidth: styles.fontStrokeWidth ? styles.fontStrokeWidth : null,
+      baseline: styles.baseline ? styles.baseline : null,
+      align: styles.align ? styles.align : null,
+      display: styles.display ? styles.display : null,
+      offsetY: styles.offsetY ? styles.offsetY : null,
+    };
+
+    this.com.sendMessageToMap({
+      type: "drawGeometry",
+      geom: geom,
+      style: sty,
+      name: name ? name : "highlight",
+      id: id ? id : Math.floor(Math.random() * 1000) + 1,
+      sessionToken: this.sessionToken,
+    });
+  };
+
+  RemoveGeometry = (id, layer = null) => {
+    const _id = typeof id == "undefined" ? null : id;
+    if (!_id) {
+      console.error("No element id");
+      this.emit("error", { error: "No element id" });
+      return;
+    }
+    this.com.sendMessageToMap({
+      type: "removeGeometry",
+      layer,
+      id: _id,
     });
   };
 
