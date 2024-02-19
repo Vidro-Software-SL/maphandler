@@ -1,6 +1,6 @@
 # Map Handler
 
-#### Version 1.2.109 - February 2024
+#### Version 1.2.111 - February 2024
 
 Tool to achieve the easiest way of communication with the map iframe.
 
@@ -105,16 +105,15 @@ Notifies zoom level changed
 
 ##### geomAdded
 
-Notifies geometry added to map, as string
+Notifies geometry added to map and featureId
+
+When this tool is used, NO geom is added when drawing finishes. In case you want to add it, use `Highlight` tool 
+
 
 > E.G.
 
 ```
-POINT(418925 4577135)
-
-POLYGON((418391.8715694032 4576832.484383419,418721.82301488414 4577299.667608328,418727.18131229794 4576947.724919814,418391.8715694032 4576832.484383419))
-
-MULTILINESTRING((419268.8979576373 4577019.482027252,419146.6929889547 4577457.250226778,418798.40365705814 4577415.776056751))
+geom_astext: "POLYGON((418391.8715694032 4576832.484383419,418721.82301488414 4577299.667608328,418727.18131229794 4576947.724919814,418391.8715694032 4576832.484383419))"
 ```
 
 ##### loaded
@@ -314,6 +313,17 @@ Launches drawing tools with the geometry type
 
 - geom `<string>` - geometry type `Point` | `Line` | `Polygon`
 
+Optional parameters
+
+- `texts` (`object`): Texts to be displayed with draw tools.
+  - `start` (`string`): E.G. "Click to start drawing"
+  - `continnue`:(`string`): E.G. "Click to to continue drawing"
+- `center` (`object`): Center options.
+- `style` (`object`):
+	- `fill` (`string`): The fill color for the drawn geometry.
+	- `stroke` (`string`): The stroke color for the drawn geometry.
+
+
 > E.G.
 
 ```
@@ -485,6 +495,9 @@ Highlights/draws a geometry
 Params
 
 - `geom` (`string`): The geometry string in WKT to highlight.
+
+Optional parameters
+
 - `zoom` (`object`): Zoom options.
   - `type` (`string`): The type of zoom (`level` or `element`).
     - `level`: Zoom to a specific zoom level.

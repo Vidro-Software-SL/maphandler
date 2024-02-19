@@ -21,7 +21,7 @@ class Communicator extends EventEmitter {
         this.emitEvent("onZoomChange", e.data.zoom, e.data.domId);
         break;
       case "geomAdded":
-        this.emitEvent("geomAdded", e.data.geom_astext, e.data.domId);
+        this.emitEvent("geomAdded", e.data, e.data.domId);
         break;
       case "layers":
         this.emitEvent("layers", e.data.layers, e.data.domId);
@@ -107,10 +107,12 @@ class Communicator extends EventEmitter {
     });
   };
 
-  AddGeom = (geomtype) => {
+  AddGeom = (geomtype, options) => {
     this.com.sendMessageToMap({
       type: "AddGeom",
       geom: geomtype,
+      texts: options?.texts,
+      style: options?.style,
       sessionToken: this.sessionToken,
     });
   };
