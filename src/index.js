@@ -113,6 +113,7 @@ class Communicator extends EventEmitter {
       geom: geomtype,
       texts: options?.texts,
       style: options?.style,
+      drawOnEnd: options?.drawOnEnd,
       sessionToken: this.sessionToken,
     });
   };

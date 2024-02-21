@@ -322,6 +322,7 @@ Optional parameters
 - `style` (`object`):
 	- `fill` (`string`): The fill color for the drawn geometry.
 	- `stroke` (`string`): The stroke color for the drawn geometry.
+- `drawOnEnd` (`boolean`): Is is set to `false` geometry will not be added on end drawing. The event with the drawn geometry will still be emitted
 
 
 > E.G.
