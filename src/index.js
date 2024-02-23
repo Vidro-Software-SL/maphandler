@@ -118,6 +118,17 @@ class Communicator extends EventEmitter {
     });
   };
 
+  loadMultipleLayers = (layers) => {
+    if (typeof layers !== "undefined") {
+      this.com.sendMessageToMap({
+        type: "loadMultipleLayers",
+        layers: layers,
+      });
+    } else {
+      this.emit("error", { error: "no layers" });
+    }
+  };
+
   toggleLayer = (layer, properties) => {
     if (typeof properties === "undefined") {
       properties = {
@@ -207,7 +218,19 @@ class Communicator extends EventEmitter {
     });
   };
 
+  DrawGeometries = (geoms) => {
+    if (typeof geoms !== "undefined") {
+      this.com.sendMessageToMap({
+        type: "DrawGeometries",
+        geoms: geoms,
+      });
+    } else {
+      this.emit("error", { error: "no geoms" });
+    }
+  };
+
   DrawGeometry = (geom, styles, name, id) => {
+    console.warn("DrawGeometry is deprecated. Use DrawGeometries");
     const sty = {
       stroke_color: styles.stroke_color ? styles.stroke_color : null,
       fill_color: styles.fill_color ? styles.fill_color : null,

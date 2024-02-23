@@ -1,6 +1,6 @@
 # Map Handler
 
-#### Version 1.2.111 - February 2024
+#### Version 1.2.125 - February 2024
 
 Tool to achieve the easiest way of communication with the map iframe.
 
@@ -343,7 +343,13 @@ Clears drawn geometries
 
 ##### toggleLayer
 
-Shows/hides a layer
+Shows/hides a layer. 
+
+***Important**
+
+This method loads a single layer. If you need to load multiple layers, use `loadMultipleLayers()` method
+
+If ypu need to load multiple layers
 
 > Params
 
@@ -352,6 +358,7 @@ Shows/hides a layer
   - gutter `<integer>` - The size in pixels of the gutter around image tiles to ignore, only applies for multitile layer
   - singletile `<boolean>` - SingleTile Layer
   - transparent `<boolean>` - Transparent Layer
+  - type `<string>` - layer type (wms, geojson...)
 
 By default, layer properties will be:
 
@@ -374,6 +381,14 @@ With properties
 ```
 toggleLayer('somelayer_name', {gutter: 10, transparent: false, singletile: false);
 ```
+
+##### loadMultipleLayers()
+
+Loads multiple layers. Use this method if you want to load multiple layers.
+
+>Params
+
+- layers `<array>`: array of layers, each layer with same proerties than `toggleLayer` method.
 
 ##### setActiveLayer()
 
@@ -491,7 +506,8 @@ Geolocalize(false)
 
 ##### Higlight
 
-Highlights/draws a geometry
+Highlights & draws a geometry. Allows animation and zoom to element.
+If you want to draw a geom, just use `DrawGeometries` method
 
 Params
 
@@ -547,30 +563,15 @@ let options = {
 Highlight(options);
 ```
 
-##### DrawGeometry
 
-Draws a geometry
 
-Params
+##### DrawGeometry - DEPRECATED
 
-- geom `<string>` - geometry string
-- style `<object>`
-	- stroke_color `<string>`
-	- fill_color `<string>`
-	- geom_radius `<integer>`
-	- stroke_width `<integer>`
-	- font_color `<string>`
-	- font `<string>`
-	- placement `<string>`
-	- fontFillColor `<string>`
-   	- fontStrokeColor `<string>`
-	- display `<string>`
-	- fontStrokeWidth `<integer>`
-	- offsetY `<integer>`
-	- baseline `<string>`
-	- align `<string>`
-- name `<string>` feauture name
-- id `<string>` feauture id
+**use `DrawGeometries`**
+
+Draws a single geometry, in case you want to draw multiple geometries simultaneusly use `DrawGeometries ` method
+
+
 
 > E.G.
 
@@ -587,6 +588,50 @@ const style = {
 DrawGeometry(geom,style,'sampleName','mockId');
 
 ```
+
+##### DrawGeometries
+
+Draws geometries
+
+>Params
+
+- geoms `<array>`: 
+	- item `<object>`:
+		- geom `<string>` - geometry string
+		- style `<object>`
+			- stroke_color `<string>`
+			- fill_color `<string>`
+			- geom_radius `<integer>`
+			- stroke_width `<integer>`
+			- font_color `<string>`
+			- font `<string>`
+			- placement `<string>`
+			- fontFillColor `<string>`
+		   	- fontStrokeColor `<string>`
+			- display `<string>`
+			- fontStrokeWidth `<integer>`
+			- offsetY `<integer>`
+			- baseline `<string>`
+			- align `<string>`
+		- name `<string>` feauture name
+		- id `<string>` feauture id
+
+> E.G.
+
+```
+//Draw a geometry with yellow stroke
+
+const geom = 'MULTILINESTRING((418596.62555076234 4577083.383681167,419026.2319996517 4577216.795306675))'
+
+const style = {
+		stroke_color: "rgb(233, 244, 75)"
+	}
+}
+const item = {geom,style,'sampleName','mockId'};
+DrawGeometries([item]);
+```
+
+
 ##### RemoveGeometry 
 
 Removes a geometry
