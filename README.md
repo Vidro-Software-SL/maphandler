@@ -114,6 +114,8 @@ When this tool is used, NO geom is added when drawing finishes. In case you want
 
 ```
 geom_astext: "POLYGON((418391.8715694032 4576832.484383419,418721.82301488414 4577299.667608328,418727.18131229794 4576947.724919814,418391.8715694032 4576832.484383419))"
+featureId: "uuid of geometry added'
+srid: 'EPSG:25831'
 ```
 
 ##### loaded
@@ -323,7 +325,21 @@ Optional parameters
 	- `fill` (`string`): The fill color for the drawn geometry.
 	- `stroke` (`string`): The stroke color for the drawn geometry.
 - `drawOnEnd` (`boolean`): Is is set to `false` geometry will not be added on end drawing. The event with the drawn geometry will still be emitted
+- `showConfirm` (`boolean`): show or hide component for end drawing. If is set to false, `CancelAddGeom()` must be handled by the user.
 
+Confirm component:
+![](doc/confirmComponent.png)
+
+#### CancelAddGeom
+
+Cancels draw geometry
+
+> E.G.
+
+```
+CancelAddGeom();
+
+```
 
 > E.G.
 
@@ -333,6 +349,9 @@ AddGeom('Point');
 AddGeom('Line');
 
 AddGeom('Polygon');
+
+//Draw polygon with no showConfirm
+AddGeom('Polygon', {showConfirm: false});
 ```
 
 An `geomAdded` event will be received after calling the method.
@@ -524,6 +543,7 @@ Optional parameters
 - `data` (`object`): Additional data associated with the highlight.
   - `feautureId` (`string`): The ID of the feature.
   - `name` (`string`): The name of the feature.
+  - ... any extra data will be added to feature
 - style (`object`): geometry styling options
 	- `fill` (`string`): The fill color for the highlighted geometry.
 	- `stroke` (`string`): The stroke color for the highlighted geometry.
@@ -634,7 +654,7 @@ DrawGeometries([item]);
 
 ##### RemoveGeometry 
 
-Removes a geometry
+Removes a geometry by ID
 
 Params
 
@@ -645,6 +665,55 @@ Params
 
 ```
 RemoveGeometry('25', 'somlayer')
+```
+
+##### RemoveGeometriesByProperty
+
+Removes geometries by property value
+
+Params
+
+- layer `<string>` - layer name, optional
+- property `<string>` - property name
+- value - property value
+
+> E.G.
+
+```
+RemoveGeometriesByProperty( 'somlayer','type','something')
+```
+
+##### UpdateGeometriesByProperty
+
+Update geometry style based on property value
+
+Params
+
+- layer `<string>` - layer name, optional
+- property `<string>` - property name
+- value - property value
+- style `<object>`
+			- stroke_color `<string>`
+			- fill_color `<string>`
+			- geom_radius `<integer>`
+			- stroke_width `<integer>`
+			- font_color `<string>`
+			- font `<string>`
+			- placement `<string>`
+			- fontFillColor `<string>`
+		   	- fontStrokeColor `<string>`
+			- display `<string>`
+			- fontStrokeWidth `<integer>`
+			- offsetY `<integer>`
+			- baseline `<string>`
+			- align `<string>`
+
+> E.G.
+
+```
+UpdateGeometriesByProperty( 'somlayer','type','something',{
+stroke_color: "rgb(255, 0, 0)"}
+)
 ```
 
 ##### toggleTiled

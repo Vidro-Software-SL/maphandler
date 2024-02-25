@@ -114,7 +114,14 @@ class Communicator extends EventEmitter {
       texts: options?.texts,
       style: options?.style,
       drawOnEnd: options?.drawOnEnd,
+      showConfirm: options?.showConfirm,
       sessionToken: this.sessionToken,
+    });
+  };
+
+  CancelAddGeom = (s) => {
+    this.com.sendMessageToMap({
+      type: "CancelAddGeom",
     });
   };
 
@@ -226,6 +233,42 @@ class Communicator extends EventEmitter {
       });
     } else {
       this.emit("error", { error: "no geoms" });
+    }
+  };
+
+  RemoveGeometriesByProperty = (layer, property, value) => {
+    if (
+      typeof layer !== "undefined" &&
+      typeof property !== "undefined" &&
+      typeof value !== "undefined"
+    ) {
+      this.com.sendMessageToMap({
+        type: "RemoveGeometriesByProperty",
+        layer,
+        property,
+        value,
+      });
+    } else {
+      this.emit("error", { error: "no layer, property or value" });
+    }
+  };
+
+  UpdateGeometriesByProperty = (layer, property, value, style) => {
+    if (
+      typeof layer !== "undefined" &&
+      typeof property !== "undefined" &&
+      typeof style !== "undefined" &&
+      typeof value !== "undefined"
+    ) {
+      this.com.sendMessageToMap({
+        type: "UpdateGeometriesByProperty",
+        layer,
+        property,
+        value,
+        style,
+      });
+    } else {
+      this.emit("error", { error: "no layer, property or value" });
     }
   };
 
