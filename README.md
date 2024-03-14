@@ -1,6 +1,6 @@
 # Map Handler
 
-#### Version 1.2.125 - February 2024
+#### Version 1.2.137 - March 2024
 
 Tool to achieve the easiest way of communication with the map iframe.
 
@@ -400,6 +400,13 @@ With properties
 ```
 toggleLayer('somelayer_name', {gutter: 10, transparent: false, singletile: false);
 ```
+
+##### toggleGroup
+
+Toggles (show/hide) a list of layers. Layers must be loaded before with `loadMultipleLayers` 
+
+- layers `<array>`:	
+	- 
 
 ##### loadMultipleLayers()
 
@@ -812,6 +819,16 @@ Set filters for displayed layers
 
 Filters must be a JSON with valid fields. On Giswater/QGIS projects, available layer filters can be obtained with method `getGiswaterLayerAvailableFilters`
 
+Each filter must have this format:
+
+- layer_id <integer> 
+- layer_name <string> - _`qgis_name` property_
+- filters: <array>
+	- name <string>: field name
+	- condition <string>: `=`,`!=`,`<`,`>`,`<=`,`>=`,`in`,`between`
+	- value: value to be filtered
+	- value2: second value, only for `between` conditions
+
 ```
 setFilters(JSON);
 ```
@@ -819,7 +836,32 @@ setFilters(JSON);
 > E.G.
 
 ```
-setFilters({"expl_id":[1,2,3]});
+setFilters([
+  {
+    layer_id: 1,
+    layer_name: "mylayer",
+    filters: [
+      { 
+        name: 'exp_id',
+        condition: 'in',
+        value: "'1','4'",
+        value2: null 
+      },
+      {
+        name: 'status',
+        condition: '=',
+        value: 'active',
+        value2: null
+      },
+      { 
+        name: 'anotherField',
+        condition: 'between',
+        value: '100',
+        value2: '200' 
+      }
+    ]
+  }
+]);
 ```
 
 ##### getGiswaterLayerAvailableFilters

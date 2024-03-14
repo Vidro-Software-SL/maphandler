@@ -15,19 +15,22 @@ class Communicator extends EventEmitter {
     this.sessionToken = data.sessionToken;
   }
 
+  removeListener(event, listener) {
+    super.removeListener(event, listener);
+  }
   onMessageReceived = (e) => {
     switch (e.data.type) {
       case "onZoomChange":
-        this.emitEvent("onZoomChange", e.data.zoom, e.data.domId);
+        this.emitEvent("onZoomChange", e.data, e.data.domId);
         break;
       case "geomAdded":
         this.emitEvent("geomAdded", e.data, e.data.domId);
         break;
       case "layers":
-        this.emitEvent("layers", e.data.layers, e.data.domId);
+        this.emitEvent("layers", e.data, e.data.domId);
         break;
       case "geoJSONlayers":
-        this.emitEvent("geoJSONlayers", e.data.layers, e.data.domId);
+        this.emitEvent("geoJSONlayers", e.data, e.data.domId);
         break;
       case "info":
         this.emitEvent("info", e.data, e.data.domId);
@@ -134,6 +137,13 @@ class Communicator extends EventEmitter {
     } else {
       this.emit("error", { error: "no layers" });
     }
+  };
+
+  toggleGroup = (layers) => {
+    this.com.sendMessageToMap({
+      type: "toggleGroup",
+      layers,
+    });
   };
 
   toggleLayer = (layer, properties) => {
@@ -516,7 +526,15 @@ class Communicator extends EventEmitter {
           return;
         }
       }
+      const isValid = filtersJson.every((item) => Array.isArray(item.filters));
 
+      // isValid will be true if all elements have "filters" property that is an array
+      if (!isValid) {
+        this.emit("error", {
+          error: "Filters is not a valid JSON - missing filters array",
+        });
+        return;
+      }
       return this.com.sendMessageToMap({
         type: "setFilters",
         filters: filtersJson,
