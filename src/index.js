@@ -658,6 +658,18 @@ class Communicator extends EventEmitter {
       sessionToken: this.sessionToken,
     });
   };
+
+  setBboxSize = (bbox) => {
+    if (!isNaN(parseInt(bbox))) {
+      this.com.sendMessageToMap({
+        type: "setBoundingBoxSize",
+        bbox: bbox,
+        sessionToken: this.sessionToken,
+      });
+    } else {
+      console.error("bbox is not a integer");
+    }
+  };
 }
 
 export { Communicator };

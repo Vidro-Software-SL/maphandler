@@ -1,6 +1,6 @@
 # Map Handler
 
-#### Version 1.2.137 - March 2024
+#### Version 1.2.138 - March 2024
 
 Tool to achieve the easiest way of communication with the map iframe.
 
@@ -183,14 +183,19 @@ Formatted Layers TOC (table of contents)
 
 ##### coordinates
 
-Notifies clicked coordinates (x,y)
+Notifies clicked coordinates (x,y), a BBOX in WKT and map srid
+
+BBOX by default is a 20m box. You can customize this value with method `setBboxSize`
 
 First coordinate is X value.
 
 > E.G:
 
 ```
-{coordinates: (2) [419463.63262834214, 4577166.970846243]
+{ 
+coordinates: (2) [419463.63262834214, 4577166.970846243],
+bbox: "POLYGON((452249.04604797193 4599115.704682493,452254.04604797193 4599115.704682493,452254.04604797193 4599120.704682493,452249.04604797193 4599120.704682493,452249.04604797193 4599115.704682493))",
+srid: "EPSG:25831",
 type: "coordinates"}
 ```
 
@@ -355,6 +360,16 @@ AddGeom('Polygon', {showConfirm: false});
 ```
 
 An `geomAdded` event will be received after calling the method.
+
+##### setBboxSize
+
+Set the BBOX size of clicked coordinates. When the receives a click events, calculates an bounding box of bboxsize meters.
+
+> E.G.
+
+```
+setBboxSize(5);  //set a bbox of 5 meters
+```
 
 ##### clear()
 
