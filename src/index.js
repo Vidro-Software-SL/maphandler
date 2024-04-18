@@ -23,6 +23,9 @@ class Communicator extends EventEmitter {
       case "onZoomChange":
         this.emitEvent("onZoomChange", e.data, e.data.domId);
         break;
+      case "onCenterChange":
+        this.emitEvent("onCenterChange", e.data, e.data.domId);
+        break;
       case "geomAdded":
         this.emitEvent("geomAdded", e.data, e.data.domId);
         break;
@@ -84,6 +87,9 @@ class Communicator extends EventEmitter {
         break;
       case "status":
         this.emitEvent("status", e.data, e.data.domId);
+        break;
+      case "MeasureEnd":
+        this.emitEvent("MeasureEnd", e.data, e.data.domId);
         break;
       //case "getLegend": this.emitEvent("getLegend", e.data,e.data.domId); break;
     }
@@ -204,6 +210,22 @@ class Communicator extends EventEmitter {
   getActiveLayer = () => {
     this.com.sendMessageToMap({
       type: "getActiveLayer",
+      sessionToken: this.sessionToken,
+    });
+  };
+
+  bringLayerToTop = (layer) => {
+    this.com.sendMessageToMap({
+      type: "bringLayerToTop",
+      layer: layer,
+      sessionToken: this.sessionToken,
+    });
+  };
+
+  bringLayerToBottom = (layer) => {
+    this.com.sendMessageToMap({
+      type: "bringLayerToBottom",
+      layer: layer,
       sessionToken: this.sessionToken,
     });
   };

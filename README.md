@@ -1,6 +1,6 @@
 # Map Handler
 
-#### Version 1.2.138 - March 2024
+#### Version 1.2.140 - April 2024
 
 Tool to achieve the easiest way of communication with the map iframe.
 
@@ -107,8 +107,7 @@ Notifies zoom level changed
 
 Notifies geometry added to map and featureId
 
-When this tool is used, NO geom is added when drawing finishes. In case you want to add it, use `Highlight` tool 
-
+When this tool is used, NO geom is added when drawing finishes. In case you want to add it, use `Highlight` tool
 
 > E.G.
 
@@ -192,7 +191,7 @@ First coordinate is X value.
 > E.G:
 
 ```
-{ 
+{
 coordinates: (2) [419463.63262834214, 4577166.970846243],
 bbox: "POLYGON((452249.04604797193 4599115.704682493,452254.04604797193 4599115.704682493,452254.04604797193 4599120.704682493,452249.04604797193 4599120.704682493,452249.04604797193 4599115.704682493))",
 srid: "EPSG:25831",
@@ -296,6 +295,7 @@ Zooms to given coordinates
 zoomToCoordinates(419006.12985785044, 4576698.8136144625,18);
 
 ```
+
 ##### CenterMap(lat,long)
 
 center map to given coordinates
@@ -327,8 +327,8 @@ Optional parameters
   - `continnue`:(`string`): E.G. "Click to to continue drawing"
 - `center` (`object`): Center options.
 - `style` (`object`):
-	- `fill` (`string`): The fill color for the drawn geometry.
-	- `stroke` (`string`): The stroke color for the drawn geometry.
+  - `fill` (`string`): The fill color for the drawn geometry.
+  - `stroke` (`string`): The stroke color for the drawn geometry.
 - `drawOnEnd` (`boolean`): Is is set to `false` geometry will not be added on end drawing. The event with the drawn geometry will still be emitted
 - `showConfirm` (`boolean`): show or hide component for end drawing. If is set to false, `CancelAddGeom()` must be handled by the user.
 
@@ -377,9 +377,9 @@ Clears drawn geometries
 
 ##### toggleLayer
 
-Shows/hides a layer. 
+Shows/hides a layer.
 
-***Important**
+**\*Important**
 
 This method loads a single layer. If you need to load multiple layers, use `loadMultipleLayers()` method
 
@@ -418,16 +418,15 @@ toggleLayer('somelayer_name', {gutter: 10, transparent: false, singletile: false
 
 ##### toggleGroup
 
-Toggles (show/hide) a list of layers. Layers must be loaded before with `loadMultipleLayers` 
+Toggles (show/hide) a list of layers. Layers must be loaded before with `loadMultipleLayers`
 
-- layers `<array>`:	
-	- 
+- ## layers `<array>`:
 
 ##### loadMultipleLayers()
 
 Loads multiple layers. Use this method if you want to load multiple layers.
 
->Params
+> Params
 
 - layers `<array>`: array of layers, each layer with same proerties than `toggleLayer` method.
 
@@ -462,6 +461,34 @@ loadWMSAvailableLayers();
 ```
 
 An `availableWMSLayers ` event will be received after calling the method.
+
+##### bringLayerToTop
+
+> Params
+
+- layer_name `<string>`: layer name
+
+Brings layer to top.
+
+> E.G.
+
+```
+bringLayerToTop('somelayer_name');
+```
+
+##### bringLayerToBottom
+
+> Params
+
+- layer_name `<string>`: layer name
+
+Brings layer to bottom.
+
+> E.G.
+
+```
+bringLayerToBottom('somelayer_name');
+```
 
 ##### getToc
 
@@ -562,21 +589,23 @@ Optional parameters
     - `element`: Zoom to the center of the geometry.
   - `zoomLevel` (`number`, optional): The zoom level (1 to 28). Required if `type` is set to `level`.
 - `center` (`object`): Center options.
+	- `false` will not center map to element
+	- `1` will center always map to element
+	- `2` will center element only if is outside current view extent 
 - `data` (`object`): Additional data associated with the highlight.
   - `feautureId` (`string`): The ID of the feature.
   - `name` (`string`): The name of the feature.
   - ... any extra data will be added to feature
 - style (`object`): geometry styling options
-	- `fill` (`string`): The fill color for the highlighted geometry.
-	- `stroke` (`string`): The stroke color for the highlighted geometry.
+  - `fill` (`string`): The fill color for the highlighted geometry.
+  - `stroke` (`string`): The stroke color for the highlighted geometry.
 - `animate` (`boolean`): Indicates whether to animate the highlight.
-	- `duration`: time of the animation in milliseconds
-	- `repeat`: true/false for repeteating animation
+  - `duration`: time of the animation in milliseconds
+  - `repeat`: true/false for repeteating animation
 
 Example of animation
 
 ![](doc/animation.png)
-
 
 > E.G.
 
@@ -605,15 +634,11 @@ let options = {
 Highlight(options);
 ```
 
-
-
 ##### DrawGeometry - DEPRECATED
 
 **use `DrawGeometries`**
 
 Draws a single geometry, in case you want to draw multiple geometries simultaneusly use `DrawGeometries ` method
-
-
 
 > E.G.
 
@@ -635,28 +660,28 @@ DrawGeometry(geom,style,'sampleName','mockId');
 
 Draws geometries
 
->Params
+> Params
 
-- geoms `<array>`: 
-	- item `<object>`:
-		- geom `<string>` - geometry string
-		- style `<object>`
-			- stroke_color `<string>`
-			- fill_color `<string>`
-			- geom_radius `<integer>`
-			- stroke_width `<integer>`
-			- font_color `<string>`
-			- font `<string>`
-			- placement `<string>`
-			- fontFillColor `<string>`
-		   	- fontStrokeColor `<string>`
-			- display `<string>`
-			- fontStrokeWidth `<integer>`
-			- offsetY `<integer>`
-			- baseline `<string>`
-			- align `<string>`
-		- name `<string>` feauture name
-		- id `<string>` feauture id
+- geoms `<array>`:
+  - item `<object>`:
+    - geom `<string>` - geometry string
+    - style `<object>`
+      - stroke_color `<string>`
+      - fill_color `<string>`
+      - geom_radius `<integer>`
+      - stroke_width `<integer>`
+      - font_color `<string>`
+      - font `<string>`
+      - placement `<string>`
+      - fontFillColor `<string>`
+        - fontStrokeColor `<string>`
+      - display `<string>`
+      - fontStrokeWidth `<integer>`
+      - offsetY `<integer>`
+      - baseline `<string>`
+      - align `<string>`
+    - name `<string>` feauture name
+    - id `<string>` feauture id
 
 > E.G.
 
@@ -673,8 +698,7 @@ const item = {geom,style,'sampleName','mockId'};
 DrawGeometries([item]);
 ```
 
-
-##### RemoveGeometry 
+##### RemoveGeometry
 
 Removes a geometry by ID
 
@@ -714,21 +738,7 @@ Params
 - layer `<string>` - layer name, optional
 - property `<string>` - property name
 - value - property value
-- style `<object>`
-			- stroke_color `<string>`
-			- fill_color `<string>`
-			- geom_radius `<integer>`
-			- stroke_width `<integer>`
-			- font_color `<string>`
-			- font `<string>`
-			- placement `<string>`
-			- fontFillColor `<string>`
-		   	- fontStrokeColor `<string>`
-			- display `<string>`
-			- fontStrokeWidth `<integer>`
-			- offsetY `<integer>`
-			- baseline `<string>`
-			- align `<string>`
+- style `<object>` - stroke_color `<string>` - fill_color `<string>` - geom_radius `<integer>` - stroke_width `<integer>` - font_color `<string>` - font `<string>` - placement `<string>` - fontFillColor `<string>` - fontStrokeColor `<string>` - display `<string>` - fontStrokeWidth `<integer>` - offsetY `<integer>` - baseline `<string>` - align `<string>`
 
 > E.G.
 
@@ -758,13 +768,11 @@ toggleTiled(true);
 
 ##### toggleSecondaryBackground
 
-
 Toggles secondary background (in case secondary background is configured)
 
 Params
 
 - toggle `<boolean>` shows/hides secondary background
-
 
 > E.G.
 
@@ -772,7 +780,6 @@ Params
 toggleSecondaryBackground(true);
 
 ```
-
 
 ##### addGeoJSON
 
@@ -827,8 +834,8 @@ clearGeoJSON();
 ```
 
 ##### setFilters
-Deprecated `setGiswaterFilters`
 
+Deprecated `setGiswaterFilters`
 
 Set filters for displayed layers
 
@@ -836,13 +843,13 @@ Filters must be a JSON with valid fields. On Giswater/QGIS projects, available l
 
 Each filter must have this format:
 
-- layer_id <integer> 
-- layer_name <string> - _`qgis_name` property_
+- layer_id <integer>
+- layer*name <string> - *`qgis_name` property\_
 - filters: <array>
-	- name <string>: field name
-	- condition <string>: `=`,`!=`,`<`,`>`,`<=`,`>=`,`in`,`between`
-	- value: value to be filtered
-	- value2: second value, only for `between` conditions
+  - name <string>: field name
+  - condition <string>: `=`,`!=`,`<`,`>`,`<=`,`>=`,`in`,`between`
+  - value: value to be filtered
+  - value2: second value, only for `between` conditions
 
 ```
 setFilters(JSON);
@@ -856,11 +863,11 @@ setFilters([
     layer_id: 1,
     layer_name: "mylayer",
     filters: [
-      { 
+      {
         name: 'exp_id',
         condition: 'in',
         value: "'1','4'",
-        value2: null 
+        value2: null
       },
       {
         name: 'status',
@@ -868,11 +875,11 @@ setFilters([
         value: 'active',
         value2: null
       },
-      { 
+      {
         name: 'anotherField',
         condition: 'between',
         value: '100',
-        value2: '200' 
+        value2: '200'
       }
     ]
   }
