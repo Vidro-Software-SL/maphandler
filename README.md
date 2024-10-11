@@ -1,6 +1,6 @@
 # Map Handler
 
-#### Version 1.2.140 - April 2024
+#### Version 1.2.164 - October 2024
 
 Tool to achieve the easiest way of communication with the map iframe.
 
@@ -125,7 +125,9 @@ There're two types of events:
 
 - `map` is dispatched when map (with background) is loaded.
 - `layer` is dispatched when a layer is loaded
+	- `zIndex`: layer z-index 
 - `tiled` is dispatched when a tiled is loaded
+
 
 > `map` E.G:
 
@@ -137,7 +139,8 @@ There're two types of events:
 
 ```
 {what:'layer'
-name:'Arc'}
+name:'Arc'
+zIndex:998}
 ```
 
 ##### unloaded
@@ -271,6 +274,20 @@ Notifies errors
 
 Notifies map status, as tiled loaded, background visible, etc..
 
+##### hover
+
+When user puts mouse pointer over a feauture for more than 1 second, a `hover` event is dispatched.
+
+If is no hover any feature event is dispatched with `feature:null` 
+
+
+> E.G
+
+```
+
+{type: "hover", feature: {'property':'somevalue',...}
+```
+
 ## Methods
 
 ##### ZoomIn()
@@ -296,7 +313,25 @@ zoomToCoordinates(419006.12985785044, 4576698.8136144625,18);
 
 ```
 
-##### CenterMap(lat,long)
+##### zoomToGeometry
+
+Zooms to a given geometry
+
+> Params
+
+- geom `<string>` WKT geometry
+- limits `<json>` max/min zoom level
+  - max `<integer>`
+  - min `<integer>`
+
+  > E.G.
+
+```
+zoomToCoordinates(419006.12985785044, 4576698.8136144625,18);
+
+```
+
+##### zoomToGeometry(lat,long)
 
 center map to given coordinates
 
@@ -439,6 +474,27 @@ Sets a layer as acticve layer, used for infos
 ```
 setActiveLayer('somelayer_name');
 ```
+
+##### removeLayer(layer_name)
+
+Removes a layer
+
+> E.G.
+
+```
+removeLayer('somelayer_name');
+```
+
+##### displayLayer(layer_name)
+
+Displays a layer
+
+> E.G.
+
+```
+displayLayer('somelayer_name');
+```
+
 
 ##### reloadDisplayedLayers
 

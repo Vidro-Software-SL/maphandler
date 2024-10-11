@@ -91,6 +91,16 @@ class Communicator extends EventEmitter {
       case "MeasureEnd":
         this.emitEvent("MeasureEnd", e.data, e.data.domId);
         break;
+      case "queue":
+        this.emitEvent("queue", e.data, e.data.domId);
+        break;
+      case "version":
+        this.emitEvent("version", e.data, e.data.domId);
+        break;
+      case "hover":
+        this.emitEvent("hover", e.data, e.data.domId);
+        break;
+
       //case "getLegend": this.emitEvent("getLegend", e.data,e.data.domId); break;
     }
   };
@@ -158,16 +168,21 @@ class Communicator extends EventEmitter {
         gutter: null,
         transparent: null,
         singletile: null,
+        zIndex: null,
       };
     }
 
     if (properties.singletile !== null) {
       if (typeof properties.singletile !== "boolean") {
         properties.singletile = null;
-        this.emit("error", { error: "singleTile must be a Boolean" });
+        this.emit("error", { error: "singletile must be a Boolean" });
       }
     }
-    if (properties.gutter !== "" && properties.gutter !== null) {
+    if (
+      properties.gutter !== "" &&
+      properties.gutter !== null &&
+      !properties.singletile
+    ) {
       if (isNaN(parseInt(properties.gutter))) {
         properties.gutter = null;
         this.emit("error", { error: "Gutter must be a number" });
@@ -196,9 +211,27 @@ class Communicator extends EventEmitter {
       transparent: properties.transparent,
       singletile: properties.singletile,
       sessionToken: this.sessionToken,
+      zIndex: !isNaN(parseInt(properties.zIndex))
+        ? parseInt(properties.zIndex)
+        : null,
     });
   };
 
+  removeLayer = (layer) => {
+    this.com.sendMessageToMap({
+      type: "removeLayer",
+      layer: layer,
+      sessionToken: this.sessionToken,
+    });
+  };
+
+  displayLayer = (layer) => {
+    this.com.sendMessageToMap({
+      type: "displayLayer",
+      layer: layer,
+      sessionToken: this.sessionToken,
+    });
+  };
   setActiveLayer = (layer) => {
     this.com.sendMessageToMap({
       type: "setActiveLayer",
@@ -368,6 +401,15 @@ class Communicator extends EventEmitter {
         zoomLevel: zoomLevel,
       });
     }
+  };
+
+  zoomToGeometry = (geom, limits) => {
+    this.com.sendMessageToMap({
+      type: "zoomToGeometry",
+      sessionToken: this.sessionToken,
+      geom,
+      limits,
+    });
   };
 
   infoFromCoordinates = (type, layer, hitTolerance, format) => {
