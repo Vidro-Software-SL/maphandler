@@ -1,5 +1,6 @@
 import { EventEmitter } from "events";
 import { iframeCommunicator } from "./shared/iframe-communicator";
+
 class Communicator extends EventEmitter {
   constructor(data) {
     super();
@@ -175,7 +176,10 @@ class Communicator extends EventEmitter {
     if (properties.singletile !== null) {
       if (typeof properties.singletile !== "boolean") {
         properties.singletile = null;
-        this.emit("error", { error: "singletile must be a Boolean" });
+        this.emit("error", {
+          error: "singletile must be a Boolean",
+          type: "error",
+        });
       }
     }
     if (
@@ -185,11 +189,12 @@ class Communicator extends EventEmitter {
     ) {
       if (isNaN(parseInt(properties.gutter))) {
         properties.gutter = null;
-        this.emit("error", { error: "Gutter must be a number" });
+        this.emit("error", { type: "error", error: "Gutter must be a number" });
       }
       if (properties.singletile) {
         properties.gutter = null;
         this.emit("error", {
+          type: "error",
           error:
             "Gutter can only be user with multitile layers; set singletile to false",
         });
@@ -199,7 +204,10 @@ class Communicator extends EventEmitter {
     if (properties.transparent !== null) {
       if (typeof properties.transparent !== "boolean") {
         properties.transparent = null;
-        this.emit("error", { error: "transparent must be a Boolean" });
+        this.emit("error", {
+          type: "error",
+          error: "transparent must be a Boolean",
+        });
       }
     }
     this.com.sendMessageToMap({
@@ -297,7 +305,7 @@ class Communicator extends EventEmitter {
         geoms: geoms,
       });
     } else {
-      this.emit("error", { error: "no geoms" });
+      this.emit("error", { type: "error", error: "no geoms" });
     }
   };
 
@@ -314,7 +322,10 @@ class Communicator extends EventEmitter {
         value,
       });
     } else {
-      this.emit("error", { error: "no layer, property or value" });
+      this.emit("error", {
+        type: "error",
+        error: "no layer, property or value",
+      });
     }
   };
 
@@ -333,7 +344,10 @@ class Communicator extends EventEmitter {
         style,
       });
     } else {
-      this.emit("error", { error: "no layer, property or value" });
+      this.emit("error", {
+        type: "error",
+        error: "no layer, property or value",
+      });
     }
   };
 
@@ -375,7 +389,7 @@ class Communicator extends EventEmitter {
     const _id = typeof id == "undefined" ? null : id;
     if (!_id) {
       console.error("No element id");
-      this.emit("error", { error: "No element id" });
+      this.emit("error", { type: "error", error: "No element id" });
       return;
     }
     this.com.sendMessageToMap({
@@ -525,7 +539,7 @@ class Communicator extends EventEmitter {
         sessionToken: this.sessionToken,
       });
     } else {
-      this.emit("error", { error: "No geoJSON data" });
+      this.emit("error", { type: "error", error: "No geoJSON data" });
       return;
     }
   };
@@ -545,7 +559,7 @@ class Communicator extends EventEmitter {
         sessionToken: this.sessionToken,
       });
     } else {
-      this.emit("error", { error: "No geoJSON data" });
+      this.emit("error", { type: "error", error: "No geoJSON data" });
       return;
     }
   };
@@ -560,7 +574,10 @@ class Communicator extends EventEmitter {
         try {
           filtersJson = JSON.parse(filters);
         } catch (e) {
-          this.emit("error", { error: "Filters is not a valid JSON" });
+          this.emit("error", {
+            type: "error",
+            error: "Filters is not a valid JSON",
+          });
           return;
         }
       }
@@ -571,7 +588,7 @@ class Communicator extends EventEmitter {
         sessionToken: this.sessionToken,
       });
     } else {
-      this.emit("error", { error: "No filters" });
+      this.emit("error", { type: "error", error: "No filters" });
       return;
     }
   };
@@ -586,7 +603,10 @@ class Communicator extends EventEmitter {
         try {
           filtersJson = JSON.parse(filters);
         } catch (e) {
-          this.emit("error", { error: "Filters is not a valid JSON" });
+          this.emit("error", {
+            type: "error",
+            error: "Filters is not a valid JSON",
+          });
           return;
         }
       }
@@ -595,6 +615,7 @@ class Communicator extends EventEmitter {
       // isValid will be true if all elements have "filters" property that is an array
       if (!isValid) {
         this.emit("error", {
+          type: "error",
           error: "Filters is not a valid JSON - missing filters array",
         });
         return;
@@ -605,7 +626,7 @@ class Communicator extends EventEmitter {
         sessionToken: this.sessionToken,
       });
     } else {
-      this.emit("error", { error: "No filters" });
+      this.emit("error", { type: "error", error: "No filters" });
       return;
     }
   };
@@ -618,7 +639,7 @@ class Communicator extends EventEmitter {
         sessionToken: this.sessionToken,
       });
     } else {
-      this.emit("error", { error: "No layer_name" });
+      this.emit("error", { type: "error", error: "No layer_name" });
       return;
     }
   };
