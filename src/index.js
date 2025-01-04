@@ -755,6 +755,44 @@ class Communicator extends EventEmitter {
       console.error("bbox is not a integer");
     }
   };
+  addIcon = ({ icon, coordinates }) => {
+    // Validate icon
+    if (!(icon instanceof ArrayBuffer)) {
+      this.emit("error", {
+        type: "error",
+        error: "Invalid icon: Expected an ArrayBuffer.",
+      });
+    }
+
+    // Validate coordinates
+    if (!Array.isArray(coordinates)) {
+      this.emit("error", {
+        type: "error",
+        error: "Invalid coordinates: Expected an array [longitude, latitude].",
+      });
+    }
+
+    // Ensure coordinates contain exactly two numeric values
+    if (
+      coordinates.length !== 2 ||
+      typeof coordinates[0] !== "number" ||
+      typeof coordinates[1] !== "number"
+    ) {
+      this.emit("error", {
+        type: "error",
+        error:
+          "Invalid coordinates: Expected an array with two numeric values [longitude, latitude].",
+      });
+    }
+
+    // Send the message to the map
+    this.com.sendMessageToMap({
+      type: "AddIcon",
+      icon,
+      coordinates,
+      sessionToken: this.sessionToken,
+    });
+  };
 }
 
 export { Communicator };

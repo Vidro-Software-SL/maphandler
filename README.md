@@ -1,6 +1,6 @@
 # Map Handler
 
-#### Version 1.2.164 - October 2024
+#### Version 1.2.175 - January 2025
 
 Tool to achieve the easiest way of communication with the map iframe.
 
@@ -395,6 +395,26 @@ AddGeom('Polygon', {showConfirm: false});
 ```
 
 An `geomAdded` event will be received after calling the method.
+
+##### addIcon(icon,coordinates)
+
+Add an icon on a given coordinates
+
+> Params
+
+- icon `<ArrayBuffer>` - The binary data of the icon image, typically obtained by converting an image file (e.g., PNG) to an `ArrayBuffer`. This should represent the visual marker to be displayed on the map.
+- coordintes `<array>` - An array specifying the location where the icon should be added. Format: `[longitude, latitude]`. Ensure the coordinates are in the same SRID (Spatial Reference Identifier) as the map being used (e.g., EPSG:4326 for geographic coordinates). Transform the coordinates if necessary before passing them to this method.
+
+```
+
+// Fetch and process the image as binary data
+const iconBinaryData =  convert to binary method (`path/images/icons/anIcon.png`);
+    
+addIcon(iconBinaryData, [2, 4.6]);
+
+```
+[ArrayBuffer conversion examples](helpers.md)
+
 
 ##### setBboxSize
 
