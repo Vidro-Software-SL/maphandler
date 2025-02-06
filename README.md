@@ -1,6 +1,6 @@
 # Map Handler
 
-#### Version 1.2.175 - January 2025
+#### Version 1.2.179 - February 2025
 
 Tool to achieve the easiest way of communication with the map iframe.
 
@@ -99,9 +99,38 @@ setDebug(0);
 
 ### Available events
 
+### Available Events
+
 ##### onZoomChange
 
-Notifies zoom level changed
+The `onZoomChange` event is triggered whenever the zoom level of the map changes. This event provides detailed metadata about the new zoom state, including the current zoom level, map extent, resolution, and scale.
+
+
+
+The event returns an object with the following properties:
+
+| Property     | Type    | Description |
+|-------------|--------|-------------|
+| `type`      | string  | The event type, always `"onZoomChange"`. |
+| `zoom`      | number  | The current zoom level after the change. |
+| `maxZoom`   | number  | The maximum zoom level allowed in the map. |
+| `minZoom`   | number  | The minimum zoom level allowed in the map. |
+| `extent`    | array   | The map extent after zooming, represented as `[minX, minY, maxX, maxY]`. |
+| `resolution` | number | The resolution of the map at the current zoom level. |
+| `scale`     | string  | The approximate scale of the map in the format `"1:xxxx"`. |
+
+
+```
+{
+  "type": "onZoomChange",
+  "zoom": 15.035190437015496,
+  "maxZoom": 25,
+  "minZoom": 0,
+  "extent": [448455.99940588913, 4595273.644846473, 456909.8853950997, 4602082.14362973],
+  "resolution": 4.656975911940399,
+  "scale": "1:17600"
+}
+```
 
 ##### geomAdded
 
@@ -288,6 +317,18 @@ If is no hover any feature event is dispatched with `feature:null`
 {type: "hover", feature: {'property':'somevalue',...}
 ```
 
+##### screenshot <a id="screenshot-event"></a>
+
+This feature provides screenshot data, encoded as a PNG in Base64 format.
+
+
+> E.G
+
+```
+
+{type: "screenshot", content: 'png in base64'
+```
+
 ## Methods
 
 ##### ZoomIn()
@@ -346,6 +387,35 @@ center map to given coordinates
 CenterMap(419006.12985785044, 4576698.8136144625,18);
 
 ```
+##### zoomToScale(scale)
+
+Sets the zoom level to a specified scale.
+
+
+
+> **Allowed Scales:**
+
+- `1:100`
+- `1:200`
+- `1:400`
+- `1:500`
+- `1:1000`
+- `1:2000`
+- `1:5000`
+- `1:10000`
+- `1:50000`
+
+> Params
+
+- **`scale`** `<string>` - The scale to set the zoom level.
+
+
+E.G:
+
+```javascript
+zoomToScale('1:100');
+```
+
 
 ##### AddGeom(string)
 
@@ -1045,6 +1115,13 @@ Stop measure tools
 cancelMeasure();
 ```
 
+##### screenshot
+
+Will do an screenshot of the current map encoded as a PNG in Base64 format. Result will be encapsulated [`screenshot`](#screenshot-event)
+
+```
+screenshot({});
+```
 ### Multiple iframes
 
 Is possible to use multiple iframe on a single page, follow this steps.

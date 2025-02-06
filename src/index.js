@@ -101,6 +101,9 @@ class Communicator extends EventEmitter {
       case "hover":
         this.emitEvent("hover", e.data, e.data.domId);
         break;
+      case "screenshot":
+        this.emitEvent("screenshot", e.data, e.data.domId);
+        break;
 
       //case "getLegend": this.emitEvent("getLegend", e.data,e.data.domId); break;
     }
@@ -406,6 +409,37 @@ class Communicator extends EventEmitter {
     });
   };
 
+  zoomToScale = (scale) => {
+    const allowedScales = [
+      "1:100",
+      "1:200",
+      "1:400",
+      "1:500",
+      "1:1000",
+      "1:2000",
+      "1:5000",
+      "1:10000",
+      "1:50000",
+    ];
+
+    if (!allowedScales.includes(scale)) {
+      console.error(
+        `Invalid scale: ${scale}. Allowed values are: ${allowedScales.join(
+          ", "
+        )}`
+      );
+      this.emit("error", {
+        type: "error",
+        error: `Invalid scale: ${scale}`,
+      });
+      return;
+    }
+    this.com.sendMessageToMap({
+      type: "zoomToScale",
+      sessionToken: this.sessionToken,
+      scale: scale,
+    });
+  };
   zoomToCoordinates = (lat, lon, zoomLevel) => {
     if (!isNaN(parseInt(zoomLevel))) {
       this.com.sendMessageToMap({
@@ -790,6 +824,14 @@ class Communicator extends EventEmitter {
       type: "AddIcon",
       icon,
       coordinates,
+      sessionToken: this.sessionToken,
+    });
+  };
+
+  screenshot = (options) => {
+    this.com.sendMessageToMap({
+      type: "screenshot",
+      options,
       sessionToken: this.sessionToken,
     });
   };
