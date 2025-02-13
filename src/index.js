@@ -505,10 +505,11 @@ class Communicator extends EventEmitter {
     });
   };
 
-  Geolocalize = (toggle) => {
+  Geolocalize = (toggle, options) => {
     this.com.sendMessageToMap({
       type: "Geolocalize",
       toggle: toggle,
+      options: options,
       sessionToken: this.sessionToken,
     });
   };

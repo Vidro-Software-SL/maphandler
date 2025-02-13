@@ -1,6 +1,6 @@
 # Map Handler
 
-#### Version 1.2.179 - February 2025
+#### Version 1.2.180 - February 2025
 
 Tool to achieve the easiest way of communication with the map iframe.
 
@@ -705,12 +705,15 @@ Geolocalizes user. Will dispatch `geolocation` event .
 > Params
 
 - toggle `<Boolean>` - starts or cancels geolocation
+- options `<json>` - optional
+	- track `<Boolean>` - will track user position or geolocalize only once 
 
 > E.G.
 
 ```
 //start
 Geolocalize(true)
+Geolocalize(true, {track:true})
 
 //cancel
 Geolocalize(false)
