@@ -1,14 +1,13 @@
 // Config:
 const urlParams = new URLSearchParams(window.location.search);
-const user = urlParams.get('user');
-const pwd = urlParams.get('pwd');
-const apiQuery = urlParams.get('api');
+const user = urlParams.get("user");
+const pwd = urlParams.get("pwd");
+const apiQuery = urlParams.get("api");
 
-if(apiQuery) document.querySelector("#apiurl").value = apiQuery;
+if (apiQuery) document.querySelector("#apiurl").value = apiQuery;
 var apiUrl = document.querySelector("#apiurl").value;
-if(user) document.querySelector("#user").value = user;
-if(pwd) document.querySelector("#pwd").value = pwd;
-
+if (user) document.querySelector("#user").value = user;
+if (pwd) document.querySelector("#pwd").value = pwd;
 
 // UI:
 var usertoken = document.querySelector("#usertoken");
@@ -19,7 +18,9 @@ var btLoadMap = document.querySelector("#btLoadMap");
 var btLoadProjectLayers = document.querySelector("#btLoadProjectLayers");
 var projectlayers = document.getElementById("projectlayers");
 var userData = document.querySelector("#userData");
-var btAddGeoJSONFromGiswater = document.querySelector("#btAddGeoJSONFromGiswater");
+var btAddGeoJSONFromGiswater = document.querySelector(
+  "#btAddGeoJSONFromGiswater"
+);
 
 var btLogin = document.querySelector("#btLogin");
 
@@ -65,7 +66,7 @@ function reqListener() {
     //simulate cache token
     storeToken(res.message);
     //fill user projects selector
-    fillUserProjects(res.message.projects);
+    fillUserProjects(res.message.maps);
   } else {
     console.error(this.status);
     var res = JSON.parse(this.responseText);
@@ -108,8 +109,8 @@ function checkToken() {
     oReq.addEventListener("load", tokenListener);
     oReq.open("GET", `${apiUrl}token/`, true);
     oReq.setRequestHeader("Content-type", "application/json");
-    oReq.setRequestHeader('Authorization',`Bearer ${usertoken.value}`);
-  
+    oReq.setRequestHeader("Authorization", `Bearer ${usertoken.value}`);
+
     oReq.send();
     console.log("Check token", `${apiUrl}token/`);
   } else {
@@ -148,6 +149,7 @@ function tokenListener() {
 //************** User projects SELECT
 
 function fillUserProjects(options) {
+  console.log("fillUserProjects", options);
   //empty previous options
   var length = projects_select.options.length;
   for (i = length - 1; i >= 0; i--) {
@@ -193,7 +195,7 @@ btLoadMap.addEventListener("click", function (evt) {
     uri += `&active_layer=${active_layer}`;
   }
   var overrideHost = document.querySelector("#overrideHost").value;
-  if(overrideHost){
+  if (overrideHost) {
     uri += `&overrideHost=${overrideHost}`;
     data.overrideHost = overrideHost;
   }
@@ -218,11 +220,11 @@ btLoadMap.addEventListener("click", function (evt) {
     data.use_giswater_tiled = use_giswater_tiled.checked;
   }
 
-  console.log(uri)
+  console.log(uri);
   var oReq = new XMLHttpRequest();
   oReq.addEventListener("load", mapListener);
   oReq.open("GET", uri, true);
-  oReq.setRequestHeader('Authorization',`Bearer ${usertoken.value}`);
+  oReq.setRequestHeader("Authorization", `Bearer ${usertoken.value}`);
   oReq.setRequestHeader("Content-type", "application/json");
   oReq.send(JSON.stringify(data));
   console.log("Attempt to load map", `${apiUrl}map/${selectedProjectId}`, data);
@@ -262,12 +264,11 @@ btLoadProjectLayers.addEventListener("click", function (evt) {
     projects_select.options[projects_select.selectedIndex].value;
 
   var uri = `${apiUrl}layers/${selectedProjectId}`;
- 
 
   var oReq = new XMLHttpRequest();
   oReq.addEventListener("load", layersListener);
   oReq.open("GET", uri, true);
-  oReq.setRequestHeader('Authorization',`Bearer ${usertoken.value}`);
+  oReq.setRequestHeader("Authorization", `Bearer ${usertoken.value}`);
   oReq.setRequestHeader("Content-type", "application/json");
   oReq.send();
   console.log("Attempt to load project layers", uri);
@@ -278,16 +279,16 @@ function layersListener() {
     console.log("layersListener response", this.responseText);
     var res = JSON.parse(this.responseText);
     var length = projectlayers.options.length;
-    console.log(res)
-    for (i = length-1; i >= 0; i--) {
+    console.log(res);
+    for (i = length - 1; i >= 0; i--) {
       projectlayers.options[i] = null;
     }
-    for(var i = 0; i < res.message.length; i++) {
-        var opt = res.message[i].qgis_name;
-        var el = document.createElement("option");
-        el.textContent = opt;
-        el.value = opt;
-        projectlayers.appendChild(el);
+    for (var i = 0; i < res.message.length; i++) {
+      var opt = res.message[i].qgis_name;
+      var el = document.createElement("option");
+      el.textContent = opt;
+      el.value = opt;
+      projectlayers.appendChild(el);
     }
   } else {
     console.error(this.status);
@@ -300,47 +301,49 @@ function layersListener() {
   }
 }
 
-function fillLayersSelect(options){
+function fillLayersSelect(options) {
   //empty previous options
-
 }
 
-
-if(btAddGeoJSONFromGiswater){
-  btAddGeoJSONFromGiswater.addEventListener("click", function(){
-    let lay = document.getElementById('currentActiveLayerForGeoJSON').innerHTML.trim();
-    console.log(`Requesting Giswater GeoJSON for layer ${lay}`)
-    if(lay && lay!==''){
+if (btAddGeoJSONFromGiswater) {
+  btAddGeoJSONFromGiswater.addEventListener("click", function () {
+    let lay = document
+      .getElementById("currentActiveLayerForGeoJSON")
+      .innerHTML.trim();
+    console.log(`Requesting Giswater GeoJSON for layer ${lay}`);
+    if (lay && lay !== "") {
       apiUrl = document.querySelector("#apiurl").value;
-      //Build XMLHttpRequest 
+      //Build XMLHttpRequest
       var selectedProjectId =
-      projects_select.options[projects_select.selectedIndex].value;
+        projects_select.options[projects_select.selectedIndex].value;
       var uri = `${apiUrl}giswater/geojson/${selectedProjectId}/${lay}`;
       var oReq = new XMLHttpRequest();
       oReq.addEventListener("load", GeoJSONListener);
       oReq.open("GET", uri, true);
-      oReq.setRequestHeader('Authorization',`Bearer ${usertoken.value}`);
+      oReq.setRequestHeader("Authorization", `Bearer ${usertoken.value}`);
       oReq.setRequestHeader("Content-type", "application/json");
       oReq.send();
     }
   });
 }
 
-function GeoJSONListener(){
+function GeoJSONListener() {
   if (this.status === 200) {
-    try{
+    try {
       var res = JSON.parse(this.responseText);
       console.log("GeoJSONListener response", res.message);
-      if(document.getElementById('geojsondata')){
-        document.getElementById('geojsondata').value = JSON.stringify(res.message);
+      if (document.getElementById("geojsondata")) {
+        document.getElementById("geojsondata").value = JSON.stringify(
+          res.message
+        );
         var btAddGeoJSON = document.querySelector("#btAddGeoJSON");
-        if(btAddGeoJSON){
+        if (btAddGeoJSON) {
           btAddGeoJSON.click();
         }
       }
-    }catch(e){
-        console.error("Invalid API response")
-    }  
+    } catch (e) {
+      console.error("Invalid API response");
+    }
   } else {
     console.error(this.status);
   }

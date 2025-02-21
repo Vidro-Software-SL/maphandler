@@ -1,0 +1,74 @@
+* {
+  box-sizing: border-box;
+}
+
+body{
+  background-color: ghostwhite;
+  color: lightslategrey;
+  font-family: Hack, monospace;
+  padding: 20px;
+}
+
+#sessionToken{
+  display: none;
+}
+
+#iframes-container{
+  display: flex;
+  justify-content: space-between;
+  gap: 25px;
+  margin: 25px 0;
+}
+
+iframe{
+  background-color: white;
+  border-radius: 5px;
+  overflow: hidden;
+  border: none;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, .2);
+}
+
+iframe[name=map-frame]{
+  padding: 10px;
+}
+
+pre{
+  overflow: scroll;
+  
+}
+.error{
+  color: red;
+  font-weight: bold;
+}
+.hide{
+  display: none;
+}
+.form{
+  margin: 20px;
+
+}
+.form div{
+  padding: 10px;
+
+}
+
+#Error_container{
+  color: red;
+  font-weight: bold;
+}
+#Result_container{
+  color: blue;
+  font-size: 10px;
+}
+
+small{
+  color: #ccc;
+
+
+}
+
+
+
+
+
+

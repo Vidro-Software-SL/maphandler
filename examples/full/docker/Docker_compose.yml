@@ -1,0 +1,14 @@
+
+services:
+  fulldemo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fulldemo
+    volumes:
+      - ${PWD}/../:/var/www/html
+    ports:
+      - '3200:80'
+
+networks:
+  vidromaps:

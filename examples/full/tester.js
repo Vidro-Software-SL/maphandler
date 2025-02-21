@@ -596,8 +596,8 @@ if (btgetGiswaterFilters) {
 if (btSetColors) {
   btSetColors.addEventListener("click", function () {
     var properties = {
-      geom_stroke_color: "rgb(19, 39, 99,0.5)",
-      geom_fill_color: "rgb(19, 39, 99,0.5)",
+      geom_stroke_color: strokecolor.value,
+      geom_fill_color: fillcolor.value,
       geom_stroke_width: 1,
       geom_shape: "circle",
       geom_radius: 4,

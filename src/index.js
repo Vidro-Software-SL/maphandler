@@ -517,7 +517,7 @@ class Communicator extends EventEmitter {
   /* deprecated since v1.1.19 */
   toggleGiswaterTiled = (toggle, tiled) => {
     this.com.sendMessageToMap({
-      type: "toggleGiswaterTiled",
+      type: "toggleTiled",
       toggle: toggle,
       tiled: tiled,
       sessionToken: this.sessionToken,
