@@ -118,10 +118,45 @@ function checkToken() {
     loginContainer.classList.remove("hide");
   }
 }
+
+function getUserProjects() {
+  //Check if user token is valid
+  console.log("getUserProjects", usertoken.value);
+  if (usertoken.value != "") {
+    //build XMLHttpRequest for checking token
+    var oReq = new XMLHttpRequest();
+    oReq.addEventListener("load", projectsListener);
+    oReq.open("GET", `${apiUrl}maps/`, true);
+    oReq.setRequestHeader("Content-type", "application/json");
+    oReq.setRequestHeader("Authorization", `Bearer ${usertoken.value}`);
+
+    oReq.send();
+    console.log("getUserProjects", `${apiUrl}projects/`);
+  } else {
+  }
+}
+
+function projectsListener() {
+  if (this.status === 200) {
+    var res = JSON.parse(this.responseText);
+    console.log("projectsListener", res.message);
+    var projects = [];
+    for (var i = 0; i < res.message.length; i++) {
+      projects.push(res.message[i].map_id);
+    }
+    fillUserProjects(projects);
+  } else {
+    //if token is invalid, show login form
+    console.error(this.status);
+  }
+}
 function tokenListener() {
   if (this.status === 200) {
     var res = JSON.parse(this.responseText);
     console.log("Valid user token", res.message);
+    console.log("item", localStorage.getItem("selectedProjectId"));
+    getUserProjects();
+
     //get from localstorage last iframe selected
     var cachedMap = localStorage.getItem("iframe");
     if (cachedMap) {
@@ -129,11 +164,8 @@ function tokenListener() {
       mapContainer.classList.remove("hide");
       iframe.src = cachedMap;
       sessionToken.innerHTML = localStorage.getItem("sessionToken");
-      var selectedProjectId = localStorage.getItem("selectedProjectId");
-      if (selectedProjectId) {
-        selectProject(selectedProjectId);
-      }
     }
+    //get user projects
   } else {
     //if token is invalid, show login form
     console.error(this.status);
@@ -161,6 +193,11 @@ function fillUserProjects(options) {
     el.textContent = opt;
     el.value = opt;
     projects_select.appendChild(el);
+  }
+
+  var selectedProjectId = localStorage.getItem("selectedProjectId");
+  if (selectedProjectId) {
+    selectProject(selectedProjectId);
   }
 }
 
@@ -263,7 +300,7 @@ btLoadProjectLayers.addEventListener("click", function (evt) {
   var selectedProjectId =
     projects_select.options[projects_select.selectedIndex].value;
 
-  var uri = `${apiUrl}layers/${selectedProjectId}`;
+  var uri = `${apiUrl}/layers/${selectedProjectId}`;
 
   var oReq = new XMLHttpRequest();
   oReq.addEventListener("load", layersListener);

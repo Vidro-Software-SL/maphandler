@@ -160,16 +160,17 @@
   <input type="hidden" name="geojsondata" id="geojsondata" />
   <br><br>
   <b>Options</b><br><br>
+  Geojson layer name: <input type="text" name="geojsonaLayername" id="geojsonaLayername" size="25" value="geojsontest"><br>
   Stroke color: <input type="text" name="strokecolor" id="strokecolor" size="10" value="#FF0000" placeholder="#000000"> <small>Override stroke color, desfault #ff0000</small><br>
   Fill color: <input type="text" name="fillcolor" id="fillcolor" size="10" value="#FF0000" placeholder="#000000"> <small>Override fill color, desfault #ff0000</small><br><br>
     <button id="btSetColors">Set colors</button>
-  <button id="btAddGeoJSON">Add GeoJSON Layer</button> <button id="btClearGeoJSON">Clear GeoJSON Layers</button><br><br>
+  <button id="btAddGeoJSON">Add GeoJSON Layer</button> <button id="btClearGeoJSON">Clear GeoJSON Layer</button><br><br>
   <input type="text" name="hitTolerance" id="hitTolerance" size="5" value="" placeholder="5"> <small>Override hit tolerance</small><br><br>
 
   Selected GeoJSON Layer: <select id="geojsonlayers"></select> - <button id="btGeoJSONInfo" disabled="true">GeoJSON Info</button> <button id="btRemoveGeoJSONLayer" disabled="true">Remove GeoJSON Layer</button><br><br>
 
 
-  <script src="https://unpkg.com/@vidro/map-handler@1.2.180/dist/map-handler.js"></script>
+  <script src="https://unpkg.com/@vidro/map-handler@1.2.191/dist/map-handler.js"></script>
   <script src="./tester.js"></script>
   <script src="./apidemo.js"></script>
 </body>

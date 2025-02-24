@@ -1,6 +1,6 @@
 # Map Handler
 
-#### Version 1.2.19 - February 2025
+#### Version 1.2.191 - February 2025
 
 Tool to achieve the easiest way of communication with the map iframe.
 
@@ -974,12 +974,12 @@ removeGeoJSONLayer('somename');
 
 ##### clearGeoJSON
 
-Clears geoJSON layers
+Clears geoJSON layer
 
 > E.G.
 
 ```
-clearGeoJSON();
+clearGeoJSON(layername);
 ```
 
 ##### setFilters

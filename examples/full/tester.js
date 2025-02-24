@@ -92,10 +92,13 @@ communicator.on("geomAdded", function (data) {
   document.getElementById("geom").value = data;
 });
 
+communicator.on("unloaded", function (data) {
+  console.log("unloaded", data);
+});
+
 communicator.on("loaded", function (data) {
   console.log("loaded", data);
 });
-
 communicator.on("layers", function (data) {
   console.log("layers received", data);
   fillDisplayedLayersSelect(data);
@@ -483,6 +486,7 @@ if (btAddGeoJSON) {
     }
     var fillcolor = document.querySelector("#fillcolor");
     var strokecolor = document.querySelector("#strokecolor");
+    var geojsonaLayername = document.querySelector("#geojsonaLayername").value;
 
     //Check JSON
     try {
@@ -496,7 +500,12 @@ if (btAddGeoJSON) {
       if (strokecolor) {
         options.strokecolor = strokecolor.value;
       }
-      communicator.addGeoJSON(JSON.parse(geoToSend), options, geoJSONName);
+
+      communicator.addGeoJSON(
+        JSON.parse(geoToSend),
+        options,
+        geojsonaLayername
+      );
     } catch (e) {
       console.error("invalid geoJSON", e);
     }
@@ -505,7 +514,8 @@ if (btAddGeoJSON) {
 
 if (btClearGeoJSON) {
   btClearGeoJSON.addEventListener("click", function () {
-    communicator.clearGeoJSON();
+    var geojsonaLayername = document.querySelector("#geojsonaLayername").value;
+    communicator.clearGeoJSON(geojsonaLayername);
   });
 }
 

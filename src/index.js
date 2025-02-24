@@ -579,9 +579,13 @@ class Communicator extends EventEmitter {
     }
   };
 
-  clearGeoJSON = () => {
+  clearGeoJSON = (name) => {
+    if (!name) {
+      this.emit("error", { type: "error", error: "No geoJSON layer name" });
+    }
     return this.com.sendMessageToMap({
       type: "clearGeoJSON",
+      name: name,
       sessionToken: this.sessionToken,
     });
   };
