@@ -1,7 +1,11 @@
 "use client";
 import { createContext, useContext, useState, useEffect } from "react";
 import { useAuth } from "./auth";
-
+import {
+  setMapId as setMapIdCookie,
+  getMapId as getMapIdCookie,
+  removeMapId as removeMapIdCookie,
+} from "@/shared/cookies";
 const MapsContext = createContext({});
 
 export const MapsProvider = ({ children }) => {
@@ -45,6 +49,24 @@ export const MapsProvider = ({ children }) => {
   //tools
   const [selectedTool, setSelectedTool] = useState(null);
 
+  useEffect(() => {
+    if (!token) return;
+    (async () => {
+      if (!getMapIdCookie()) {
+        console.log("No map if cookie found");
+
+        return;
+      }
+      console.log("Map id cookie found, getting map...");
+      try {
+        await GetMap(getMapIdCookie());
+      } catch (error) {
+        console.error("Error getting map from cookie", error);
+        return;
+      }
+    })();
+  }, [token]);
+
   const GetMap = async (id) => {
     let url = `${apiUrl}map/${id}`;
 
@@ -64,12 +86,17 @@ export const MapsProvider = ({ children }) => {
       setMap(
         `${data.message.iframe}?sessionToken=${data.message.sessionToken}`
       );
+      //store map id in cookie, to avoid losing it on page refresh
+      setMapIdCookie(id);
+
       return;
     } catch (error) {
       console.error("Error fetching map:", error);
       setSessionToken(null);
       setMap(null);
       setMapId(null);
+      removeMapIdCookie();
+
       throw error;
     }
   };

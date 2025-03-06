@@ -1,11 +1,19 @@
 import { useAuth } from "@/contexts/auth";
 import { useMaps } from "@/contexts/maps";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import { getMapId as getMapIdCookie } from "@/shared/cookies";
 const MapList = () => {
   const { GetMap } = useMaps();
   const { projects, logged } = useAuth();
   const [selectedMap, setSelectedMap] = useState("-1");
+  useEffect(() => {
+    if (!logged) return;
+    if (!getMapIdCookie()) {
+      return;
+    }
+
+    setSelectedMap(getMapIdCookie());
+  }, [logged]);
   if (!logged) return null;
   return (
     <div>
