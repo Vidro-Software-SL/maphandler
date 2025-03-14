@@ -9,6 +9,8 @@ import Image from "next/image";
 import MapList from "@/components/MapList";
 import MapLayers from "@/components/MapLayers";
 import MapFilters from "@/components/MapFilters";
+import { PrintsProvider } from "@/contexts/print";
+import MapPrint from "@/components/MapPrint";
 
 export default function Home() {
   return (
@@ -16,23 +18,31 @@ export default function Home() {
       <AuthProvider>
         <MessageProvider>
           <MapsProvider>
-            <main className="text-center">
-              <h1 className="text-3xl">Map component REACT integration</h1>
-              <div className="my-5">
-                <AuthComponent />
-              </div>
-              <div className="my-5">
-                <MapList />
-                <MapLayers />
-                <MapFilters />
-              </div>
+            <PrintsProvider>
+              <main className="text-center">
+                <h1 className="text-3xl">Map component REACT integration</h1>
+                <div className="my-5">
+                  <AuthComponent />
+                </div>
+                <div className="my-5">
+                  <MapList />
+                  <div className="flex gap-4">
+                    <MapLayers />
+                  </div>
 
-              <div className="my-5 bg-gray-100 border border-gray-400  p-4">
-                <MapButtons />
-                <MapInfo />
-                <MapIframe />
-              </div>
-            </main>
+                  <div className="flex gap-4">
+                    <MapFilters />
+                  </div>
+                </div>
+
+                <div className="my-5 bg-gray-100 border border-gray-400  p-4">
+                  <MapButtons />
+                  <MapInfo />
+                  <MapPrint />
+                  <MapIframe />
+                </div>
+              </main>
+            </PrintsProvider>
           </MapsProvider>
         </MessageProvider>
       </AuthProvider>

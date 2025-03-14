@@ -1,6 +1,6 @@
 # Map Handler
 
-#### Version 1.2.191 - February 2025
+#### Version 1.3.15 - March 2025
 
 Tool to achieve the easiest way of communication with the map iframe.
 
@@ -329,6 +329,23 @@ This feature provides screenshot data, encoded as a PNG in Base64 format.
 {type: "screenshot", content: 'png in base64'
 ```
 
+##### print <a id="print-event"></a>
+
+Print events, when print process is active `print:true` and when print is ready `print:false, file: png file` 
+
+```
+
+{type: "print", content: {print:true/false, file:file})
+```
+
+##### dpi
+
+Map DPI changed
+
+```
+
+{type: "dpi", content: 96)
+```
 ## Methods
 
 ##### ZoomIn()
@@ -1125,6 +1142,55 @@ Will do an screenshot of the current map encoded as a PNG in Base64 format. Resu
 ```
 screenshot({});
 ```
+
+##### setDpi
+
+Change the map DPI resolution to improve quality in prints.
+
+Properties:
+- `dpi` - in pixels, default value is 96.
+
+```
+`¡setDpi(96)
+```
+
+##### Print
+
+The print process consists of two steps:
+
+1. Choose the area to be printed based on the paper size and layout.
+2. Capture a screenshot of the selected area and emit a print event with the PNG file.
+
+We recommend increasing the DPI before starting the print process using setDpi(300). Once the file is generated, restore the DPI to its default value using setDpi(96).
+
+###### Step 1 - startPrint
+
+This step will block map zoom and pan, and a draggable rectangle with the required size and proportions will be rendered.
+
+Properties:
+- `paperSize` - paper size `A3` | `A4` 
+- `paperLayout` - layout `landscape` | `portrait` 
+
+```
+startPrint({paperSize:'A4', paperLayout:'landscape'});
+```
+
+###### Step 2 - Print
+
+This step will remove the rectangle and generate a PNG file with the contents of the rectangle. Once ready, it will emit a print event with the file. Zoom and pan will be re-enabled.
+
+```
+print()
+```
+
+##### cancelPrint
+
+Cancel the print process. This will remove the rectangle and release zoom and pan.
+
+```
+cancelPrint()
+```
+
 ### Multiple iframes
 
 Is possible to use multiple iframe on a single page, follow this steps.

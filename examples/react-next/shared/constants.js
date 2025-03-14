@@ -44,4 +44,5 @@ export const MAP_EVENTS = {
   LAYERS: "layers",
   VERSION: "version",
   SCREENSHOT: "screenshot",
+  PRINT: "print",
 };

@@ -104,6 +104,12 @@ class Communicator extends EventEmitter {
       case "screenshot":
         this.emitEvent("screenshot", e.data, e.data.domId);
         break;
+      case "print":
+        this.emitEvent("print", e.data, e.data.domId);
+        break;
+      case "dpi":
+        this.emitEvent("dpi", e.data, e.data.domId);
+        break;
 
       //case "getLegend": this.emitEvent("getLegend", e.data,e.data.domId); break;
     }
@@ -836,6 +842,37 @@ class Communicator extends EventEmitter {
   screenshot = (options) => {
     this.com.sendMessageToMap({
       type: "screenshot",
+      options,
+      sessionToken: this.sessionToken,
+    });
+  };
+
+  setDpi = (options) => {
+    this.com.sendMessageToMap({
+      type: "setDpi",
+      options,
+      sessionToken: this.sessionToken,
+    });
+  };
+  //***** PRINT ******/
+
+  print = (options) => {
+    this.com.sendMessageToMap({
+      type: "print",
+      options,
+      sessionToken: this.sessionToken,
+    });
+  };
+  startPrint = (options) => {
+    this.com.sendMessageToMap({
+      type: "printStart",
+      options,
+      sessionToken: this.sessionToken,
+    });
+  };
+  cancelPrint = (options) => {
+    this.com.sendMessageToMap({
+      type: "printCancel",
       options,
       sessionToken: this.sessionToken,
     });

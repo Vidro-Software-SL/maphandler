@@ -211,6 +211,18 @@ export const MessageProvider = ({ children }) => {
     communicator.zoomToScale(scale);
   };
 
+  //***** PRINT ******/
+
+  const startPrint = (options) => {
+    communicator.startPrint(options);
+  };
+  const cancelPrint = (options) => {
+    communicator.cancelPrint(options);
+  };
+
+  const print = (options) => {
+    communicator.print(options);
+  };
   const onMapEvent = (data) => {
     console.log(`onMapEvent`, { type: data.type, data });
     setMessageQueue((prevQueue) => [...prevQueue, data]);
@@ -247,6 +259,7 @@ export const MessageProvider = ({ children }) => {
     communicator.on(MAP_EVENTS.LAYERS, onMapEvent);
     communicator.on(MAP_EVENTS.VERSION, onMapEvent);
     communicator.on(MAP_EVENTS.SCREENSHOT, onMapEvent);
+    communicator.on(MAP_EVENTS.PRINT, onMapEvent);
     return () => {
       if (!communicator) return;
       communicator.off(MAP_EVENTS.ZOOM_CHANGE, onMapEvent);
@@ -266,6 +279,7 @@ export const MessageProvider = ({ children }) => {
       communicator.off(MAP_EVENTS.LAYERS, onMapEvent);
       communicator.off(MAP_EVENTS.VERSION, onMapEvent);
       communicator.off(MAP_EVENTS.SCREENSHOT, onMapEvent);
+      communicator.off(MAP_EVENTS.PRINT, onMapEvent);
       setCommunicator(null);
     };
   }, [communicator, events]);
@@ -289,6 +303,7 @@ export const MessageProvider = ({ children }) => {
         communicator.off(MAP_EVENTS.STATUS, onMapEvent);
         communicator.off(MAP_EVENTS.INFO, onMapEvent);
         communicator.off(MAP_EVENTS.VERSION, onMapEvent);
+        communicator.off(MAP_EVENTS.PRINT, onMapEvent);
       }
       setMessage(null);
       setEvents(false);
@@ -330,6 +345,9 @@ export const MessageProvider = ({ children }) => {
         drawPoint,
         addIcon,
         zoomToScale,
+        print,
+        startPrint,
+        cancelPrint,
       }}
     >
       {children}

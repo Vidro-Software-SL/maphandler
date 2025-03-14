@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@vidro/map-handler": "^1.2.179",
+    "@vidro/map-handler": "^1.3.11",
     "js-cookie": "^3.0.5",
     "next": "15.1.6",
     "react": "^19.0.0",
