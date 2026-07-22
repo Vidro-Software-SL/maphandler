@@ -1,6 +1,6 @@
 # Map Handler
 
-#### Version 1.3.15 - March 2025
+#### Version 1.9.0 - July 2026
 
 Tool to achieve the easiest way of communication with the map iframe.
 
@@ -105,20 +105,17 @@ setDebug(0);
 
 The `onZoomChange` event is triggered whenever the zoom level of the map changes. This event provides detailed metadata about the new zoom state, including the current zoom level, map extent, resolution, and scale.
 
-
-
 The event returns an object with the following properties:
 
-| Property     | Type    | Description |
-|-------------|--------|-------------|
-| `type`      | string  | The event type, always `"onZoomChange"`. |
-| `zoom`      | number  | The current zoom level after the change. |
-| `maxZoom`   | number  | The maximum zoom level allowed in the map. |
-| `minZoom`   | number  | The minimum zoom level allowed in the map. |
-| `extent`    | array   | The map extent after zooming, represented as `[minX, minY, maxX, maxY]`. |
-| `resolution` | number | The resolution of the map at the current zoom level. |
-| `scale`     | string  | The approximate scale of the map in the format `"1:xxxx"`. |
-
+| Property     | Type   | Description                                                              |
+| ------------ | ------ | ------------------------------------------------------------------------ |
+| `type`       | string | The event type, always `"onZoomChange"`.                                 |
+| `zoom`       | number | The current zoom level after the change.                                 |
+| `maxZoom`    | number | The maximum zoom level allowed in the map.                               |
+| `minZoom`    | number | The minimum zoom level allowed in the map.                               |
+| `extent`     | array  | The map extent after zooming, represented as `[minX, minY, maxX, maxY]`. |
+| `resolution` | number | The resolution of the map at the current zoom level.                     |
+| `scale`      | string | The approximate scale of the map in the format `"1:xxxx"`.               |
 
 ```
 {
@@ -154,9 +151,8 @@ There're two types of events:
 
 - `map` is dispatched when map (with background) is loaded.
 - `layer` is dispatched when a layer is loaded
-	- `zIndex`: layer z-index 
+    - `zIndex`: layer z-index
 - `tiled` is dispatched when a tiled is loaded
-
 
 > `map` E.G:
 
@@ -307,8 +303,7 @@ Notifies map status, as tiled loaded, background visible, etc..
 
 When user puts mouse pointer over a feauture for more than 1 second, a `hover` event is dispatched.
 
-If is no hover any feature event is dispatched with `feature:null` 
-
+If is no hover any feature event is dispatched with `feature:null`
 
 > E.G
 
@@ -321,7 +316,6 @@ If is no hover any feature event is dispatched with `feature:null`
 
 This feature provides screenshot data, encoded as a PNG in Base64 format.
 
-
 > E.G
 
 ```
@@ -331,7 +325,7 @@ This feature provides screenshot data, encoded as a PNG in Base64 format.
 
 ##### print <a id="print-event"></a>
 
-Print events, when print process is active `print:true` and when print is ready `print:false, file: png file` 
+Print events, when print process is active `print:true` and when print is ready `print:false, file: png file`
 
 ```
 
@@ -346,6 +340,11 @@ Map DPI changed
 
 {type: "dpi", content: 96)
 ```
+
+##### drawGeojsonExported
+
+Triggered when the GeoJSON export is ready and the download option in ExportDrawGeojson is set to false. This event propagates the GeoJSON content for the integrator to handle.
+
 ## Methods
 
 ##### ZoomIn()
@@ -379,10 +378,10 @@ Zooms to a given geometry
 
 - geom `<string>` WKT geometry
 - limits `<json>` max/min zoom level
-  - max `<integer>`
-  - min `<integer>`
+    - max `<integer>`
+    - min `<integer>`
 
-  > E.G.
+    > E.G.
 
 ```
 zoomToCoordinates(419006.12985785044, 4576698.8136144625,18);
@@ -404,11 +403,10 @@ center map to given coordinates
 CenterMap(419006.12985785044, 4576698.8136144625,18);
 
 ```
+
 ##### zoomToScale(scale)
 
 Sets the zoom level to a specified scale.
-
-
 
 > **Allowed Scales:**
 
@@ -426,13 +424,11 @@ Sets the zoom level to a specified scale.
 
 - **`scale`** `<string>` - The scale to set the zoom level.
 
-
 E.G:
 
 ```javascript
 zoomToScale('1:100');
 ```
-
 
 ##### AddGeom(string)
 
@@ -445,12 +441,12 @@ Launches drawing tools with the geometry type
 Optional parameters
 
 - `texts` (`object`): Texts to be displayed with draw tools.
-  - `start` (`string`): E.G. "Click to start drawing"
-  - `continnue`:(`string`): E.G. "Click to to continue drawing"
+    - `start` (`string`): E.G. "Click to start drawing"
+    - `continnue`:(`string`): E.G. "Click to to continue drawing"
 - `center` (`object`): Center options.
 - `style` (`object`):
-  - `fill` (`string`): The fill color for the drawn geometry.
-  - `stroke` (`string`): The stroke color for the drawn geometry.
+    - `fill` (`string`): The fill color for the drawn geometry.
+    - `stroke` (`string`): The stroke color for the drawn geometry.
 - `drawOnEnd` (`boolean`): Is is set to `false` geometry will not be added on end drawing. The event with the drawn geometry will still be emitted
 - `showConfirm` (`boolean`): show or hide component for end drawing. If is set to false, `CancelAddGeom()` must be handled by the user.
 
@@ -496,12 +492,12 @@ Add an icon on a given coordinates
 
 // Fetch and process the image as binary data
 const iconBinaryData =  convert to binary method (`path/images/icons/anIcon.png`);
-    
+
 addIcon(iconBinaryData, [2, 4.6]);
 
 ```
-[ArrayBuffer conversion examples](helpers.md)
 
+[ArrayBuffer conversion examples](helpers.md)
 
 ##### setBboxSize
 
@@ -531,10 +527,10 @@ If ypu need to load multiple layers
 
 - layerName `<string>` - layer name
 - properties `<object>` - _optional_ layer properties
-  - gutter `<integer>` - The size in pixels of the gutter around image tiles to ignore, only applies for multitile layer
-  - singletile `<boolean>` - SingleTile Layer
-  - transparent `<boolean>` - Transparent Layer
-  - type `<string>` - layer type (wms, geojson...)
+    - gutter `<integer>` - The size in pixels of the gutter around image tiles to ignore, only applies for multitile layer
+    - singletile `<boolean>` - SingleTile Layer
+    - transparent `<boolean>` - Transparent Layer
+    - layerType `<string>` - layer type (wms, geojson...)
 
 By default, layer properties will be:
 
@@ -602,7 +598,6 @@ Displays a layer
 displayLayer('somelayer_name');
 ```
 
-
 ##### reloadDisplayedLayers
 
 Reloads displayed layers
@@ -611,6 +606,23 @@ Reloads displayed layers
 
 ```
 reloadDisplayedLayers();
+```
+
+##### setLayerConditionVisibility(layer, conditionIds)
+
+Sets which condition-based sublayers are visible for a given layer.
+
+> Params
+
+- layer `<string>` - layer name
+- conditionIds `<array<number>>` - list of condition ids to display. Use an empty array to clear the condition visibility filter.
+
+> E.G.
+
+```
+setLayerConditionVisibility('Arc', [1, 3, 8]);
+
+setLayerConditionVisibility('Arc', []);
 ```
 
 ##### loadWMSAvailableLayers
@@ -678,8 +690,8 @@ getElementsFromLayer(layer,limit,format)
 - layer `<string>` - layer name
 - limit `<integer>` - limit output number of elements (default 100)
 - format `<string>` - output format
-  - `xml` - default
-    - `json`
+    - `xml` - default
+        - `json`
 
 ##### infoFromCoordinates
 
@@ -691,17 +703,16 @@ If you don't specify a layer, will use the layer setted as `Active layer`
 > Params
 
 - type `<string>` - info type
+    - `wms` - wms info
 
-  - `wms` - wms info
+    - `giswater` - giswater info
+    - `geojson`- geojson info
 
-  - `giswater` - giswater info
-  - `geojson`- geojson info
-
-- layer `<string>` _optional_ layer name to do info. If null, will use current active layer.
+- layer `<string>` _optional_ layer name to do info. If null, will use current active layer. If `*` will search in all rendered geojson layers.
 - hitTolerance `<integer>` _optional_ for geoJSON Info, pixels inside the radius around the given will be checked for features. Default `5`.
 - format `<string>` _optional_ - output format for WMS requests
-  - `xml` - default
-    - `json`
+    - `xml` - default
+        - `json`
 
 > E.G.
 
@@ -723,7 +734,7 @@ Geolocalizes user. Will dispatch `geolocation` event .
 
 - toggle `<Boolean>` - starts or cancels geolocation
 - options `<json>` - optional
-	- track `<Boolean>` - will track user position or geolocalize only once 
+    - track `<Boolean>` - will track user position or geolocalize only once
 
 > E.G.
 
@@ -750,24 +761,24 @@ Params
 Optional parameters
 
 - `zoom` (`object`): Zoom options.
-  - `type` (`string`): The type of zoom (`level` or `element`).
-    - `level`: Zoom to a specific zoom level.
-    - `element`: Zoom to the center of the geometry.
-  - `zoomLevel` (`number`, optional): The zoom level (1 to 28). Required if `type` is set to `level`.
+    - `type` (`string`): The type of zoom (`level` or `element`).
+        - `level`: Zoom to a specific zoom level.
+        - `element`: Zoom to the center of the geometry.
+    - `zoomLevel` (`number`, optional): The zoom level (1 to 28). Required if `type` is set to `level`.
 - `center` (`object`): Center options.
-	- `false` will not center map to element
-	- `1` will center always map to element
-	- `2` will center element only if is outside current view extent 
+    - `false` will not center map to element
+    - `1` will center always map to element
+    - `2` will center element only if is outside current view extent
 - `data` (`object`): Additional data associated with the highlight.
-  - `feautureId` (`string`): The ID of the feature.
-  - `name` (`string`): The name of the feature.
-  - ... any extra data will be added to feature
+    - `feautureId` (`string`): The ID of the feature.
+    - `name` (`string`): The name of the feature.
+    - ... any extra data will be added to feature
 - style (`object`): geometry styling options
-  - `fill` (`string`): The fill color for the highlighted geometry.
-  - `stroke` (`string`): The stroke color for the highlighted geometry.
+    - `fill` (`string`): The fill color for the highlighted geometry.
+    - `stroke` (`string`): The stroke color for the highlighted geometry.
 - `animate` (`boolean`): Indicates whether to animate the highlight.
-  - `duration`: time of the animation in milliseconds
-  - `repeat`: true/false for repeteating animation
+    - `duration`: time of the animation in milliseconds
+    - `repeat`: true/false for repeteating animation
 
 Example of animation
 
@@ -829,25 +840,25 @@ Draws geometries
 > Params
 
 - geoms `<array>`:
-  - item `<object>`:
-    - geom `<string>` - geometry string
-    - style `<object>`
-      - stroke_color `<string>`
-      - fill_color `<string>`
-      - geom_radius `<integer>`
-      - stroke_width `<integer>`
-      - font_color `<string>`
-      - font `<string>`
-      - placement `<string>`
-      - fontFillColor `<string>`
-        - fontStrokeColor `<string>`
-      - display `<string>`
-      - fontStrokeWidth `<integer>`
-      - offsetY `<integer>`
-      - baseline `<string>`
-      - align `<string>`
-    - name `<string>` feauture name
-    - id `<string>` feauture id
+    - item `<object>`:
+        - geom `<string>` - geometry string
+        - style `<object>`
+            - stroke_color `<string>`
+            - fill_color `<string>`
+            - geom_radius `<integer>`
+            - stroke_width `<integer>`
+            - font_color `<string>`
+            - font `<string>`
+            - placement `<string>`
+            - fontFillColor `<string>`
+                - fontStrokeColor `<string>`
+            - display `<string>`
+            - fontStrokeWidth `<integer>`
+            - offsetY `<integer>`
+            - baseline `<string>`
+            - align `<string>`
+        - name `<string>` feauture name
+        - id `<string>` feauture id
 
 > E.G.
 
@@ -956,9 +967,8 @@ Params
 - geoJSON `<geoJSON>` geoJSON data
 
 - options `<json>` layer options
-
-  - fillcolor `<string>` fill color. If null will use red color (#ff0000)
-  - strokecolor `<string>` strokecolor color. If null will use red color (#ff0000)
+    - fillcolor `<string>` fill color. If null will use red color (#ff0000)
+    - strokecolor `<string>` strokecolor color. If null will use red color (#ff0000)
 
 - name `<string>` geoJson layer name, if null will use a random string
 
@@ -1012,10 +1022,10 @@ Each filter must have this format:
 - layer_id <integer>
 - layer*name <string> - *`qgis_name` property\_
 - filters: <array>
-  - name <string>: field name
-  - condition <string>: `=`,`!=`,`<`,`>`,`<=`,`>=`,`in`,`between`
-  - value: value to be filtered
-  - value2: second value, only for `between` conditions
+    - name <string>: field name
+    - condition <string>: `=`,`!=`,`<`,`>`,`<=`,`>=`,`in`,`between`
+    - value: value to be filtered
+    - value2: second value, only for `between` conditions
 
 ```
 setFilters(JSON);
@@ -1135,6 +1145,19 @@ Stop measure tools
 cancelMeasure();
 ```
 
+#### ExportDrawGeojson
+
+```
+ExportDrawGeojson(options)
+```
+
+Exports the geometries currently drawn on the map to a GeoJSON format.
+
+- **Parameters**:
+    - `options` (Object):
+        - `download` (Boolean): If `true`, the browser will trigger a file download. If `false`, it emits the `drawGeojsonExported` event and propagates the GeoJSON content for the integrator to handle. Default: `false`.
+        - `filename` (String): The name of the file to be saved. Default: `draw_[timestamp].geojson`.
+
 ##### screenshot
 
 Will do an screenshot of the current map encoded as a PNG in Base64 format. Result will be encapsulated [`screenshot`](#screenshot-event)
@@ -1148,6 +1171,7 @@ screenshot({});
 Change the map DPI resolution to improve quality in prints.
 
 Properties:
+
 - `dpi` - in pixels, default value is 96.
 
 ```
@@ -1168,8 +1192,9 @@ We recommend increasing the DPI before starting the print process using setDpi(3
 This step will block map zoom and pan, and a draggable rectangle with the required size and proportions will be rendered.
 
 Properties:
-- `paperSize` - paper size `A3` | `A4` 
-- `paperLayout` - layout `landscape` | `portrait` 
+
+- `paperSize` - paper size `A3` | `A4`
+- `paperLayout` - layout `landscape` | `portrait`
 
 ```
 startPrint({paperSize:'A4', paperLayout:'landscape'});

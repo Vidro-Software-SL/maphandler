@@ -1,18 +1,28 @@
 {
   "name": "@vidro/map-handler",
-  "version": "1.3.2",
+  "version": "1.9.1",
   "description": "Tool to achieve the easiest way of communication with the map",
   "homepage": "https://github.com/Vidro-Software-SL/maphandler",
   "repository": {
     "type": "git",
     "url": "https://github.com/Vidro-Software-SL/maphandler.git"
   },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "main": "dist/map-handler.js",
+  "types": "map-handler.d.ts",
+  "files": [
+    "dist",
+    "map-handler.d.ts",
+    "src/types.d.ts"
+  ],
   "scripts": {
     "build": "webpack"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["map", "gis", "communicator", "typescript"],
+  "author": "Vidro Software SL",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.12.16",
