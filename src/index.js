@@ -21,6 +21,10 @@ class Communicator extends EventEmitter {
     }
     onMessageReceived = (e) => {
         switch (e.data.type) {
+            case 'digitalDashboardEvent':
+                if (e.source !== document.getElementById(this.domId)?.contentWindow) return;
+                this.emitEvent('digitalDashboardEvent', e.data, e.data.domId);
+                break;
             case 'onZoomChange':
                 this.emitEvent('onZoomChange', e.data, e.data.domId);
                 break;
@@ -118,6 +122,10 @@ class Communicator extends EventEmitter {
             delete data.domId;
             this.emit(type, data);
         }
+    };
+
+    digitalDashboardCommand = (request) => {
+        this.com.sendMessageToMap({ ...request, type: 'digitalDashboardCommand', contractVersion: 1 });
     };
 
     ZoomIn = () => {

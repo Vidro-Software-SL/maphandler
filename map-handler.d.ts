@@ -16,13 +16,23 @@ declare module '@vidro/map-handler' {
         DpiOptions,
     } from './src/types';
 
+    export type DigitalDashboardRequest = import('./src/types').DigitalDashboardRequest;
+    export type DigitalDashboardEvent = import('./src/types').DigitalDashboardEvent;
+    export type DigitalDashboardDocument = import('./src/types').DigitalDashboardDocument;
+    export type DigitalDashboardFeature = import('./src/types').DigitalDashboardFeature;
+    export type DigitalDashboardView = import('./src/types').DigitalDashboardView;
+
     export class Communicator extends EventEmitter {
         constructor(data: CommunicatorOptions);
 
         // Event management
         removeListener(event: string, listener: (...args: any[]) => void): this;
+        on(event: 'digitalDashboardEvent', listener: (data: DigitalDashboardEvent) => void): this;
         on(event: string, listener: (data: MapEventData) => void): this;
+        off(event: 'digitalDashboardEvent', listener: (data: DigitalDashboardEvent) => void): this;
         off(event: string, listener: (data: MapEventData) => void): this;
+
+        digitalDashboardCommand(request: import('./src/types').DigitalDashboardRequest): void;
 
         // Map controls
         ZoomIn(): void;
